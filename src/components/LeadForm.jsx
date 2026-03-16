@@ -360,7 +360,7 @@ export default function LeadForm({ compact = false }) {
   const [showVaMsg, setShowVaMsg] = useState(false);
   const [showCreditMsg, setShowCreditMsg] = useState(false);
   const [contactSubStep, setContactSubStep] = useState(0);
-  const [contact, setContact] = useState({ firstName: '', lastName: '', email: '', phone: '', zip: '' });
+  const [contact, setContact] = useState({ firstName: '', lastName: '', email: '', phone: '', zipCode: '' });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -369,7 +369,7 @@ export default function LeadForm({ compact = false }) {
     { key: 'lastName',  label: 'Last Name',   type: 'text',  placeholder: 'Smith'           },
     { key: 'email',     label: 'Email',       type: 'email', placeholder: 'john@email.com'  },
     { key: 'phone',     label: 'Phone',       type: 'tel',   placeholder: '(702) 000-0000'  },
-    { key: 'zip',       label: 'Zip Code',    type: 'text',  placeholder: '89101'           },
+    { key: 'zipCode',   label: 'Zip Code',    type: 'text',  placeholder: '89101'           },
   ];
 
   const isVA = answers[1] === 'va';
@@ -430,12 +430,13 @@ export default function LeadForm({ compact = false }) {
 
   const handleSubmit = async () => {
     setSubmitting(true);
+
     const payload = {
       firstName: contact.firstName,
       lastName: contact.lastName,
       email: contact.email,
       phone: contact.phone,
-      zipCode: contact.zip,
+      zipCode: contact.zipCode,
       loanType: answers[1],
       veteranStatus: answers[2],
       propertyType: answers[3],
@@ -453,18 +454,29 @@ export default function LeadForm({ compact = false }) {
       realEstateAgent: answers[15],
       howDidYouHear: answers[16],
       browser: navigator.userAgent,
-      submittedAt: new Date().toISOString(),
+      submittedAt: new Date().toISOString()
     };
 
     try {
-      await fetch(SHEET_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+      await new Promise((resolve) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', SHEET_URL);
+        xhr.setRequestHeader(
+          'Content-Type',
+          'application/x-www-form-urlencoded'
+        );
+        xhr.onload = resolve;
+        xhr.onerror = resolve;
+        xhr.ontimeout = resolve;
+        xhr.timeout = 10000;
+        xhr.send(
+          new URLSearchParams({
+            data: JSON.stringify(payload)
+          }).toString()
+        );
       });
-    } catch (e) {
-      // no-cors mode swallows the response — treat as success
+    } catch(e) {
+      console.log('Submit error:', e);
     }
 
     setSubmitting(false);
