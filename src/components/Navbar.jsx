@@ -1,7 +1,8 @@
 // FILE: src/components/Navbar.jsx
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FormModalContext } from '../context/FormModalContext';
 
 function useScrollPosition() {
   const [scrolled, setScrolled] = useState(false);
@@ -59,6 +60,7 @@ function RippleButton({ children, className, onClick, ...props }) {
 export default function Navbar() {
   const scrolled = useScrollPosition();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { openModal } = useContext(FormModalContext);
 
   const activeLinkClass = ({ isActive }) =>
     isActive
@@ -164,17 +166,13 @@ export default function Navbar() {
 
         {/* CTA + Hamburger */}
         <div className="flex items-center gap-3">
-          <Link
-            to="/apply"
-            className="hidden lg:block"
+          <RippleButton
+            onClick={openModal}
+            className="hidden lg:block bg-[#C6A76F] hover:bg-[#d4b87a] active:bg-[#b8965c] text-[#0F1C2E] font-bold font-nunito text-sm px-5 py-2 rounded-full whitespace-nowrap transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A76F]"
+            style={{ boxShadow: '0 0 18px rgba(198,167,111,0.35)' }}
           >
-            <RippleButton
-              className="bg-[#C6A76F] hover:bg-[#d4b87a] active:bg-[#b8965c] text-[#0F1C2E] font-bold font-nunito text-sm px-5 py-2 rounded-full whitespace-nowrap transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A76F]"
-              style={{ boxShadow: '0 0 18px rgba(198,167,111,0.35)' }}
-            >
-              Get Free Quote
-            </RippleButton>
-          </Link>
+            Get Free Quote
+          </RippleButton>
 
           {/* Hamburger */}
           <button
@@ -234,14 +232,13 @@ export default function Navbar() {
                 </motion.div>
               ))}
               <motion.div variants={itemVariants} className="px-5 pt-3 pb-2">
-                <Link to="/apply" onClick={() => setMenuOpen(false)}>
-                  <RippleButton
-                    className="w-full bg-[#C6A76F] hover:bg-[#d4b87a] active:bg-[#b8965c] text-[#0F1C2E] font-bold font-nunito text-base py-3 rounded-full transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A76F]"
-                    style={{ boxShadow: '0 0 22px rgba(198,167,111,0.4)' }}
-                  >
-                    Get Free Quote
-                  </RippleButton>
-                </Link>
+                <RippleButton
+                  onClick={() => { setMenuOpen(false); openModal(); }}
+                  className="w-full bg-[#C6A76F] hover:bg-[#d4b87a] active:bg-[#b8965c] text-[#0F1C2E] font-bold font-nunito text-base py-3 rounded-full transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A76F]"
+                  style={{ boxShadow: '0 0 22px rgba(198,167,111,0.4)' }}
+                >
+                  Get Free Quote
+                </RippleButton>
               </motion.div>
             </motion.div>
           </motion.div>
