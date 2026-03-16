@@ -442,6 +442,9 @@ export default function LeadForm({ compact = false }) {
       setTimeout(() => { setShowVaMsg(false); goNext(); }, 2500);
       return;
     }
+    if (stepNum === 2 && value === 'heloc') {
+      return; // wait for user to click Continue in the HELOC modal
+    }
     setTimeout(() => goNext(), 300);
   };
 
@@ -462,7 +465,7 @@ export default function LeadForm({ compact = false }) {
       rebelPathLead: 'No',
       rebelPathURL: 'N/A',
       date: now.toLocaleDateString('en-US', { month: 'long', day: '2-digit', year: 'numeric' }),
-      time: now.toLocaleTimeString('en-US', { timeZoneName: 'short' }),
+      time: now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }),
       browser: navigator.userAgent,
       submittedAt: now.toISOString(),
       zipCode:          answers[1]  || '',
@@ -470,7 +473,7 @@ export default function LeadForm({ compact = false }) {
       vaLoan:           answers[3]  || '',
       propertyType:     answers[4]  || '',
       creditScore:      answers[5]  || '',
-      firstPurchase:    answers[6]  || '',
+      firstTimeBuyer:   answers[6]  || '',
       purchaseSituation:answers[7]  || '',
       propertyUse:      answers[8]  || '',
       purchasePrice:    answers[9]  || '',
@@ -732,7 +735,7 @@ export default function LeadForm({ compact = false }) {
 
       {submitting && <GoldSpinner />}
 
-      <div style={{
+      <div className="lead-form-container" style={{
         background: '#0F1C2E', minHeight: compact ? 'auto' : '100vh',
         display: 'flex', flexDirection: 'column',
         fontFamily: 'Nunito, sans-serif', position: 'relative', overflowX: 'hidden',
@@ -760,21 +763,39 @@ export default function LeadForm({ compact = false }) {
           </div>
         </div>
 
-        {/* HELOC Toast */}
+        {/* HELOC Comparison Modal */}
         <AnimatePresence>
           {showHeloc && (
             <motion.div
-              initial={{ opacity: 0, y: -20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              transition={{ duration: 0.35 }}
-              style={{ position: 'fixed', top: 80, left: '50%', transform: 'translateX(-50%)', background: '#1A3E61', border: '1.5px solid #C6A76F', borderRadius: 12, padding: '16px 24px', zIndex: 100, maxWidth: 500, width: '90%', boxShadow: '0 12px 40px rgba(15,28,46,0.6)' }}
+              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.4 }}
+              style={{ position: 'fixed', inset: 0, background: 'rgba(15,28,46,0.92)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200, padding: 24 }}
             >
-              <button onClick={() => setShowHeloc(false)} style={{ position: 'absolute', top: 10, right: 14, background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 18 }}>×</button>
-              <p style={{ fontFamily: 'EB Garamond, serif', color: '#C6A76F', fontSize: 18, fontWeight: 600, marginBottom: 6 }}>Did you know?</p>
-              <p style={{ color: '#F0E6D2', fontSize: 15, lineHeight: 1.6 }}>
-                EquitySelect can unlock up to <strong style={{ color: '#C6A76F' }}>506% more equity</strong> than a bank HELOC. Let's find out how much you qualify for.
-              </p>
+              <div style={{ background: '#1A3E61', border: '2px solid #C6A76F', borderRadius: 20, padding: '36px 28px', textAlign: 'center', maxWidth: 440, width: '100%' }}>
+                <p style={{ fontFamily: 'EB Garamond, serif', color: '#C6A76F', fontSize: 22, fontWeight: 600, marginBottom: 20 }}>Did you know?</p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 24 }}>
+                  <div style={{ background: 'rgba(15,28,46,0.6)', border: '1.5px solid rgba(198,167,111,0.25)', borderRadius: 12, padding: '16px 12px' }}>
+                    <p style={{ fontFamily: 'Nunito, sans-serif', color: 'rgba(198,167,111,0.6)', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>Bank HELOC</p>
+                    <p style={{ fontFamily: 'EB Garamond, serif', color: '#F0E6D2', fontSize: 26, fontWeight: 600, marginBottom: 4 }}>$33,000</p>
+                    <p style={{ fontFamily: 'Nunito, sans-serif', color: 'rgba(240,230,210,0.55)', fontSize: 13 }}>at $260/month</p>
+                  </div>
+                  <div style={{ background: 'rgba(198,167,111,0.1)', border: '2px solid #C6A76F', borderRadius: 12, padding: '16px 12px' }}>
+                    <p style={{ fontFamily: 'Nunito, sans-serif', color: '#C6A76F', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>EquitySelect</p>
+                    <p style={{ fontFamily: 'EB Garamond, serif', color: '#C6A76F', fontSize: 26, fontWeight: 600, marginBottom: 4 }}>$200,000</p>
+                    <p style={{ fontFamily: 'Nunito, sans-serif', color: 'rgba(198,167,111,0.7)', fontSize: 13 }}>at $260/month</p>
+                  </div>
+                </div>
+                <p style={{ color: '#F0E6D2', fontFamily: 'Nunito, sans-serif', fontSize: 14, lineHeight: 1.6, opacity: 0.85, marginBottom: 24 }}>
+                  EquitySelect can unlock up to <strong style={{ color: '#C6A76F' }}>6× more equity</strong> than a traditional bank HELOC — at the same monthly payment. Let's find out how much you qualify for.
+                </p>
+                <motion.button
+                  whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+                  onClick={() => { setShowHeloc(false); goNext(); }}
+                  style={{ display: 'block', width: '100%', background: '#C6A76F', border: 'none', borderRadius: 12, padding: '16px 32px', fontFamily: 'Nunito, sans-serif', fontWeight: 800, fontSize: 16, color: '#0F1C2E', cursor: 'pointer', boxShadow: '0 6px 24px rgba(198,167,111,0.35)', letterSpacing: '0.03em' }}
+                >
+                  Continue →
+                </motion.button>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -794,7 +815,7 @@ export default function LeadForm({ compact = false }) {
                 </svg>
                 <h3 style={{ fontFamily: 'EB Garamond, serif', color: '#C6A76F', fontSize: 26, fontWeight: 600, marginBottom: 12 }}>Thank you for your service!</h3>
                 <p style={{ color: '#F0E6D2', fontFamily: 'Nunito, sans-serif', fontSize: 15, lineHeight: 1.7, opacity: 0.9 }}>
-                  We are honored to help veterans and active military members achieve homeownership with VA loan benefits.
+                  Thank you for your service. Nick specializes in VA loans and will make sure you get every benefit you've earned.
                 </p>
               </div>
             </motion.div>
@@ -864,6 +885,7 @@ export default function LeadForm({ compact = false }) {
                         const newAnswers = { ...answers, 1: val };
                         setAnswers(newAnswers);
                         persistState(step, newAnswers, contactSubStep, contact);
+                        if (val.length === 5) setTimeout(() => goNext(), 300);
                       }}
                       onKeyDown={(e) => { if (e.key === 'Enter' && (answers[1] || '').length === 5) goNext(); }}
                     />
@@ -931,7 +953,7 @@ export default function LeadForm({ compact = false }) {
         </div>
 
         {/* Navigation — shown for steps 2–18, not step 1 */}
-        {step > 1 && step <= TOTAL_STEPS && !showVaMsg && !showCreditMsg && (
+        {step > 1 && step <= TOTAL_STEPS && !showVaMsg && !showCreditMsg && !showHeloc && (
           <div className="lead-nav">
             <button
               onClick={goBack}
