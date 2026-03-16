@@ -17,10 +17,11 @@ const PriceYourLoan = lazy(() => import('./pages/PriceYourLoan'));
 const Apply = lazy(() => import('./pages/Apply'));
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [pathname]);
+    // Always force top on route change, even if URL has a hash
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname, hash]);
   return null;
 }
 

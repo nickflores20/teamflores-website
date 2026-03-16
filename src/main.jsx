@@ -7,7 +7,7 @@ import './index.css';
 
 // Prevent browser from restoring scroll position — always start at top
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-window.scrollTo(0, 0);
+window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
 const container = document.getElementById('root');
 const root = createRoot(container);
