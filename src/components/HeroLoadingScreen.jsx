@@ -1,11 +1,10 @@
 // Fullscreen loading screen shown on first visit.
-// Shows the glowing logo centered on black, fades out after 1.5s.
+// Shows the logo gold cutout on pure black, then slides up to reveal the homepage.
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function HeroLoadingScreen() {
   const [visible, setVisible] = useState(() => {
-    // Only show once per session
     return !sessionStorage.getItem('tf-loaded');
   });
 
@@ -14,7 +13,7 @@ export default function HeroLoadingScreen() {
     const timer = setTimeout(() => {
       setVisible(false);
       sessionStorage.setItem('tf-loaded', '1');
-    }, 1500);
+    }, 2000);
     return () => clearTimeout(timer);
   }, [visible]);
 
@@ -23,9 +22,9 @@ export default function HeroLoadingScreen() {
       {visible && (
         <motion.div
           key="hero-loader"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.7, ease: 'easeInOut' }}
+          initial={{ y: 0 }}
+          exit={{ y: '-100%' }}
+          transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
           style={{
             position: 'fixed',
             inset: 0,
@@ -41,11 +40,12 @@ export default function HeroLoadingScreen() {
             alt="Team Flores"
             initial={{ opacity: 0, scale: 0.88 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              width: 'min(520px, 85vw)',
+              width: 'min(460px, 80vw)',
               height: 'auto',
-              filter: 'drop-shadow(0 0 40px rgba(198,167,111,0.6)) drop-shadow(0 0 80px rgba(198,167,111,0.3))',
+              mixBlendMode: 'screen',
+              filter: 'drop-shadow(0 0 32px rgba(198,167,111,0.5)) drop-shadow(0 0 64px rgba(198,167,111,0.25))',
             }}
           />
         </motion.div>

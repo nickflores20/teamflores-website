@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
-import HeroLoadingScreen from './components/HeroLoadingScreen';
 
 const Home = lazy(() => import('./pages/Home'));
 const LoanTypes = lazy(() => import('./pages/LoanTypes'));
@@ -66,7 +65,6 @@ export default function App() {
         ::-webkit-scrollbar-thumb { background: #C6A76F; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #d4b87a; }
       `}</style>
-      <HeroLoadingScreen />
       <ScrollToTop />
       <Navbar />
       <main>
