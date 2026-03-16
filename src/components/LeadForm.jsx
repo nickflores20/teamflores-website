@@ -264,7 +264,7 @@ function OptionCard({ option, selected, onSelect }) {
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         transition: 'background 0.2s, border-color 0.2s',
         color: selected ? '#0F1C2E' : '#F0E6D2',
-        fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 15,
+        fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 16,
         textAlign: 'center', lineHeight: 1.3, outline: 'none', minHeight: 64, width: '100%',
       }}
     >
@@ -714,6 +714,20 @@ export default function LeadForm({ compact = false }) {
           .lead-nav { flex-direction: column; gap: 8px; }
           .lead-nav-back, .lead-nav-skip { width: 100%; text-align: center; }
         }
+        /* Clear the fixed mobile floating CTA button on all non-desktop screens */
+        @media (max-width: 1023px) {
+          .lead-nav { padding-bottom: 100px; }
+        }
+        /* Push all step content clear of the fixed mobile floating CTA */
+        @media (max-width: 1023px) {
+          .lead-step-inner { padding-bottom: 96px; }
+        }
+        /* Stack contact field + Next button vertically on mobile */
+        @media (max-width: 600px) {
+          .contact-field-row { flex-direction: column; }
+          .contact-field-row .contact-input { flex: none !important; width: 100% !important; }
+          .contact-field-row button { width: 100% !important; border-radius: 10px; }
+        }
       `}</style>
 
       {submitting && <GoldSpinner />}
@@ -721,7 +735,7 @@ export default function LeadForm({ compact = false }) {
       <div style={{
         background: '#0F1C2E', minHeight: compact ? 'auto' : '100vh',
         display: 'flex', flexDirection: 'column',
-        fontFamily: 'Nunito, sans-serif', position: 'relative', overflow: 'hidden',
+        fontFamily: 'Nunito, sans-serif', position: 'relative', overflowX: 'hidden',
       }}>
         {/* Background gradients */}
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
@@ -731,7 +745,7 @@ export default function LeadForm({ compact = false }) {
 
         {/* Progress Bar */}
         <div style={{ position: 'relative', zIndex: 10 }}>
-          <div style={{ height: 4, background: 'rgba(198,167,111,0.15)', width: '100%' }}>
+          <div style={{ height: 6, background: 'rgba(198,167,111,0.15)', width: '100%' }}>
             <motion.div
               style={{ height: '100%', background: '#C6A76F', borderRadius: '0 2px 2px 0' }}
               animate={{ width: `${progress}%` }}
@@ -810,8 +824,8 @@ export default function LeadForm({ compact = false }) {
         </AnimatePresence>
 
         {/* Step Content */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 'clamp(24px, 4vw, 40px) clamp(12px, 4vw, 20px)', position: 'relative', zIndex: 5 }}>
-          <div style={{ width: '100%', maxWidth: 680 }}>
+        <div style={{ flex: '1 0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 'clamp(24px, 4vw, 40px) clamp(12px, 4vw, 20px)', position: 'relative', zIndex: 5 }}>
+          <div className="lead-step-inner" style={{ width: '100%', maxWidth: 680 }}>
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={step === 18 ? `18-${contactSubStep}` : step}
@@ -858,7 +872,7 @@ export default function LeadForm({ compact = false }) {
                       onClick={() => goNext()}
                       disabled={!(answers[1] && answers[1].length === 5)}
                       style={{
-                        display: 'block', margin: '0 auto',
+                        display: 'block', width: '100%', maxWidth: 360, margin: '0 auto',
                         background: answers[1] && answers[1].length === 5 ? '#C6A76F' : 'rgba(198,167,111,0.25)',
                         border: 'none', borderRadius: 14, padding: '16px 48px',
                         fontFamily: 'Nunito, sans-serif', fontWeight: 800, fontSize: 17,
