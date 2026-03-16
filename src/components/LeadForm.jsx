@@ -277,10 +277,10 @@ function OptionCard({ option, selected, onSelect }) {
 
 function ContactField({ label, type, value, onChange, onNext, placeholder }) {
   const inputRef = useRef(null);
-  // Focus on mount
+  // Focus on mount without scrolling the page
   const setRef = useCallback((node) => {
     inputRef.current = node;
-    if (node) node.focus();
+    if (node) node.focus({ preventScroll: true });
   }, []);
 
   return (
@@ -368,6 +368,7 @@ function NavbarLogo() {
 export default function LeadForm({ compact = false }) {
   const savedRef = useRef(loadSaved());
   const saved = savedRef.current;
+  const zipInputRef = useRef(null);
 
   const [step, setStep] = useState(saved?.step ?? 1);
   const [direction, setDirection] = useState(1);
@@ -836,6 +837,10 @@ export default function LeadForm({ compact = false }) {
                       {STEP_QUESTIONS[1]}
                     </p>
                     <input
+                      ref={(node) => {
+                        zipInputRef.current = node;
+                        if (node) node.focus({ preventScroll: true });
+                      }}
                       type="text" inputMode="numeric" pattern="[0-9]*" maxLength={5}
                       value={answers[1] || ''}
                       placeholder="Enter your zip code"
@@ -847,7 +852,6 @@ export default function LeadForm({ compact = false }) {
                         persistState(step, newAnswers, contactSubStep, contact);
                       }}
                       onKeyDown={(e) => { if (e.key === 'Enter' && (answers[1] || '').length === 5) goNext(); }}
-                      autoFocus
                     />
                     <motion.button
                       whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}

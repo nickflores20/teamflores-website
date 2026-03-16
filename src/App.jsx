@@ -60,6 +60,11 @@ export default function App() {
   const location = useLocation();
   const [modalOpen, setModalOpen] = useState(false);
 
+  // Force top of page on every mount — catches any autoFocus or browser scroll restoration
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, []);
+
   const openModal = useCallback(() => {
     setModalOpen(true);
     document.body.style.overflow = 'hidden';
