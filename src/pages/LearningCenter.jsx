@@ -221,7 +221,7 @@ function ArticleModal({ article, onClose }) {
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center"
+          className="absolute top-4 right-4 w-11 h-11 rounded-full flex items-center justify-center"
           style={{
             background: "rgba(15,28,46,0.65)",
             backdropFilter: "blur(4px)",
@@ -411,7 +411,7 @@ export default function LearningCenter() {
               placeholder="Search articles..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-full text-sm outline-none"
+              className="w-full pl-10 pr-4 py-2.5 rounded-full text-base outline-none"
               style={{
                 background: "#1A3E61",
                 color: "#FFFFFF",

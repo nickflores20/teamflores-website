@@ -149,7 +149,7 @@ export default function SavingsCalculator() {
               step={10000}
               value={homeValue}
               onChange={handleHomeChange}
-              style={{ '--pct': `${homePct}%` }}
+              style={{ '--pct': `${homePct}%`, touchAction: 'none' }}
             />
             <div
               className="flex justify-between mt-1"
@@ -193,7 +193,7 @@ export default function SavingsCalculator() {
               step={10000}
               value={mortgageBalance}
               onChange={handleBalanceChange}
-              style={{ '--pct': `${balancePct}%` }}
+              style={{ '--pct': `${balancePct}%`, touchAction: 'none' }}
             />
             <div
               className="flex justify-between mt-1"

@@ -244,10 +244,14 @@ export default function ComparisonSection() {
                     color: '#0F1C2E',
                     fontFamily: 'Nunito, sans-serif',
                     fontWeight: 800,
-                    fontSize: '0.7rem',
-                    letterSpacing: '0.05em',
-                    padding: '4px 10px',
+                    fontSize: '0.65rem',
+                    letterSpacing: '0.04em',
+                    padding: '4px 8px',
                     borderRadius: '9999px',
+                    maxWidth: '110px',
+                    textAlign: 'center',
+                    lineHeight: 1.3,
+                    wordBreak: 'break-word',
                   }}
                 >
                   {d.equity.badge}

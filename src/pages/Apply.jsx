@@ -264,6 +264,7 @@ export default function Apply() {
                   letterSpacing: '-0.02em',
                   lineHeight: 1.15,
                   display: 'block',
+                  padding: '8px 0',
                 }}
               >
                 (702) 497-6370
@@ -280,6 +281,7 @@ export default function Apply() {
                   fontWeight: 600,
                   color: '#C6A76F',
                   display: 'block',
+                  padding: '12px 0',
                 }}
               >
                 Nick@sunnyhillfinancial.com

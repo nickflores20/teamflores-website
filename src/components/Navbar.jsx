@@ -179,7 +179,7 @@ export default function Navbar() {
           {/* Hamburger */}
           <button
             onClick={() => setMenuOpen((v) => !v)}
-            className="lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C6A76F] rounded"
+            className="lg:hidden flex flex-col justify-center items-center w-11 h-11 gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C6A76F] rounded"
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
           >

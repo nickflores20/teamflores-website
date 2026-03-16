@@ -90,7 +90,13 @@ export default function SofrChart() {
   const inView = useInView(sectionRef, { once: true, margin: '-80px' });
 
   return (
-    <section
+    <>
+      <style>{`
+        @media (max-width: 640px) {
+          .recharts-cartesian-axis-tick text { font-size: 9px !important; }
+        }
+      `}</style>
+      <section
       ref={sectionRef}
       className="py-20 px-4"
       style={{ backgroundColor: '#1A3E61' }}
@@ -212,5 +218,6 @@ export default function SofrChart() {
         </p>
       </motion.div>
     </section>
+    </>
   );
 }

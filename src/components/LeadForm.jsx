@@ -6,103 +6,105 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const TOTAL_STEPS = 17;
 
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwzNnNPtDSthbM9_qz_h7aaDjwLjlOsFJhy4SWdTNgGHcVttjOuZAwHle8JRyu5hsGaHA/exec';
+
 const CARD_OPTIONS = {
   1: [
-    { id: 'purchase',        label: 'Home Purchase',     icon: '🏠' },
-    { id: 'refinance',       label: 'Refinance',         icon: '🔄' },
-    { id: 'va',              label: 'VA Loan',           icon: '🎖️' },
-    { id: 'heloc',           label: 'HELOC/Equity',      icon: '💰' },
-    { id: 'new_build',       label: 'New Build',         icon: '🏗️' },
-    { id: 'first_time',      label: 'First Time Buyer',  icon: '🔑' },
-    { id: 'reverse',         label: 'Reverse Mortgage',  icon: '🔃' },
-    { id: 'not_sure',        label: 'Not Sure',          icon: '🤔' },
+    { id: 'purchase',        label: 'Home Purchase'       },
+    { id: 'refinance',       label: 'Refinance'           },
+    { id: 'va',              label: 'VA Loan'             },
+    { id: 'heloc',           label: 'HELOC / Equity'      },
+    { id: 'new_build',       label: 'New Build'           },
+    { id: 'first_time',      label: 'First Time Buyer'    },
+    { id: 'reverse',         label: 'Reverse Mortgage'    },
+    { id: 'not_sure',        label: 'Not Sure'            },
   ],
   2: [
-    { id: 'yes_served',  label: 'Yes — I served',    icon: '🎖️' },
-    { id: 'no_skip_va',  label: 'No — skip VA',      icon: '➡️' },
+    { id: 'yes_served',  label: 'Yes — I served'   },
+    { id: 'no_skip_va',  label: 'No — Skip VA'     },
   ],
   3: [
-    { id: 'single_family',   label: 'Single Family',      icon: '🏡' },
-    { id: 'condo',           label: 'Condo/Townhouse',    icon: '🏢' },
-    { id: 'multi_family',    label: 'Multi Family',       icon: '🏘️' },
-    { id: 'investment',      label: 'Investment',         icon: '📈' },
-    { id: 'vacation',        label: 'Vacation Home',      icon: '🌴' },
+    { id: 'single_family',   label: 'Single Family'    },
+    { id: 'condo',           label: 'Condo / Townhouse' },
+    { id: 'multi_family',    label: 'Multi Family'      },
+    { id: 'investment',      label: 'Investment'        },
+    { id: 'vacation',        label: 'Vacation Home'     },
   ],
   4: [
-    { id: '720plus',         label: '720+ Excellent',    icon: '⭐' },
-    { id: '680_719',         label: '680-719 Good',      icon: '👍' },
-    { id: '640_679',         label: '640-679 Fair',      icon: '👌' },
-    { id: 'below_640',       label: 'Below 640',         icon: '⚠️' },
-    { id: 'not_sure',        label: 'Not Sure',          icon: '🤷' },
+    { id: '720plus',         label: '720+  Excellent' },
+    { id: '680_719',         label: '680–719  Good'   },
+    { id: '640_679',         label: '640–679  Fair'   },
+    { id: 'below_640',       label: 'Below 640'       },
+    { id: 'not_sure',        label: 'Not Sure'        },
   ],
   5: [
-    { id: 'yes_first',   label: 'Yes — First Time',   icon: '🎉' },
-    { id: 'no_owned',    label: 'No — Owned Before',  icon: '🏠' },
+    { id: 'yes_first',   label: 'Yes — First Time'   },
+    { id: 'no_owned',    label: 'No — Owned Before'  },
   ],
   6: [
-    { id: 'just_looking',    label: 'Just starting to look',   icon: '👀' },
-    { id: 'found_home',      label: 'Found a home I like',     icon: '❤️' },
-    { id: 'accepted_offer',  label: 'Have accepted offer',     icon: '✅' },
-    { id: 'need_to_sell',    label: 'Need to sell first',      icon: '🏷️' },
-    { id: 'refinancing',     label: 'Refinancing current home',icon: '🔄' },
+    { id: 'just_looking',    label: 'Just starting to look'    },
+    { id: 'found_home',      label: 'Found a home I like'      },
+    { id: 'accepted_offer',  label: 'Have accepted offer'      },
+    { id: 'need_to_sell',    label: 'Need to sell first'       },
+    { id: 'refinancing',     label: 'Refinancing current home' },
   ],
   7: [
-    { id: 'primary',     label: 'Primary Residence',    icon: '🏠' },
-    { id: 'vacation2',   label: 'Vacation/Second Home', icon: '🌊' },
-    { id: 'investment2', label: 'Investment/Rental',    icon: '💼' },
+    { id: 'primary',     label: 'Primary Residence'    },
+    { id: 'vacation2',   label: 'Vacation / Second Home'},
+    { id: 'investment2', label: 'Investment / Rental'  },
   ],
   9: [
-    { id: 'lt3',         label: 'Less than 3%',    icon: '💵' },
-    { id: '3_5',         label: '3-5%',            icon: '💵' },
-    { id: '5_10',        label: '5-10%',           icon: '💵' },
-    { id: '10_20',       label: '10-20%',          icon: '💵' },
-    { id: '20plus',      label: '20%+',            icon: '💪' },
-    { id: 'va_zero',     label: 'VA/Zero Down',    icon: '🎖️' },
+    { id: 'lt3',         label: 'Less than 3%'  },
+    { id: '3_5',         label: '3–5%'          },
+    { id: '5_10',        label: '5–10%'         },
+    { id: '10_20',       label: '10–20%'        },
+    { id: '20plus',      label: '20%+'          },
+    { id: 'va_zero',     label: 'VA / Zero Down'},
   ],
   10: [
-    { id: 'fixed',       label: 'Fixed — same payment every month',  icon: '🔒' },
-    { id: 'arm',         label: 'Adjustable — lower start rate',     icon: '📊' },
-    { id: 'not_sure',    label: 'Not Sure — show me both',           icon: '🤔' },
+    { id: 'fixed',       label: 'Fixed — same payment every month'  },
+    { id: 'arm',         label: 'Adjustable — lower start rate'     },
+    { id: 'not_sure',    label: 'Not Sure — show me both'           },
   ],
   11: [
-    { id: 'lt50k',   label: 'Under $50K',   icon: '💰' },
-    { id: '50_75k',  label: '$50-75K',      icon: '💰' },
-    { id: '75_100k', label: '$75-100K',     icon: '💰' },
-    { id: '100_150k',label: '$100-150K',    icon: '💰' },
-    { id: '150_200k',label: '$150-200K',    icon: '💰' },
-    { id: '200kplus',label: '$200K+',       icon: '💰' },
+    { id: 'lt50k',    label: 'Under $50K'  },
+    { id: '50_75k',   label: '$50–75K'     },
+    { id: '75_100k',  label: '$75–100K'    },
+    { id: '100_150k', label: '$100–150K'   },
+    { id: '150_200k', label: '$150–200K'   },
+    { id: '200kplus', label: '$200K+'      },
   ],
   12: [
-    { id: 'w2',      label: 'Full Time W2',          icon: '📋' },
-    { id: 'self',    label: 'Self Employed/1099',     icon: '💼' },
-    { id: 'retired', label: 'Retired',               icon: '🌅' },
-    { id: 'military',label: 'Military/VA',            icon: '🎖️' },
-    { id: 'other',   label: 'Other',                 icon: '📌' },
+    { id: 'w2',      label: 'Full Time W2'       },
+    { id: 'self',    label: 'Self Employed / 1099'},
+    { id: 'retired', label: 'Retired'             },
+    { id: 'military',label: 'Military / VA'       },
+    { id: 'other',   label: 'Other'               },
   ],
   13: [
-    { id: 'no',          label: 'No',                           icon: '✅' },
-    { id: 'bankruptcy',  label: 'Yes — Bankruptcy',             icon: '📄' },
-    { id: 'foreclosure', label: 'Yes — Short Sale/Foreclosure', icon: '📄' },
+    { id: 'no',          label: 'No'                           },
+    { id: 'bankruptcy',  label: 'Yes — Bankruptcy'             },
+    { id: 'foreclosure', label: 'Yes — Short Sale / Foreclosure'},
   ],
   14: [
-    { id: 'w2_returns',   label: 'Yes — W2s/Tax Returns',  icon: '📊' },
-    { id: 'bank_stmts',   label: 'Yes — Bank Statements',  icon: '🏦' },
-    { id: 'working_on_it',label: 'Working on it',           icon: '⏳' },
-    { id: 'not_sure',     label: 'Not Sure',                icon: '🤷' },
+    { id: 'w2_returns',    label: 'Yes — W2s / Tax Returns' },
+    { id: 'bank_stmts',    label: 'Yes — Bank Statements'   },
+    { id: 'working_on_it', label: 'Working on it'           },
+    { id: 'not_sure',      label: 'Not Sure'                },
   ],
   15: [
-    { id: 'yes_have',    label: 'Yes — I have one',        icon: '🤝' },
-    { id: 'no_need',     label: 'No — Need one',           icon: '🔍' },
-    { id: 'no_dont',     label: "No — Don't need one",     icon: '👋' },
-    { id: 'i_am_agent',  label: 'I am the agent',          icon: '🏢' },
+    { id: 'yes_have',   label: 'Yes — I have one'     },
+    { id: 'no_need',    label: 'No — Need one'        },
+    { id: 'no_dont',    label: "No — Don't need one"  },
+    { id: 'i_am_agent', label: 'I am the agent'       },
   ],
   16: [
-    { id: 'google',    label: 'Google',              icon: '🔍' },
-    { id: 'social',    label: 'Social Media',        icon: '📱' },
-    { id: 'referral',  label: 'Referral',            icon: '👥' },
-    { id: 'zillow',    label: 'Zillow/Redfin',       icon: '🏡' },
-    { id: 'agent',     label: 'Real Estate Agent',   icon: '🤝' },
-    { id: 'other',     label: 'Other',               icon: '✨' },
+    { id: 'google',   label: 'Google'             },
+    { id: 'social',   label: 'Social Media'       },
+    { id: 'referral', label: 'Referral'           },
+    { id: 'zillow',   label: 'Zillow / Redfin'   },
+    { id: 'agent',    label: 'Real Estate Agent'  },
+    { id: 'other',    label: 'Other'              },
   ],
 };
 
@@ -138,6 +140,36 @@ const formatPhone = (raw) => {
   if (digits.length < 7) return `(${digits.slice(0,3)}) ${digits.slice(3)}`;
   return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
 };
+
+// ─── Gold Spinner ──────────────────────────────────────────────────────────────
+
+function GoldSpinner() {
+  return (
+    <div style={{
+      position: 'fixed', inset: 0,
+      background: 'rgba(15,28,46,0.95)',
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center',
+      zIndex: 300, gap: 20,
+    }}>
+      <style>{`@keyframes lead-spin { to { transform: rotate(360deg); } }`}</style>
+      <div style={{
+        width: 56, height: 56,
+        border: '4px solid rgba(198,167,111,0.2)',
+        borderTopColor: '#C6A76F',
+        borderRadius: '50%',
+        animation: 'lead-spin 0.8s linear infinite',
+      }} />
+      <p style={{
+        fontFamily: 'Nunito, sans-serif',
+        color: '#C6A76F',
+        fontSize: 16,
+        fontWeight: 600,
+        letterSpacing: '0.04em',
+      }}>Submitting your information...</p>
+    </div>
+  );
+}
 
 // ─── Confetti ─────────────────────────────────────────────────────────────────
 
@@ -227,24 +259,25 @@ function OptionCard({ option, selected, onSelect }) {
         background: selected ? '#C6A76F' : 'rgba(26,62,97,0.6)',
         border: `2px solid ${selected ? '#C6A76F' : 'rgba(198,167,111,0.3)'}`,
         borderRadius: 12,
-        padding: '18px 14px',
+        padding: '16px 12px',
         cursor: 'pointer',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: 8,
+        justifyContent: 'center',
+        gap: 0,
         transition: 'background 0.2s, border-color 0.2s',
         color: selected ? '#0F1C2E' : '#F0E6D2',
         fontFamily: 'Nunito, sans-serif',
         fontWeight: 700,
-        fontSize: 14,
+        fontSize: 16,
         textAlign: 'center',
         lineHeight: 1.3,
         outline: 'none',
-        minHeight: 80,
+        minHeight: 64,
+        width: '100%',
       }}
     >
-      <span style={{ fontSize: 22, lineHeight: 1 }}>{option.icon}</span>
       <span>{option.label}</span>
     </motion.button>
   );
@@ -267,7 +300,7 @@ function ContactField({ label, type, value, onChange, onNext, placeholder }) {
       <label style={{ display: 'block', fontFamily: 'Nunito, sans-serif', color: '#C6A76F', fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>
         {label}
       </label>
-      <div style={{ display: 'flex', gap: 12 }}>
+      <div className="contact-field-row">
         <input
           ref={inputRef}
           type={type}
@@ -278,14 +311,16 @@ function ContactField({ label, type, value, onChange, onNext, placeholder }) {
             onChange(v);
           }}
           onKeyDown={(e) => { if (e.key === 'Enter') onNext(); }}
+          className="lead-input contact-input"
           style={{
-            flex: 1,
+            flex: '1 1 200px',
+            minWidth: 0,
             background: 'rgba(255,255,255,0.07)',
             border: '2px solid rgba(198,167,111,0.4)',
             borderRadius: 10,
             padding: '14px 18px',
             fontFamily: 'Nunito, sans-serif',
-            fontSize: 17,
+            fontSize: 16,
             color: '#fff',
             outline: 'none',
           }}
@@ -293,19 +328,21 @@ function ContactField({ label, type, value, onChange, onNext, placeholder }) {
         <button
           onClick={onNext}
           style={{
+            flex: '0 0 auto',
             background: '#C6A76F',
             border: 'none',
             borderRadius: 10,
             padding: '0 22px',
             fontFamily: 'Nunito, sans-serif',
             fontWeight: 800,
-            fontSize: 14,
+            fontSize: 16,
             color: '#0F1C2E',
             cursor: 'pointer',
             whiteSpace: 'nowrap',
+            minHeight: 52,
           }}
         >
-          Next →
+          Next
         </button>
       </div>
     </motion.div>
@@ -325,6 +362,7 @@ export default function LeadForm({ compact = false }) {
   const [contactSubStep, setContactSubStep] = useState(0);
   const [contact, setContact] = useState({ firstName: '', lastName: '', email: '', phone: '', zip: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const contactFields = [
     { key: 'firstName', label: 'First Name',  type: 'text',  placeholder: 'John'           },
@@ -334,15 +372,8 @@ export default function LeadForm({ compact = false }) {
     { key: 'zip',       label: 'Zip Code',    type: 'text',  placeholder: '89101'           },
   ];
 
-  // Determine visible step number for progress (VA step 2 is conditional)
   const isVA = answers[1] === 'va';
 
-  const getEffectiveStep = (s) => {
-    if (!isVA && s >= 2) return s - 1;
-    return s;
-  };
-
-  // Real step count for progress bar
   const displayStep = isVA ? step : (step > 2 ? step - 1 : step);
   const totalDisplay = isVA ? TOTAL_STEPS : TOTAL_STEPS - 1;
 
@@ -351,7 +382,6 @@ export default function LeadForm({ compact = false }) {
   const goNext = useCallback((overrideStep) => {
     setDirection(1);
     const next = overrideStep || step + 1;
-    // Skip step 2 if not VA
     if (next === 2 && !isVA) {
       setStep(3);
     } else {
@@ -373,7 +403,6 @@ export default function LeadForm({ compact = false }) {
   const handleCardSelect = (stepNum, value) => {
     setAnswers((prev) => ({ ...prev, [stepNum]: value }));
 
-    // Smart logic
     if (stepNum === 1) {
       if (value === 'heloc') setShowHeloc(true);
       if (value === 'va') setShowVaMsg(true);
@@ -399,9 +428,46 @@ export default function LeadForm({ compact = false }) {
     }
   };
 
-  const handleSubmit = () => {
-    const payload = { ...answers, purchasePrice, contact };
-    console.log('Lead Form Submission:', payload);
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    const payload = {
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      email: contact.email,
+      phone: contact.phone,
+      zipCode: contact.zip,
+      loanType: answers[1],
+      veteranStatus: answers[2],
+      propertyType: answers[3],
+      creditScore: answers[4],
+      firstTimeBuyer: answers[5],
+      purchaseSituation: answers[6],
+      propertyUse: answers[7],
+      purchasePrice: purchasePrice,
+      downPayment: answers[9],
+      rateType: answers[10],
+      annualIncome: answers[11],
+      employmentStatus: answers[12],
+      bankruptcyHistory: answers[13],
+      proofOfIncome: answers[14],
+      realEstateAgent: answers[15],
+      howDidYouHear: answers[16],
+      browser: navigator.userAgent,
+      submittedAt: new Date().toISOString(),
+    };
+
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch (e) {
+      // no-cors mode swallows the response — treat as success
+    }
+
+    setSubmitting(false);
     setSubmitted(true);
   };
 
@@ -423,7 +489,7 @@ export default function LeadForm({ compact = false }) {
     return 4;
   };
 
-  // ── Render ──
+  // ── Thank You Screen ──
 
   if (submitted) {
     return (
@@ -433,7 +499,7 @@ export default function LeadForm({ compact = false }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 40,
+        padding: 'clamp(20px, 5vw, 40px)',
         position: 'relative',
         overflow: 'hidden',
         fontFamily: 'Nunito, sans-serif',
@@ -444,9 +510,15 @@ export default function LeadForm({ compact = false }) {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          style={{ textAlign: 'center', maxWidth: 520, position: 'relative', zIndex: 20 }}
+          style={{
+            textAlign: 'center',
+            maxWidth: 540,
+            width: '100%',
+            position: 'relative',
+            zIndex: 20,
+          }}
         >
-          {/* Glowing logo */}
+          {/* Logo */}
           <motion.img
             src="/brand_assets/logo-glow.png"
             alt="Team Flores"
@@ -454,21 +526,22 @@ export default function LeadForm({ compact = false }) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              width: 'min(340px, 80vw)',
+              width: 'min(300px, 75vw)',
               height: 'auto',
-              margin: '0 auto 32px',
+              margin: '0 auto 28px',
               display: 'block',
               filter: 'drop-shadow(0 0 32px rgba(198,167,111,0.55)) drop-shadow(0 0 60px rgba(198,167,111,0.25))',
             }}
           />
-          {/* Gold Checkmark */}
+
+          {/* Animated Checkmark */}
           <motion.div
             initial={{ scale: 0, rotate: -30 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ delay: 0.3, type: 'spring', stiffness: 260, damping: 20 }}
-            style={{ marginBottom: 28 }}
+            style={{ marginBottom: 24 }}
           >
-            <svg width="88" height="88" viewBox="0 0 88 88" style={{ margin: '0 auto', display: 'block' }}>
+            <svg width="72" height="72" viewBox="0 0 88 88" style={{ margin: '0 auto', display: 'block' }}>
               <circle cx="44" cy="44" r="42" fill="#C6A76F" fillOpacity="0.15" stroke="#C6A76F" strokeWidth="2.5" />
               <motion.path
                 d="M 22 44 L 38 60 L 66 28"
@@ -484,61 +557,157 @@ export default function LeadForm({ compact = false }) {
             </svg>
           </motion.div>
 
+          {/* Headline */}
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
-            style={{ fontFamily: 'EB Garamond, serif', fontSize: 'clamp(36px,6vw,56px)', color: '#C6A76F', fontWeight: 600, letterSpacing: '-0.02em', marginBottom: 16 }}
+            style={{
+              fontFamily: 'EB Garamond, serif',
+              fontSize: 'clamp(28px, 6vw, 48px)',
+              color: '#C6A76F',
+              fontWeight: 600,
+              letterSpacing: '-0.02em',
+              marginBottom: 16,
+              lineHeight: 1.2,
+            }}
           >
-            You're All Set!
+            Thank you, {contact.firstName || 'there'}!
           </motion.h2>
 
+          {/* Subtext */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.65, duration: 0.5 }}
-            style={{ fontFamily: 'Nunito, sans-serif', color: '#F0E6D2', fontSize: 18, lineHeight: 1.7, marginBottom: 32, opacity: 0.9 }}
+            style={{
+              fontFamily: 'Nunito, sans-serif',
+              color: '#F0E6D2',
+              fontSize: 17,
+              lineHeight: 1.7,
+              marginBottom: 8,
+              opacity: 0.9,
+            }}
           >
-            Nick will be in touch shortly to review your options and answer any questions.
+            Nick will personally review your information and be in touch shortly.
           </motion.p>
 
+          {contact.email && (
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.75, duration: 0.4 }}
+              style={{
+                fontFamily: 'Nunito, sans-serif',
+                color: 'rgba(240,230,210,0.65)',
+                fontSize: 15,
+                lineHeight: 1.6,
+                marginBottom: 28,
+              }}
+            >
+              You will also receive a confirmation email at <strong style={{ color: 'rgba(198,167,111,0.8)' }}>{contact.email}</strong>.
+            </motion.p>
+          )}
+
+          {/* Gold Divider */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.8, duration: 0.5 }}
+            style={{
+              height: 1,
+              background: 'linear-gradient(to right, transparent, #C6A76F, transparent)',
+              marginBottom: 24,
+            }}
+          />
+
+          {/* Reach Nick */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.4 }}
-            style={{ marginBottom: 32 }}
+            transition={{ delay: 0.85, duration: 0.4 }}
+            style={{ marginBottom: 28 }}
           >
-            <a href="tel:7024976370" style={{ display: 'block', color: '#C6A76F', fontFamily: 'Nunito, sans-serif', fontSize: 17, fontWeight: 700, textDecoration: 'none', marginBottom: 6 }}>
+            <p style={{
+              fontFamily: 'Nunito, sans-serif',
+              color: 'rgba(198,167,111,0.6)',
+              fontSize: 12,
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              marginBottom: 12,
+            }}>
+              Reach Nick directly
+            </p>
+            <a href="tel:7024976370" style={{ display: 'block', color: '#C6A76F', fontFamily: 'Nunito, sans-serif', fontSize: 18, fontWeight: 700, textDecoration: 'none', marginBottom: 6 }}>
               (702) 497-6370
             </a>
-            <a href="mailto:Nick@sunnyhillfinancial.com" style={{ display: 'block', color: 'rgba(240,230,210,0.7)', fontFamily: 'Nunito, sans-serif', fontSize: 15, textDecoration: 'none' }}>
+            <a href="mailto:Nick@sunnyhillfinancial.com" style={{ display: 'block', color: 'rgba(240,230,210,0.65)', fontFamily: 'Nunito, sans-serif', fontSize: 15, textDecoration: 'none' }}>
               Nick@sunnyhillfinancial.com
             </a>
           </motion.div>
 
+          {/* Schedule a Call Button */}
           <motion.a
             href="tel:7024976370"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.95, duration: 0.4 }}
+            transition={{ delay: 1.0, duration: 0.4 }}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             style={{
-              display: 'inline-block',
+              display: 'block',
               background: '#C6A76F',
               color: '#0F1C2E',
               borderRadius: 12,
-              padding: '16px 48px',
+              padding: '16px 32px',
               fontFamily: 'Nunito, sans-serif',
               fontWeight: 800,
               fontSize: 17,
               textDecoration: 'none',
               boxShadow: '0 8px 28px rgba(198,167,111,0.35)',
               letterSpacing: '0.03em',
+              marginBottom: 32,
             }}
           >
-            Schedule a Call
+            Schedule a Call with Nick
           </motion.a>
+
+          {/* Motto */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.15, duration: 0.5 }}
+            style={{
+              fontFamily: 'EB Garamond, serif',
+              fontStyle: 'italic',
+              color: '#C6A76F',
+              fontSize: 'clamp(16px, 3vw, 20px)',
+              lineHeight: 1.5,
+              marginBottom: 20,
+              opacity: 0.85,
+            }}
+          >
+            "You can't have a positive life with a negative mind."
+          </motion.p>
+
+          {/* Name / Title */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.25, duration: 0.4 }}
+          >
+            <p style={{ fontFamily: 'EB Garamond, serif', color: 'rgba(240,230,210,0.8)', fontSize: 16, fontWeight: 600, marginBottom: 2 }}>
+              Nicholas Flores
+            </p>
+            <p style={{ fontFamily: 'Nunito, sans-serif', color: 'rgba(198,167,111,0.55)', fontSize: 12, letterSpacing: '0.04em' }}>
+              Division Director | Sunnyhill Financial
+            </p>
+            <p style={{ fontFamily: 'Nunito, sans-serif', color: 'rgba(198,167,111,0.45)', fontSize: 11, marginTop: 4, letterSpacing: '0.04em' }}>
+              NMLS #422150 | Equal Housing Opportunity
+            </p>
+          </motion.div>
+
         </motion.div>
       </div>
     );
@@ -548,11 +717,127 @@ export default function LeadForm({ compact = false }) {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap');
+
         .lead-input:focus { border-color: #C6A76F !important; box-shadow: 0 0 0 3px rgba(198,167,111,0.2); }
-        .lead-slider { -webkit-appearance: none; appearance: none; height: 6px; background: transparent; outline: none; }
-        .lead-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; border-radius: 50%; background: #C6A76F; cursor: pointer; border: 3px solid #0F1C2E; box-shadow: 0 0 0 2px #C6A76F; }
-        .lead-slider::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: #C6A76F; cursor: pointer; border: 3px solid #0F1C2E; }
+
+        .lead-slider {
+          -webkit-appearance: none;
+          appearance: none;
+          height: 6px;
+          background: transparent;
+          outline: none;
+          width: 100%;
+          touch-action: none;
+        }
+        .lead-slider::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          background: #C6A76F;
+          cursor: pointer;
+          border: 3px solid #0F1C2E;
+          box-shadow: 0 0 0 2px #C6A76F;
+        }
+        .lead-slider::-moz-range-thumb {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          background: #C6A76F;
+          cursor: pointer;
+          border: 3px solid #0F1C2E;
+        }
+
+        /* Card grid — 2 cols on mobile */
+        .lead-card-grid {
+          display: grid;
+          gap: 12px;
+        }
+        @media (max-width: 520px) {
+          .lead-card-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+
+        /* Contact field row — stack on mobile */
+        .contact-field-row {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+        .contact-input {
+          min-width: 0;
+          flex: 1 1 200px;
+        }
+
+        /* Nav buttons — full width on mobile */
+        .lead-nav {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 20px 16px;
+          gap: 10px;
+          border-top: 1px solid rgba(198,167,111,0.1);
+          position: relative;
+          z-index: 5;
+        }
+        .lead-nav-back {
+          background: transparent;
+          border: 1.5px solid rgba(198,167,111,0.3);
+          border-radius: 9px;
+          padding: 14px 28px;
+          font-family: Nunito, sans-serif;
+          font-weight: 700;
+          font-size: 16px;
+          cursor: pointer;
+          transition: border-color 0.2s, color 0.2s;
+          min-height: 52px;
+          white-space: nowrap;
+        }
+        .lead-nav-next {
+          background: #C6A76F;
+          border: none;
+          color: #0F1C2E;
+          border-radius: 9px;
+          padding: 14px 36px;
+          font-family: Nunito, sans-serif;
+          font-weight: 800;
+          font-size: 16px;
+          cursor: pointer;
+          box-shadow: 0 6px 20px rgba(198,167,111,0.3);
+          letter-spacing: 0.03em;
+          min-height: 52px;
+          white-space: nowrap;
+        }
+        .lead-nav-skip {
+          background: transparent;
+          border: none;
+          color: rgba(198,167,111,0.45);
+          font-family: Nunito, sans-serif;
+          font-size: 14px;
+          cursor: pointer;
+          padding: 10px 12px;
+          min-height: 44px;
+        }
+        @media (max-width: 480px) {
+          .lead-nav {
+            flex-direction: column;
+            gap: 8px;
+          }
+          .lead-nav-back,
+          .lead-nav-next {
+            width: 100%;
+            text-align: center;
+          }
+          .lead-nav-skip {
+            width: 100%;
+            text-align: center;
+          }
+        }
       `}</style>
+
+      {submitting && <GoldSpinner />}
 
       <div style={{
         background: '#0F1C2E',
@@ -572,19 +857,17 @@ export default function LeadForm({ compact = false }) {
 
         {/* Progress Bar */}
         <div style={{ position: 'relative', zIndex: 10 }}>
-          <div style={{ height: 4, background: 'rgba(198,167,111,0.15)' }}>
+          <div style={{ height: 4, background: 'rgba(198,167,111,0.15)', width: '100%' }}>
             <motion.div
               style={{ height: '100%', background: '#C6A76F', borderRadius: '0 2px 2px 0' }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.4, ease: 'easeOut' }}
             />
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 24px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ color: '#C6A76F', fontWeight: 800, fontSize: 13, letterSpacing: '0.06em' }}>
-                Step {step > TOTAL_STEPS ? TOTAL_STEPS : displayStep} / {totalDisplay}
-              </span>
-            </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px' }}>
+            <span style={{ color: '#C6A76F', fontWeight: 800, fontSize: 13, letterSpacing: '0.06em' }}>
+              Step {step > TOTAL_STEPS ? TOTAL_STEPS : displayStep} / {totalDisplay}
+            </span>
             <span style={{ color: 'rgba(198,167,111,0.5)', fontSize: 12 }}>{progress}% complete</span>
           </div>
         </div>
@@ -608,7 +891,7 @@ export default function LeadForm({ compact = false }) {
               <p style={{ fontFamily: 'EB Garamond, serif', color: '#C6A76F', fontSize: 18, fontWeight: 600, marginBottom: 6 }}>
                 Did you know?
               </p>
-              <p style={{ color: '#F0E6D2', fontSize: 14, lineHeight: 1.6 }}>
+              <p style={{ color: '#F0E6D2', fontSize: 15, lineHeight: 1.6 }}>
                 EquitySelect can unlock up to <strong style={{ color: '#C6A76F' }}>506% more equity</strong> than a bank HELOC. Let's find out how much you qualify for.
               </p>
             </motion.div>
@@ -628,9 +911,15 @@ export default function LeadForm({ compact = false }) {
                 zIndex: 200, padding: 24,
               }}
             >
-              <div style={{ background: '#1A3E61', border: '2px solid #C6A76F', borderRadius: 20, padding: '40px 32px', textAlign: 'center', maxWidth: 400 }}>
-                <div style={{ fontSize: 48, marginBottom: 16 }}>🇺🇸</div>
-                <h3 style={{ fontFamily: 'EB Garamond, serif', color: '#C6A76F', fontSize: 28, fontWeight: 600, marginBottom: 12 }}>Thank you for your service!</h3>
+              <div style={{ background: '#1A3E61', border: '2px solid #C6A76F', borderRadius: 20, padding: '40px 32px', textAlign: 'center', maxWidth: 400, width: '100%' }}>
+                {/* Shield SVG */}
+                <svg width="52" height="52" viewBox="0 0 52 52" fill="none" style={{ margin: '0 auto 16px', display: 'block' }}>
+                  <path d="M26 4L8 12v14c0 10.8 7.7 20.9 18 23.6C36.3 46.9 44 36.8 44 26V12L26 4z" fill="rgba(198,167,111,0.15)" stroke="#C6A76F" strokeWidth="2" strokeLinejoin="round"/>
+                  <path d="M19 26l5 5 9-10" stroke="#C6A76F" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <h3 style={{ fontFamily: 'EB Garamond, serif', color: '#C6A76F', fontSize: 26, fontWeight: 600, marginBottom: 12 }}>
+                  Thank you for your service!
+                </h3>
                 <p style={{ color: '#F0E6D2', fontFamily: 'Nunito, sans-serif', fontSize: 15, lineHeight: 1.7, opacity: 0.9 }}>
                   We are honored to help veterans and active military members achieve homeownership with VA loan benefits.
                 </p>
@@ -652,9 +941,15 @@ export default function LeadForm({ compact = false }) {
                 zIndex: 200, padding: 24,
               }}
             >
-              <div style={{ background: '#1A3E61', border: '2px solid #C6A76F', borderRadius: 20, padding: '40px 32px', textAlign: 'center', maxWidth: 420 }}>
-                <div style={{ fontSize: 48, marginBottom: 16 }}>💪</div>
-                <h3 style={{ fontFamily: 'EB Garamond, serif', color: '#C6A76F', fontSize: 26, fontWeight: 600, marginBottom: 12 }}>You're in the right place.</h3>
+              <div style={{ background: '#1A3E61', border: '2px solid #C6A76F', borderRadius: 20, padding: '40px 32px', textAlign: 'center', maxWidth: 420, width: '100%' }}>
+                {/* Star SVG */}
+                <svg width="52" height="52" viewBox="0 0 52 52" fill="none" style={{ margin: '0 auto 16px', display: 'block' }}>
+                  <circle cx="26" cy="26" r="24" fill="rgba(198,167,111,0.1)" stroke="#C6A76F" strokeWidth="1.5"/>
+                  <path d="M26 14l3 9h9l-7 5 3 9-8-6-8 6 3-9-7-5h9z" fill="rgba(198,167,111,0.3)" stroke="#C6A76F" strokeWidth="1.5" strokeLinejoin="round"/>
+                </svg>
+                <h3 style={{ fontFamily: 'EB Garamond, serif', color: '#C6A76F', fontSize: 24, fontWeight: 600, marginBottom: 12 }}>
+                  You are in the right place.
+                </h3>
                 <p style={{ color: '#F0E6D2', fontFamily: 'Nunito, sans-serif', fontSize: 15, lineHeight: 1.7, opacity: 0.9 }}>
                   Nick specializes in credit rebuilds and has helped many clients in your situation get approved. Let's keep going!
                 </p>
@@ -664,7 +959,16 @@ export default function LeadForm({ compact = false }) {
         </AnimatePresence>
 
         {/* Step Content */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 20px', position: 'relative', zIndex: 5 }}>
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 'clamp(24px, 4vw, 40px) clamp(12px, 4vw, 20px)',
+          position: 'relative',
+          zIndex: 5,
+        }}>
           <div style={{ width: '100%', maxWidth: 680 }}>
 
             <AnimatePresence mode="wait" custom={direction}>
@@ -678,15 +982,15 @@ export default function LeadForm({ compact = false }) {
                 transition={slideTransition}
               >
                 {/* Step Question */}
-                {step <= TOTAL_STEPS && step !== 17 && (
+                {step <= TOTAL_STEPS && step !== 17 && step !== 8 && (
                   <h2 style={{
                     fontFamily: 'EB Garamond, serif',
                     color: '#fff',
-                    fontSize: 'clamp(22px,3.5vw,36px)',
+                    fontSize: 'clamp(20px, 4vw, 36px)',
                     fontWeight: 600,
                     letterSpacing: '-0.02em',
                     textAlign: 'center',
-                    marginBottom: 32,
+                    marginBottom: 28,
                     lineHeight: 1.25,
                   }}>
                     {STEP_QUESTIONS[step]}
@@ -695,11 +999,10 @@ export default function LeadForm({ compact = false }) {
 
                 {/* ── Steps with Card Options ── */}
                 {[1,2,3,4,5,6,7,9,10,11,12,13,14,15,16].includes(step) && CARD_OPTIONS[step] && (
-                  <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: `repeat(${cardGridCols(step)}, 1fr)`,
-                    gap: 12,
-                  }}>
+                  <div
+                    className="lead-card-grid"
+                    style={{ gridTemplateColumns: `repeat(${cardGridCols(step)}, 1fr)` }}
+                  >
                     {CARD_OPTIONS[step].map((opt) => (
                       <OptionCard
                         key={opt.id}
@@ -714,12 +1017,12 @@ export default function LeadForm({ compact = false }) {
                 {/* ── Step 8: Price Slider ── */}
                 {step === 8 && (
                   <div style={{ textAlign: 'center' }}>
-                    <h2 style={{ fontFamily: 'EB Garamond, serif', color: '#fff', fontSize: 'clamp(22px,3.5vw,36px)', fontWeight: 600, letterSpacing: '-0.02em', marginBottom: 32 }}>
+                    <h2 style={{ fontFamily: 'EB Garamond, serif', color: '#fff', fontSize: 'clamp(20px, 4vw, 36px)', fontWeight: 600, letterSpacing: '-0.02em', marginBottom: 28 }}>
                       {STEP_QUESTIONS[8]}
                     </h2>
                     <div style={{
                       fontFamily: 'EB Garamond, serif',
-                      fontSize: 'clamp(40px,8vw,72px)',
+                      fontSize: 'clamp(36px, 8vw, 72px)',
                       color: '#C6A76F',
                       fontWeight: 600,
                       marginBottom: 32,
@@ -727,9 +1030,9 @@ export default function LeadForm({ compact = false }) {
                     }}>
                       {fmt(purchasePrice)}
                     </div>
-                    <div style={{ position: 'relative', padding: '0 8px', marginBottom: 40 }}>
+                    <div style={{ position: 'relative', padding: '0 4px', marginBottom: 32 }}>
                       <div style={{
-                        position: 'absolute', top: '50%', left: 8, right: 8, height: 6,
+                        position: 'absolute', top: '50%', left: 4, right: 4, height: 6,
                         background: `linear-gradient(to right, #C6A76F ${((purchasePrice - 100000) / 1900000) * 100}%, rgba(198,167,111,0.2) 0%)`,
                         borderRadius: 3,
                         transform: 'translateY(-50%)',
@@ -749,7 +1052,7 @@ export default function LeadForm({ compact = false }) {
                         style={{ width: '100%', position: 'relative', zIndex: 2 }}
                       />
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(240,230,210,0.4)', fontSize: 12, fontFamily: 'Nunito, sans-serif', marginBottom: 32 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(240,230,210,0.4)', fontSize: 13, fontFamily: 'Nunito, sans-serif', marginBottom: 24 }}>
                       <span>$100K</span>
                       <span>$1M</span>
                       <span>$2M</span>
@@ -760,10 +1063,10 @@ export default function LeadForm({ compact = false }) {
                 {/* ── Step 17: Contact Fields ── */}
                 {step === 17 && (
                   <div style={{ textAlign: 'center' }}>
-                    <h2 style={{ fontFamily: 'EB Garamond, serif', color: '#fff', fontSize: 'clamp(22px,3.5vw,36px)', fontWeight: 600, letterSpacing: '-0.02em', marginBottom: 8 }}>
+                    <h2 style={{ fontFamily: 'EB Garamond, serif', color: '#fff', fontSize: 'clamp(20px, 4vw, 36px)', fontWeight: 600, letterSpacing: '-0.02em', marginBottom: 8 }}>
                       {STEP_QUESTIONS[17]}
                     </h2>
-                    <p style={{ color: 'rgba(240,230,210,0.6)', fontSize: 14, marginBottom: 32 }}>
+                    <p style={{ color: 'rgba(240,230,210,0.6)', fontSize: 14, marginBottom: 28 }}>
                       Field {contactSubStep + 1} of {contactFields.length}
                     </p>
                     <ContactField
@@ -785,86 +1088,35 @@ export default function LeadForm({ compact = false }) {
 
         {/* Navigation Buttons */}
         {step <= TOTAL_STEPS && !showVaMsg && !showCreditMsg && (
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 24px', position: 'relative', zIndex: 5, borderTop: '1px solid rgba(198,167,111,0.1)' }}>
+          <div className="lead-nav">
             <button
               onClick={goBack}
               disabled={step === 1}
+              className="lead-nav-back"
               style={{
-                background: 'transparent',
-                border: '1.5px solid rgba(198,167,111,0.3)',
                 color: step === 1 ? 'rgba(198,167,111,0.2)' : 'rgba(240,230,210,0.7)',
-                borderRadius: 9,
-                padding: '11px 28px',
-                fontFamily: 'Nunito, sans-serif',
-                fontWeight: 700,
-                fontSize: 14,
+                borderColor: step === 1 ? 'rgba(198,167,111,0.1)' : 'rgba(198,167,111,0.3)',
                 cursor: step === 1 ? 'not-allowed' : 'pointer',
-                transition: 'border-color 0.2s, color 0.2s',
               }}
             >
-              ← Back
+              Back
             </button>
-
-            {/* Skip / Next — only show for non-card steps or step 8/17 */}
-            {(step === 8 || (step === 17 && false)) && (
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => step === 8 ? goNext() : handleContactNext()}
-                style={{
-                  background: '#C6A76F',
-                  border: 'none',
-                  color: '#0F1C2E',
-                  borderRadius: 9,
-                  padding: '11px 36px',
-                  fontFamily: 'Nunito, sans-serif',
-                  fontWeight: 800,
-                  fontSize: 15,
-                  cursor: 'pointer',
-                  boxShadow: '0 6px 20px rgba(198,167,111,0.3)',
-                  letterSpacing: '0.03em',
-                }}
-              >
-                {step === TOTAL_STEPS ? 'Submit' : 'Next →'}
-              </motion.button>
-            )}
 
             {step === 8 && (
               <motion.button
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => goNext()}
-                style={{
-                  background: '#C6A76F',
-                  border: 'none',
-                  color: '#0F1C2E',
-                  borderRadius: 9,
-                  padding: '11px 36px',
-                  fontFamily: 'Nunito, sans-serif',
-                  fontWeight: 800,
-                  fontSize: 15,
-                  cursor: 'pointer',
-                  boxShadow: '0 6px 20px rgba(198,167,111,0.3)',
-                  letterSpacing: '0.03em',
-                }}
+                className="lead-nav-next"
               >
-                Next →
+                Next
               </motion.button>
             )}
 
-            {/* Skip button for optional steps */}
             {[1,2,3,4,5,6,7,9,10,11,12,13,14,15,16].includes(step) && (
               <button
                 onClick={() => goNext()}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: 'rgba(198,167,111,0.45)',
-                  fontFamily: 'Nunito, sans-serif',
-                  fontSize: 13,
-                  cursor: 'pointer',
-                  padding: '8px 12px',
-                }}
+                className="lead-nav-skip"
               >
                 Skip
               </button>

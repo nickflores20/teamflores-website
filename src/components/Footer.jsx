@@ -100,7 +100,7 @@ export default function Footer() {
                   <li key={link.to}>
                     <Link
                       to={link.to}
-                      className="text-[#C6A76F] font-nunito text-sm font-semibold hover:text-[#d4b87a] hover:underline underline-offset-2 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C6A76F] rounded"
+                      className="text-[#C6A76F] font-nunito text-base font-semibold hover:text-[#d4b87a] hover:underline underline-offset-2 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C6A76F] rounded"
                     >
                       {link.label}
                     </Link>
@@ -171,13 +171,13 @@ export default function Footer() {
             <div className="flex flex-col items-center sm:items-end gap-2">
               <a
                 href="tel:7024976370"
-                className="text-[#C6A76F] font-nunito text-sm font-semibold hover:text-[#d4b87a] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C6A76F] rounded"
+                className="text-[#C6A76F] font-nunito text-base font-semibold hover:text-[#d4b87a] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C6A76F] rounded"
               >
                 (702) 497-6370
               </a>
               <a
                 href="mailto:Nick@sunnyhillfinancial.com"
-                className="text-[#C6A76F] font-nunito text-sm hover:text-[#d4b87a] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C6A76F] rounded break-all"
+                className="text-[#C6A76F] font-nunito text-base hover:text-[#d4b87a] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C6A76F] rounded break-all"
               >
                 Nick@sunnyhillfinancial.com
               </a>
@@ -197,7 +197,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <RevealSection delay={0.18} className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-          <p className="text-white/60 font-nunito text-xs">
+          <p className="text-white/60 font-nunito text-xs text-center sm:text-left">
             © 2026 Team Flores | Sunnyhill Financial
           </p>
           <div className="flex items-center gap-4">

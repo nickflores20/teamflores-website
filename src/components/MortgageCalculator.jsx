@@ -257,9 +257,13 @@ export default function MortgageCalculator() {
         .calc-row-even { background: #F0E6D2; }
         .calc-row-odd { background: #fff; }
         .amort-expand { overflow: hidden; }
+        .recharts-responsive-container { max-width: 100%; }
+        @media (max-width: 640px) {
+          .recharts-cartesian-axis-tick text { font-size: 9px !important; }
+        }
       `}</style>
 
-      <section style={{ background: '#F0E6D2', padding: '80px 20px', fontFamily: 'Nunito, sans-serif' }}>
+      <section style={{ background: '#F0E6D2', padding: 'clamp(40px, 8vw, 80px) 16px', fontFamily: 'Nunito, sans-serif' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
           {/* Headline */}
@@ -494,7 +498,7 @@ export default function MortgageCalculator() {
                 </div>
 
                 {/* 4 Stat Boxes */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 48 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 16, marginBottom: 48 }}>
                   {[
                     { label: 'Loan Amount', value: fmt(loanAmount) },
                     { label: `Total Over ${n} Payments`, value: fmt(totalPaid) },
@@ -527,7 +531,7 @@ export default function MortgageCalculator() {
                     Amortization Overview
                   </h3>
                   <ResponsiveContainer width="100%" height={400}>
-                    <ComposedChart data={chartData} margin={{ top: 8, right: 60, left: 20, bottom: 8 }}>
+                    <ComposedChart data={chartData} margin={{ top: 8, right: 8, left: -10, bottom: 8 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
                       <XAxis dataKey="name" tick={{ fill: '#F0E6D2', fontFamily: 'Nunito, sans-serif', fontSize: 12 }} axisLine={{ stroke: 'rgba(255,255,255,0.2)' }} tickLine={false} />
                       <YAxis yAxisId="left" tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} tick={{ fill: '#F0E6D2', fontFamily: 'Nunito, sans-serif', fontSize: 12 }} axisLine={false} tickLine={false} />

@@ -1,5 +1,5 @@
 // FILE: src/components/USMap.jsx
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
 import geoData from 'us-atlas/states-10m.json';
@@ -76,11 +76,20 @@ const SKIP_LABEL = new Set(['CT','DE','DC','MA','NH','NJ','RI','VT','MD']);
 export default function USMap({ showHeader = true }) {
   const [tooltip, setTooltip] = useState(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [isTouchMode, setIsTouchMode] = useState(false);
+  const touchClearRef = useRef(null);
 
   const isLicensed = (abbr) => LICENSED_STATES.includes(abbr);
 
   const handleMouseMove = (e) => {
     setTooltipPos({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleTouchState = (abbr) => {
+    setIsTouchMode(true);
+    setTooltip(abbr);
+    if (touchClearRef.current) clearTimeout(touchClearRef.current);
+    touchClearRef.current = setTimeout(() => setTooltip(null), 3000);
   };
 
   return (
@@ -170,8 +179,9 @@ export default function USMap({ showHeader = true }) {
                             },
                             pressed: { outline: 'none' },
                           }}
-                          onMouseEnter={() => abbr && setTooltip(abbr)}
+                          onMouseEnter={() => { abbr && setTooltip(abbr); setIsTouchMode(false); }}
                           onMouseLeave={() => setTooltip(null)}
+                          onTouchStart={() => abbr && handleTouchState(abbr)}
                         />
                       </motion.g>
                     );
@@ -205,8 +215,8 @@ export default function USMap({ showHeader = true }) {
               })}
             </ComposableMap>
 
-            {/* Tooltip */}
-            {tooltip && (
+            {/* Tooltip — fixed for mouse, absolute-centered for touch */}
+            {tooltip && !isTouchMode && (
               <div
                 style={{
                   position: 'fixed',
@@ -228,7 +238,48 @@ export default function USMap({ showHeader = true }) {
                 {isLicensed(tooltip) ? (
                   <>
                     <p style={{ fontFamily: 'Nunito, sans-serif', color: '#C6A76F', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 2 }}>
-                      Licensed ✓
+                      Licensed
+                    </p>
+                    {LICENSE_NUMBERS[tooltip] && (
+                      <p style={{ fontFamily: 'Nunito, sans-serif', color: '#F0E6D2', fontSize: 12 }}>
+                        {LICENSE_NUMBERS[tooltip]}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <p style={{ fontFamily: 'Nunito, sans-serif', color: 'rgba(240,230,210,0.5)', fontSize: 12 }}>
+                    Not currently licensed
+                  </p>
+                )}
+              </div>
+            )}
+            {/* Touch tooltip — centered at bottom of map */}
+            {tooltip && isTouchMode && (
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 12,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  background: '#0F1C2E',
+                  border: '1.5px solid #C6A76F',
+                  borderRadius: 10,
+                  padding: '12px 18px',
+                  pointerEvents: 'none',
+                  zIndex: 9999,
+                  minWidth: 180,
+                  maxWidth: 'calc(100% - 40px)',
+                  boxShadow: '0 8px 24px rgba(15,28,46,0.7)',
+                  textAlign: 'center',
+                }}
+              >
+                <p style={{ fontFamily: 'EB Garamond, serif', color: '#C6A76F', fontSize: 17, fontWeight: 600, marginBottom: 4 }}>
+                  {STATE_NAMES[tooltip] || tooltip}
+                </p>
+                {isLicensed(tooltip) ? (
+                  <>
+                    <p style={{ fontFamily: 'Nunito, sans-serif', color: '#C6A76F', fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 2 }}>
+                      Licensed
                     </p>
                     {LICENSE_NUMBERS[tooltip] && (
                       <p style={{ fontFamily: 'Nunito, sans-serif', color: '#F0E6D2', fontSize: 12 }}>

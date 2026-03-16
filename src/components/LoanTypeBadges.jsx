@@ -160,7 +160,7 @@ function LoanCard({ loan, index }) {
         <p
           style={{
             fontFamily: 'Nunito, sans-serif',
-            fontSize: '0.82rem',
+            fontSize: '0.875rem',
             color: hovered ? '#1A3E61' : '#D1D5DB',
             lineHeight: 1.6,
             transition: 'color 0.2s',

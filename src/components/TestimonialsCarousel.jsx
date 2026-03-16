@@ -209,7 +209,7 @@ export default function TestimonialsCarousel() {
                 borderRadius: '9999px',
                 backgroundColor: i === index ? '#C6A76F' : 'transparent',
                 border: `2px solid ${i === index ? '#C6A76F' : 'rgba(198,167,111,0.45)'}`,
-                padding: 0,
+                padding: '17px 6px',
                 cursor: 'pointer',
                 outline: 'none',
                 transition: 'width 0.25s, background-color 0.25s',
