@@ -136,37 +136,6 @@ function RippleButton({ children, to, className, style }) {
 }
 
 // ─── Floating Particles ───────────────────────────────────────────────────────
-const PARTICLES = Array.from({ length: 15 }, (_, i) => ({
-  id: i,
-  width: Math.random() * 2 + 2,
-  left: Math.random() * 100,
-  top: Math.random() * 100,
-  opacity: Math.random() * 0.15 + 0.25,
-  duration: Math.random() * 10 + 15,
-  delay: Math.random() * 10,
-}));
-
-function Particles() {
-  return (
-    <div className="particles-container" aria-hidden="true">
-      {PARTICLES.map((p) => (
-        <div
-          key={p.id}
-          className="hero-particle"
-          style={{
-            width: p.width + 'px',
-            height: p.width + 'px',
-            left: p.left + '%',
-            top: p.top + '%',
-            opacity: p.opacity,
-            animationDuration: p.duration + 's',
-            animationDelay: p.delay + 's',
-          }}
-        />
-      ))}
-    </div>
-  );
-}
 
 // ─── Why Sunnyhill cards data ─────────────────────────────────────────────────
 const WHY_CARDS = [
@@ -334,6 +303,32 @@ export default function Home() {
     document.title = 'Nicholas Flores | Mortgage Division Director Las Vegas | Team Flores';
   }, []);
 
+  // Particles
+  const particlesRef = useRef(null);
+  useEffect(() => {
+    const container = particlesRef.current;
+    if (!container) return;
+    container.innerHTML = '';
+    for (let i = 0; i < 15; i++) {
+      const particle = document.createElement('div');
+      const size = Math.random() * 2 + 2;
+      particle.style.cssText = `
+        position: absolute;
+        border-radius: 50%;
+        background: #C6A76F;
+        width: ${size}px;
+        height: ${size}px;
+        left: ${Math.random() * 100}%;
+        top: ${Math.random() * 100}%;
+        opacity: ${Math.random() * 0.15 + 0.25};
+        animation: floatParticle ${Math.random() * 10 + 15}s ${Math.random() * 10}s infinite ease-in-out;
+        pointer-events: none;
+      `;
+      container.appendChild(particle);
+    }
+    return () => { if (container) container.innerHTML = ''; };
+  }, []);
+
   // Hero overlay fade
   const [overlayGone, setOverlayGone] = useState(false);
   useEffect(() => {
@@ -387,7 +382,20 @@ export default function Home() {
           />
         </div>
 
-        <Particles />
+        <div
+          ref={particlesRef}
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            overflow: 'hidden',
+            pointerEvents: 'none',
+            zIndex: 3,
+          }}
+        />
 
         {/* Hero content */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-0">
@@ -498,8 +506,8 @@ export default function Home() {
               transition={{ duration: 0.7, delay: 0.95, ease: [0.22, 1, 0.36, 1] }}
             >
               <motion.div
-                animate={{ y: [0, -15, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                 className="relative"
               >
                 <img
