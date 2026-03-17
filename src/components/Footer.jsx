@@ -195,6 +195,23 @@ export default function Footer() {
           </p>
         </RevealSection>
 
+        {/* NMLS Consumer Access + Equal Housing */}
+        <RevealSection delay={0.17} className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+          <a
+            href="https://www.nmlsconsumeraccess.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#C6A76F] font-nunito text-xs hover:text-[#d4b87a] underline underline-offset-2 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C6A76F] rounded"
+          >
+            NMLS Consumer Access
+          </a>
+          <span className="text-white/30 text-xs hidden sm:inline">|</span>
+          <div className="flex items-center gap-1.5 text-[#C6A76F] font-nunito text-xs font-semibold">
+            <EqualHousingIcon />
+            Equal Housing Opportunity
+          </div>
+        </RevealSection>
+
         {/* Copyright */}
         <RevealSection delay={0.18} className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
           <p className="text-white/60 font-nunito text-xs text-center sm:text-left">

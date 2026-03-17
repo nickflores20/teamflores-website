@@ -1,28 +1,38 @@
 // FILE: src/pages/LearningCenter.jsx
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 
 const CATEGORIES = ["All", "Home Buying", "Loan Programs", "Mortgage Knowledge", "Refinancing"];
 
-// Verified working Unsplash photo IDs (real estate / home / finance topics)
-const PHOTO_IDS = [
-  "1560518883-ce09059eeffa",   // house keys
-  "1570129477492-45c003edd2be", // house exterior
-  "1558618666-fcd25c85cd64",   // home living room
-  "1600585154526-990dced4db0d", // modern home
-  "1523217582562-09d05c370093", // home front
-  "1507003211169-0a1dd7228f2d", // person at desk / finance
-  "1554224155-8d04cb21cd6c",   // home keys + contract
-  "1486325212823-48bb52d6d8f1", // real estate sign
-  "1449844908441-3bb37b6e9e72", // couple at home
-  "1503387762-592deb58ef4e",   // house with yard
-  "1568605114967-8130f3a36994", // suburban street
-  "1516156008527-30baec27b54b", // person reviewing docs
-  "1434626881859-194d67b2b86f", // laptop + finance
-  "1551836022-d5d88e9218df",   // notebook / planning
-  "1522708323590-d24dbb6b0267", // home office
-  "1580587771525-78b9dba3b914", // modern home exterior
-];
+// Category-based Unsplash images
+const CATEGORY_IMAGES = {
+  "Home Buying": "https://images.unsplash.com/photo-1560184897-ae75f418493e?w=400&q=80",
+  "Refinancing": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80",
+  "Loan Programs": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&q=80",
+  "Mortgage Knowledge": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&q=80",
+};
+
+// Special overrides by article title keyword
+const TITLE_IMAGE_OVERRIDES = {
+  "VA": "https://images.unsplash.com/photo-1580191947416-62d35a55e71d?w=400&q=80",
+  "First Time": "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=400&q=80",
+};
+
+function getArticleImage(article) {
+  for (const [keyword, url] of Object.entries(TITLE_IMAGE_OVERRIDES)) {
+    if (article.title.includes(keyword)) return url;
+  }
+  return CATEGORY_IMAGES[article.category] || CATEGORY_IMAGES["Mortgage Knowledge"];
+}
+
+// Modal image — use larger size
+function getModalImage(article) {
+  for (const [keyword, url] of Object.entries(TITLE_IMAGE_OVERRIDES)) {
+    if (article.title.includes(keyword)) return url.replace('w=400', 'w=700').replace('q=80', 'q=80&h=280&fit=crop');
+  }
+  const base = CATEGORY_IMAGES[article.category] || CATEGORY_IMAGES["Mortgage Knowledge"];
+  return base.replace('w=400', 'w=700').replace('q=80', 'q=80&h=280&fit=crop');
+}
 
 const ARTICLES = [
   {
@@ -176,9 +186,12 @@ function ArticleModal({ article, onClose }) {
         {/* Image */}
         <div className="relative h-48 overflow-hidden">
           <img
-            src={`https://images.unsplash.com/photo-${PHOTO_IDS[article.id - 1]}?w=700&h=280&fit=crop`}
+            src={getModalImage(article)}
             alt={article.title}
             className="w-full h-full object-cover"
+            width={700}
+            height={280}
+            loading="lazy"
           />
           <div
             className="absolute inset-0"
@@ -255,11 +268,13 @@ function ArticleCard({ article, index, onOpen }) {
       {/* Image */}
       <div className="relative h-44 overflow-hidden">
         <img
-          src={`https://images.unsplash.com/photo-${PHOTO_IDS[article.id - 1]}?w=400&h=200&fit=crop`}
+          src={getArticleImage(article)}
           alt={article.title}
           className="w-full h-full object-cover"
           style={{ transition: "transform 0.4s ease" }}
           loading="lazy"
+          width={400}
+          height={200}
         />
         <div
           className="absolute inset-0"
@@ -328,6 +343,10 @@ function ArticleCard({ article, index, onOpen }) {
 }
 
 export default function LearningCenter() {
+  useEffect(() => {
+    document.title = 'Mortgage Learning Center | Home Buying Tips | Team Flores';
+  }, []);
+
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedArticle, setSelectedArticle] = useState(null);

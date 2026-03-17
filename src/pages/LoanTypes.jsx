@@ -1,6 +1,6 @@
 // FILE: src/pages/LoanTypes.jsx
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const fadeUp = {
@@ -64,6 +64,10 @@ function ApplyButton({ light }) {
 }
 
 export default function LoanTypes() {
+  useEffect(() => {
+    document.title = 'Mortgage Loan Types | VA FHA HELOC Refinance | Team Flores';
+  }, []);
+
   return (
     <div className="min-h-screen" style={{ fontFamily: "'Nunito', sans-serif" }}>
 

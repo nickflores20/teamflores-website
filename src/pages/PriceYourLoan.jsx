@@ -1,4 +1,5 @@
 // FILE: src/pages/PriceYourLoan.jsx
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import MortgageCalculator from '../components/MortgageCalculator';
@@ -18,6 +19,10 @@ const stagger = {
 };
 
 export default function PriceYourLoan() {
+  useEffect(() => {
+    document.title = 'Mortgage Calculator | Monthly Payment Estimator | Team Flores';
+  }, []);
+
   return (
     <>
       <style>{`

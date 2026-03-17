@@ -1,6 +1,6 @@
 // FILE: src/pages/About.jsx
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const fadeUp = {
@@ -117,23 +117,36 @@ const SPECIALIZATIONS = [
 
 const TESTIMONIALS = [
   {
-    quote: "Nicholas broke it down step by step in layman's terms. He was there every step of the way from pre-approval to closing. His attention to detail sets him apart — he is the epitome of client service.",
-    name: "Verified Client",
+    quote: "I recently completed a refinance with Sunnyhill Financial and I cannot say enough great things about Nick Flores and his team. From the very beginning Nick was incredibly professional, knowledgeable, and honest. He took the time to explain every option and always made sure we understood every step of the process.",
+    name: "Anthony Tran",
+    location: "Henderson NV",
+    date: "October 2025",
+    loan: "Refinance",
     stars: 5,
   },
   {
-    quote: "Absolutely would recommend without hesitation. All three transactions went smoothly and on time.",
-    name: "Bradley W.",
+    quote: "It was a pleasure to do business with Nick. He is a consummate professional and really cares about his clients. He was there every step of the way from our pre-approval to the day our loan closed. Nick took the time to explain each step thoroughly and I would recommend him to anyone.",
+    name: "Myra Sarmiento",
+    location: "Corona CA",
+    date: "October 2014",
+    loan: "Purchase",
     stars: 5,
   },
   {
-    quote: "One of the smoothest mortgage transactions ever.",
-    name: "Ken E.",
+    quote: "Nick Flores refinanced two of my home loans. One was in a very complex situation. My wife and I had gone through one bank, a mortgage broker, and an attorney — all advised us to foreclose. Nick took the challenge and closed both loans successfully. Absolutely incredible.",
+    name: "R. Milay",
+    location: "Hayward CA",
+    date: "January 2015",
+    loan: "Refinance",
     stars: 5,
   },
 ];
 
 export default function About() {
+  useEffect(() => {
+    document.title = 'About Nick Flores | 5 Star Mortgage Expert Las Vegas | NMLS #422150';
+  }, []);
+
   return (
     <div className="min-h-screen" style={{ fontFamily: "'Nunito', sans-serif" }}>
 
@@ -177,6 +190,9 @@ export default function About() {
                   src="/brand_assets/nick.jpg"
                   alt="Nicholas Flores"
                   className="w-full h-full object-cover"
+                  loading="eager"
+                  width={280}
+                  height={280}
                 />
               </div>
             </motion.div>
@@ -217,11 +233,29 @@ export default function About() {
                 color: "rgba(198,167,111,0.75)",
                 fontSize: "0.95rem",
                 fontWeight: 600,
-                marginBottom: "2.5rem",
+                marginBottom: "1rem",
               }}
             >
               Sunnyhill Financial
             </p>
+
+            {/* Language badges */}
+            <div style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: "2rem" }}>
+              {["English", "Español"].map(lang => (
+                <span key={lang} style={{
+                  background: "rgba(198,167,111,0.12)",
+                  border: "1px solid rgba(198,167,111,0.4)",
+                  borderRadius: 100,
+                  padding: "4px 14px",
+                  fontFamily: "'Nunito', sans-serif",
+                  fontSize: "0.8rem",
+                  fontWeight: 700,
+                  color: "#C6A76F",
+                }}>
+                  {lang}
+                </span>
+              ))}
+            </div>
 
             {/* Quote */}
             <p
@@ -250,6 +284,9 @@ export default function About() {
               <img
                 src="/brand_assets/logo-navy-transparent.png"
                 alt="Team Flores"
+                loading="lazy"
+                width={320}
+                height={120}
                 style={{
                   width: 'min(320px, 80vw)',
                   height: 'auto',
@@ -272,6 +309,9 @@ export default function About() {
                     src="/brand_assets/nick.jpg"
                     alt="Nicholas Flores"
                     className="w-full object-cover"
+                    loading="lazy"
+                    width={400}
+                    height={500}
                     style={{ aspectRatio: "4/5", display: "block" }}
                   />
                 </div>
@@ -379,6 +419,52 @@ export default function About() {
                 </p>
                 <p style={{ fontFamily: "'Nunito', sans-serif", fontSize: "0.8rem", color: "rgba(240,230,210,0.6)", lineHeight: 1.6 }}>
                   {spec.description}
+                </p>
+              </motion.div>
+            ))}
+          </StaggerReveal>
+        </div>
+      </section>
+
+      {/* CREDENTIALS — Navy */}
+      <section style={{ background: "#0F1C2E" }} className="py-20 px-6 md:px-12">
+        <div className="max-w-5xl mx-auto">
+          <SectionReveal className="text-center mb-12">
+            <h2 style={{ fontFamily: "'EB Garamond', serif", fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)", color: "#FFFFFF", letterSpacing: "-0.03em", lineHeight: 1.2, marginBottom: "0.5rem" }}>
+              Credentials &amp; Expertise
+            </h2>
+            <p style={{ color: "rgba(240,230,210,0.6)", fontFamily: "'Nunito', sans-serif", fontSize: "0.95rem" }}>
+              Verified facts about Nick and his practice
+            </p>
+          </SectionReveal>
+          <StaggerReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { icon: "⭐", label: "5.0 Stars", sub: "22 Zillow Verified Reviews" },
+              { icon: "🗺", label: "Licensed in 8+ States", sub: "Nationwide lending" },
+              { icon: "🪪", label: "NMLS #422150", sub: "Verified license number" },
+              { icon: "🏢", label: "Division Director", sub: "Sunnyhill Financial" },
+              { icon: "💬", label: "Bilingual", sub: "English & Spanish" },
+              { icon: "🏠", label: "Specializations", sub: "First Time Buyers, Refinance, VA Loans, HELOC" },
+              { icon: "📍", label: "Serving Las Vegas NV", sub: "And beyond, 8+ states" },
+              { icon: "🤝", label: "10+ Years", sub: "Of client relationships" },
+            ].map((cred) => (
+              <motion.div
+                key={cred.label}
+                variants={cardVariant}
+                className="rounded-2xl p-5 flex flex-col gap-2"
+                style={{
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(198,167,111,0.2)",
+                  transition: "border-color 0.3s ease",
+                }}
+                whileHover={{ borderColor: "rgba(198,167,111,0.55)", transition: { duration: 0.25 } }}
+              >
+                <span style={{ fontSize: "1.4rem" }}>{cred.icon}</span>
+                <p style={{ fontFamily: "'EB Garamond', serif", fontSize: "1.05rem", color: "#C6A76F", fontWeight: 600, lineHeight: 1.2 }}>
+                  {cred.label}
+                </p>
+                <p style={{ fontFamily: "'Nunito', sans-serif", fontSize: "0.78rem", color: "rgba(240,230,210,0.55)", lineHeight: 1.5 }}>
+                  {cred.sub}
                 </p>
               </motion.div>
             ))}
@@ -546,43 +632,41 @@ export default function About() {
                   variants={cardVariant}
                   className="rounded-2xl p-7 flex flex-col gap-4"
                   style={{
-                    background: "#FFFFFF",
-                    boxShadow: "0 2px 16px rgba(26,62,97,0.08), 0 1px 4px rgba(26,62,97,0.04)",
-                    border: "1px solid rgba(198,167,111,0.15)",
+                    background: "#0F1C2E",
+                    boxShadow: "0 2px 16px rgba(15,28,46,0.12), 0 1px 4px rgba(15,28,46,0.08)",
+                    border: "1px solid rgba(198,167,111,0.2)",
                   }}
                 >
                   {/* Stars */}
                   <div className="flex gap-1">
                     {Array.from({ length: t.stars }).map((_, s) => (
-                      <svg key={s} width="18" height="18" viewBox="0 0 18 18" fill="#C6A76F">
-                        <path d="M9 1l2.1 4.3 4.8.7-3.5 3.4.8 4.7L9 11.8l-4.2 2.3.8-4.7L2.1 6l4.8-.7z" />
+                      <svg key={s} width="18" height="18" viewBox="0 0 20 20" fill="#C6A76F">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
                     ))}
                   </div>
                   {/* Quote */}
-                  <p
-                    style={{
-                      fontFamily: "'EB Garamond', serif",
-                      fontSize: "1.1rem",
-                      color: "#1A3E61",
-                      fontStyle: "italic",
-                      lineHeight: 1.65,
-                      flex: 1,
-                    }}
-                  >
+                  <p style={{ fontFamily: "'EB Garamond', serif", fontSize: "1.05rem", color: "#FFFFFF", fontStyle: "italic", lineHeight: 1.7, flex: 1 }}>
                     "{t.quote}"
                   </p>
-                  {/* Name */}
-                  <p
-                    style={{
-                      fontFamily: "'Nunito', sans-serif",
-                      fontSize: "0.85rem",
-                      color: "#C6A76F",
-                      fontWeight: 700,
-                    }}
-                  >
-                    — {t.name}
-                  </p>
+                  {/* Name + details */}
+                  <div>
+                    <p style={{ fontFamily: "'Nunito', sans-serif", fontSize: "0.88rem", color: "#C6A76F", fontWeight: 700, marginBottom: 3 }}>
+                      {t.name}
+                    </p>
+                    <p style={{ fontFamily: "'Nunito', sans-serif", fontSize: "0.75rem", color: "rgba(255,255,255,0.45)", marginBottom: 8 }}>
+                      {t.location} · {t.date}
+                    </p>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                      <span style={{ background: "rgba(198,167,111,0.15)", border: "1px solid rgba(198,167,111,0.35)", borderRadius: 100, padding: "2px 10px", fontSize: 11, fontFamily: "'Nunito', sans-serif", fontWeight: 700, color: "#C6A76F" }}>
+                        {t.loan}
+                      </span>
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.35)", borderRadius: 100, padding: "2px 10px", fontSize: 11, fontFamily: "'Nunito', sans-serif", fontWeight: 700, color: "#22c55e" }}>
+                        <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="rgba(34,197,94,0.2)" /><path d="M3.5 6.2L5.1 7.8L8.5 4.2" stroke="#22c55e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                        Zillow Verified
+                      </span>
+                    </div>
+                  </div>
                 </motion.div>
               ))}
             </StaggerReveal>

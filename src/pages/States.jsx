@@ -1,6 +1,6 @@
 // FILE: src/pages/States.jsx
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import USMap from "../components/USMap";
 
@@ -91,6 +91,10 @@ function StateCard({ state, index }) {
 }
 
 export default function States() {
+  useEffect(() => {
+    document.title = 'States We Lend | Team Flores | Sunnyhill Financial';
+  }, []);
+
   const gridRef = useRef(null);
   const gridInView = useInView(gridRef, { once: true, margin: "-60px" });
 

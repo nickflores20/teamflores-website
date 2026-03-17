@@ -116,6 +116,14 @@ img, video, svg {
   pointer-events: none;
 }
 
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 /* ── Grain texture overlay ── */
 .grain-overlay::before {
   content: '';

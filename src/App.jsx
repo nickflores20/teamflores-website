@@ -4,17 +4,20 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ContactSection from './components/ContactSection';
+import CookieNotice from './components/CookieNotice';
 import BackToTop from './components/BackToTop';
 import LeadForm from './components/LeadForm';
 import { FormModalContext } from './context/FormModalContext';
 
 const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
 const LoanTypes = lazy(() => import('./pages/LoanTypes'));
 const States = lazy(() => import('./pages/States'));
 const LearningCenter = lazy(() => import('./pages/LearningCenter'));
-const About = lazy(() => import('./pages/About'));
 const PriceYourLoan = lazy(() => import('./pages/PriceYourLoan'));
 const Apply = lazy(() => import('./pages/Apply'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -45,14 +48,21 @@ function PageWrapper({ children }) {
 }
 
 const LoadingFallback = () => (
-  <div className="fixed inset-0 bg-[#1A3E61] flex items-center justify-center z-[9999]">
-    <div className="flex flex-col items-center gap-4">
-      <div
-        className="w-12 h-12 rounded-full border-4 border-[#C6A76F]/30 border-t-[#C6A76F]"
-        style={{ animation: 'spin 0.8s linear infinite' }}
-      />
-      <span className="text-[#C6A76F] font-nunito text-sm tracking-widest uppercase">Loading…</span>
-    </div>
+  <div style={{
+    background: '#0F1C2E',
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}>
+    <div style={{
+      width: 48,
+      height: 48,
+      border: '3px solid rgba(198,167,111,0.2)',
+      borderTopColor: '#C6A76F',
+      borderRadius: '50%',
+      animation: 'spin 0.8s linear infinite',
+    }} />
   </div>
 );
 
@@ -126,12 +136,15 @@ export default function App() {
               <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
               <Route path="/price-your-loan" element={<PageWrapper><PriceYourLoan /></PageWrapper>} />
               <Route path="/apply" element={<PageWrapper><Apply /></PageWrapper>} />
+              <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
             </Routes>
           </AnimatePresence>
         </Suspense>
       </main>
+      <ContactSection />
       <Footer />
       <BackToTop />
+      <CookieNotice />
 
       {/* ── Mobile floating CTA (bottom, visible on lg:hidden) ── */}
       {!modalOpen && (

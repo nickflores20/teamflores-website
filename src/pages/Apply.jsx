@@ -1,4 +1,5 @@
 // FILE: src/pages/Apply.jsx
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import LeadForm from '../components/LeadForm';
 
@@ -63,6 +64,10 @@ function TrustBadge({ label }) {
 }
 
 export default function Apply() {
+  useEffect(() => {
+    document.title = 'Apply Now | Free Rate Quote | Team Flores';
+  }, []);
+
   return (
     <>
       <style>{`

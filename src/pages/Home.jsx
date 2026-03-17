@@ -1,5 +1,5 @@
 // FILE: src/pages/Home.jsx
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, useInView, useAnimation, AnimatePresence } from 'framer-motion';
 
@@ -243,12 +243,50 @@ const staggerContainer = {
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
+// ─── Hero Parallax Background ─────────────────────────────────────────────────
+function HeroParallaxBg() {
+  const [offset, setOffset] = useState(0);
+  useEffect(() => {
+    const onScroll = () => setOffset(window.scrollY * 0.3);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return (
+    <div
+      aria-hidden="true"
+      style={{
+        position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden', pointerEvents: 'none',
+      }}
+    >
+      <img
+        src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80"
+        alt=""
+        loading="eager"
+        width={1920}
+        height={1280}
+        style={{
+          position: 'absolute', top: 0, left: 0, width: '100%', height: '115%',
+          objectFit: 'cover', objectPosition: 'center',
+          transform: `translateY(${offset}px)`,
+          willChange: 'transform',
+        }}
+      />
+      {/* Dark navy overlay at 85% opacity */}
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(15,28,46,0.85)' }} />
+    </div>
+  );
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function Home() {
   const { displayed, done } = useTypewriter(
     "Your Home Has More Value Than Your Bank Is Telling You",
     50
   );
+
+  useEffect(() => {
+    document.title = 'Nicholas Flores | Mortgage Division Director Las Vegas | Team Flores';
+  }, []);
 
   // Hero overlay fade
   const [overlayGone, setOverlayGone] = useState(false);
@@ -270,6 +308,9 @@ export default function Home() {
           SECTION 1: HERO
       ══════════════════════════════════════════ */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0F1C2E] pt-20">
+
+        {/* Hero background photo with parallax */}
+        <HeroParallaxBg />
 
         {/* Entry overlay */}
         <AnimatePresence>
@@ -369,6 +410,39 @@ export default function Home() {
                 View Today's Rates
               </Link>
             </motion.div>
+
+            {/* Trust badges */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.65, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-wrap gap-2 justify-center lg:justify-start"
+            >
+              {[
+                '★★★★★ Zillow 5.0',
+                'NMLS #422150',
+                'Licensed 8+ States',
+                'Equal Housing Opportunity',
+                'Bilingual EN | ES',
+              ].map(badge => (
+                <span
+                  key={badge}
+                  style={{
+                    background: 'rgba(198,167,111,0.08)',
+                    border: '1px solid rgba(198,167,111,0.25)',
+                    borderRadius: 100,
+                    padding: '4px 12px',
+                    fontFamily: 'Nunito, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '0.72rem',
+                    color: '#C6A76F',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {badge}
+                </span>
+              ))}
+            </motion.div>
           </div>
 
           {/* RIGHT — 45% */}
@@ -387,6 +461,9 @@ export default function Home() {
                   src="/brand_assets/nick.jpg"
                   alt="Nicholas Flores — Division Director, Sunnyhill Financial"
                   className="rounded-full object-cover object-top"
+                  loading="eager"
+                  width={300}
+                  height={300}
                   style={{
                     width: 'clamp(180px, 30vw, 300px)',
                     height: 'clamp(180px, 30vw, 300px)',
@@ -645,6 +722,9 @@ export default function Home() {
                   src="/brand_assets/nick.jpg"
                   alt="Nicholas Flores, Division Director at Sunnyhill Financial"
                   className="rounded-2xl object-cover object-top w-full"
+                  loading="lazy"
+                  width={400}
+                  height={500}
                   style={{
                     width: 'clamp(260px, 35vw, 400px)',
                     height: 'auto',
