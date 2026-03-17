@@ -309,22 +309,30 @@ export default function Home() {
     const container = particlesRef.current;
     if (!container) return;
     container.innerHTML = '';
-    for (let i = 0; i < 15; i++) {
-      const particle = document.createElement('div');
-      const size = Math.random() * 2 + 2;
-      particle.style.cssText = `
+    const count = 20;
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('span');
+      const size = Math.random() * 3 + 3;
+      const duration = Math.random() * 8 + 12;
+      const delay = Math.random() * 12;
+      const startX = Math.random() * 100;
+      const startY = Math.random() * 100;
+      el.style.cssText = `
         position: absolute;
-        border-radius: 50%;
-        background: #C6A76F;
+        display: block;
         width: ${size}px;
         height: ${size}px;
-        left: ${Math.random() * 100}%;
-        top: ${Math.random() * 100}%;
-        opacity: ${Math.random() * 0.15 + 0.25};
-        animation: floatParticle ${Math.random() * 10 + 15}s ${Math.random() * 10}s infinite ease-in-out;
+        background: #D4B87A;
+        border-radius: 50%;
+        left: ${startX}%;
+        top: ${startY}%;
+        opacity: 0;
+        box-shadow: 0 0 4px #C6A76F;
+        animation: floatUp ${duration}s ${delay}s infinite linear;
         pointer-events: none;
+        will-change: transform, opacity;
       `;
-      container.appendChild(particle);
+      container.appendChild(el);
     }
     return () => { if (container) container.innerHTML = ''; };
   }, []);
@@ -387,13 +395,12 @@ export default function Home() {
           aria-hidden="true"
           style={{
             position: 'absolute',
-            top: 0,
-            left: 0,
+            inset: 0,
             width: '100%',
             height: '100%',
             overflow: 'hidden',
             pointerEvents: 'none',
-            zIndex: 3,
+            zIndex: 4,
           }}
         />
 
@@ -505,11 +512,7 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.95, ease: [0.22, 1, 0.36, 1] }}
             >
-              <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative"
-              >
+              <div className="nick-headshot-wrapper relative">
                 <img
                   src="/brand_assets/nick.jpg"
                   alt="Nicholas Flores — Division Director, Sunnyhill Financial"
@@ -529,7 +532,7 @@ export default function Home() {
                     `,
                   }}
                 />
-              </motion.div>
+              </div>
             </motion.div>
           </div>
         </div>

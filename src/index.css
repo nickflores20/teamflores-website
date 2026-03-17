@@ -125,43 +125,33 @@ img, video, svg {
 }
 
 /* ── Hero Particles ── */
-.particles-container {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.hero-particle {
-  position: absolute;
-  border-radius: 50%;
-  background: #C6A76F;
-  pointer-events: none;
-  animation: floatParticle linear infinite;
-}
-
-@keyframes floatParticle {
+@keyframes floatUp {
   0% {
-    transform: translateY(0px) translateX(0px);
+    transform: translateY(0) translateX(0);
     opacity: 0;
   }
   10% {
-    opacity: 1;
+    opacity: 0.6;
   }
   90% {
-    opacity: 1;
+    opacity: 0.4;
   }
   100% {
-    transform: translateY(-400px) translateX(20px);
+    transform: translateY(-500px) translateX(30px);
     opacity: 0;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-particle {
-    display: none;
-  }
+/* ── Headshot bob ── */
+@keyframes bobFloat {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+
+.nick-headshot-wrapper {
+  animation: bobFloat 3s ease-in-out infinite !important;
+  will-change: transform;
 }
 
 /* ── Grain texture overlay ── */
