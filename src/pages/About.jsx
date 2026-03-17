@@ -239,24 +239,6 @@ export default function About() {
               Sunnyhill Financial
             </p>
 
-            {/* Language badges */}
-            <div style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: "2rem" }}>
-              {["English", "Español"].map(lang => (
-                <span key={lang} style={{
-                  background: "rgba(198,167,111,0.12)",
-                  border: "1px solid rgba(198,167,111,0.4)",
-                  borderRadius: 100,
-                  padding: "4px 14px",
-                  fontFamily: "'Nunito', sans-serif",
-                  fontSize: "0.8rem",
-                  fontWeight: 700,
-                  color: "#C6A76F",
-                }}>
-                  {lang}
-                </span>
-              ))}
-            </div>
-
             {/* Quote */}
             <p
               style={{
@@ -443,7 +425,6 @@ export default function About() {
               { icon: "🗺", label: "Licensed in 8+ States", sub: "Nationwide lending" },
               { icon: "🪪", label: "NMLS #422150", sub: "Verified license number" },
               { icon: "🏢", label: "Division Director", sub: "Sunnyhill Financial" },
-              { icon: "💬", label: "Bilingual", sub: "English & Spanish" },
               { icon: "🏠", label: "Specializations", sub: "First Time Buyers, Refinance, VA Loans, HELOC" },
               { icon: "📍", label: "Serving Las Vegas NV", sub: "And beyond, 8+ states" },
               { icon: "🤝", label: "10+ Years", sub: "Of client relationships" },

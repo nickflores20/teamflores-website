@@ -37,28 +37,33 @@ function useTypewriter(text, speed = 50) {
 }
 
 // ─── CountUp component ────────────────────────────────────────────────────────
-function CountUp({ target, duration = 1500, suffix = '' }) {
+function CountUp({ target, duration = 1500, suffix = '', delay = 0 }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
   const [count, setCount] = useState(0);
+  const startedRef = useRef(false);
 
   useEffect(() => {
-    if (!inView) return;
-    let start = 0;
-    const steps = 60;
-    const increment = target / steps;
-    const interval = duration / steps;
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, interval);
-    return () => clearInterval(timer);
-  }, [inView, target, duration]);
+    if (!inView || startedRef.current) return;
+    startedRef.current = true;
+    const startTimeout = setTimeout(() => {
+      const steps = 60;
+      const increment = target / steps;
+      const interval = duration / steps;
+      let current = 0;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          setCount(target);
+          clearInterval(timer);
+        } else {
+          setCount(Math.floor(current));
+        }
+      }, interval);
+      return () => clearInterval(timer);
+    }, delay);
+    return () => clearTimeout(startTimeout);
+  }, [inView, target, duration, delay]);
 
   return (
     <span ref={ref}>
@@ -131,37 +136,31 @@ function RippleButton({ children, to, className, style }) {
 }
 
 // ─── Floating Particles ───────────────────────────────────────────────────────
-const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
+const PARTICLES = Array.from({ length: 15 }, (_, i) => ({
   id: i,
-  left: `${5 + Math.random() * 90}%`,
-  top: `${10 + Math.random() * 80}%`,
-  delay: Math.random() * 5,
-  size: 3 + Math.random() * 4,
+  width: Math.random() * 2 + 2,
+  left: Math.random() * 100,
+  top: Math.random() * 100,
+  opacity: Math.random() * 0.15 + 0.25,
+  duration: Math.random() * 10 + 15,
+  delay: Math.random() * 10,
 }));
 
-function FloatingParticles() {
+function Particles() {
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+    <div className="particles-container" aria-hidden="true">
       {PARTICLES.map((p) => (
-        <motion.div
+        <div
           key={p.id}
-          className="absolute rounded-full"
+          className="hero-particle"
           style={{
-            left: p.left,
-            top: p.top,
-            width: p.size,
-            height: p.size,
-            background: '#C6A76F',
-          }}
-          animate={{
-            opacity: [0, 0.7, 0],
-            y: [0, -100],
-          }}
-          transition={{
-            duration: 4 + Math.random() * 3,
-            delay: p.delay,
-            repeat: Infinity,
-            ease: 'easeOut',
+            width: p.width + 'px',
+            height: p.width + 'px',
+            left: p.left + '%',
+            top: p.top + '%',
+            opacity: p.opacity,
+            animationDuration: p.duration + 's',
+            animationDelay: p.delay + 's',
           }}
         />
       ))}
@@ -245,34 +244,81 @@ const staggerContainer = {
 
 // ─── Hero Parallax Background ─────────────────────────────────────────────────
 function HeroParallaxBg() {
-  const [offset, setOffset] = useState(0);
+  const wrapperRef = useRef(null);
+  const imgRef = useRef(null);
+  const [loaded, setLoaded] = useState(false);
+
+  // Parallax: direct DOM mutation (no React re-render, no jank)
   useEffect(() => {
-    const onScroll = () => setOffset(window.scrollY * 0.3);
+    const onScroll = () => {
+      if (wrapperRef.current) {
+        wrapperRef.current.style.transform = `translateY(${window.scrollY * 0.3}px)`;
+      }
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
   return (
     <div
       aria-hidden="true"
-      style={{
-        position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden', pointerEvents: 'none',
-      }}
+      style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden', pointerEvents: 'none' }}
     >
-      <img
-        src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80"
-        alt=""
-        loading="eager"
-        width={1920}
-        height={1280}
+      <style>{`
+        @keyframes kenburns {
+          0%   { transform: scale(1.0); }
+          100% { transform: scale(1.08); }
+        }
+        @keyframes hero-fade-in {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        .hero-bg-image {
+          object-position: center center;
+        }
+        @media (max-width: 767px) {
+          .hero-bg-image { object-position: 60% center; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-bg-image { animation: none !important; }
+        }
+      `}</style>
+
+      {/* Parallax wrapper — translateY driven directly by scroll */}
+      <div
+        ref={wrapperRef}
         style={{
           position: 'absolute', top: 0, left: 0, width: '100%', height: '115%',
-          objectFit: 'cover', objectPosition: 'center',
-          transform: `translateY(${offset}px)`,
           willChange: 'transform',
         }}
-      />
-      {/* Dark navy overlay at 85% opacity */}
-      <div style={{ position: 'absolute', inset: 0, background: 'rgba(15,28,46,0.85)' }} />
+      >
+        <img
+          ref={imgRef}
+          src="/assets/hero-home.png"
+          alt=""
+          loading="eager"
+          width={1920}
+          height={1280}
+          className="hero-bg-image"
+          onLoad={() => setLoaded(true)}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: loaded ? 1 : 0,
+            transition: 'opacity 1.2s ease',
+            animation: loaded ? 'kenburns 8s ease-out forwards' : 'none',
+            transformOrigin: 'center center',
+            display: 'block',
+          }}
+        />
+      </div>
+
+      {/* Gradient overlay */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(to bottom, rgba(10,21,32,0.75) 0%, rgba(10,21,32,0.85) 100%)',
+      }} />
     </div>
   );
 }
@@ -341,7 +387,7 @@ export default function Home() {
           />
         </div>
 
-        <FloatingParticles />
+        <Particles />
 
         {/* Hero content */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-0">
@@ -423,7 +469,6 @@ export default function Home() {
                 'NMLS #422150',
                 'Licensed 8+ States',
                 'Equal Housing Opportunity',
-                'Bilingual EN | ES',
               ].map(badge => (
                 <span
                   key={badge}
@@ -484,8 +529,9 @@ export default function Home() {
         {/* Scroll chevron */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1">
           <motion.div
-            animate={{ y: [0, 8, 0] }}
+            animate={{ y: [0, 8, 0], opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+            style={{ filter: 'drop-shadow(0 0 8px rgba(198,167,111,0.8))' }}
           >
             <svg
               className="w-7 h-7 text-[#C6A76F]"
@@ -517,7 +563,7 @@ export default function Home() {
               className="text-center lg:border-r lg:border-[#C6A76F]/30 lg:pr-6"
             >
               <p className="font-garamond text-white text-[24px] leading-tight">
-                <CountUp target={20} suffix="+" duration={1500} /> States
+                <CountUp target={20} suffix="+" duration={1500} delay={0} /> States
               </p>
               <p className="font-nunito text-[#C6A76F] text-sm mt-1">Licensed Nationwide</p>
             </motion.div>
@@ -558,7 +604,7 @@ export default function Home() {
               className="text-center lg:border-r lg:border-[#C6A76F]/30 lg:px-6"
             >
               <p className="font-garamond text-white text-[24px] leading-tight">
-                <CountUp target={15} suffix="+" duration={1500} /> Years
+                <CountUp target={15} suffix="+" duration={1500} delay={300} /> Years
               </p>
               <p className="font-nunito text-[#C6A76F] text-sm mt-1">Experience</p>
             </motion.div>
