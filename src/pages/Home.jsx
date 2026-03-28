@@ -10,7 +10,6 @@ import SavingsCalculator from '../components/SavingsCalculator';
 import MortgageCalculator from '../components/MortgageCalculator';
 import LoanTypeBadges from '../components/LoanTypeBadges';
 import TestimonialsCarousel from '../components/TestimonialsCarousel';
-import USMap from '../components/USMap';
 import LeadForm from '../components/LeadForm';
 
 // ─── CountUp component ────────────────────────────────────────────────────────
@@ -438,34 +437,18 @@ export default function Home() {
               transition={{ duration: 0.7, delay: 0.95, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col items-center gap-4"
             >
-              {/* PHOTO: Replace this placeholder with Nick Sr.'s headshot. Recommended: professional headshot, 400x400px minimum, JPG or PNG */}
-              <div
+              <img
+                src="/brand_assets/nick.jpg"
+                alt="Nick Flores Sr. — Division Director, Sunnyhill Financial"
                 style={{
-                  width: 'clamp(200px, 30vw, 320px)',
-                  height: 'clamp(200px, 30vw, 320px)',
+                  width: '320px',
+                  height: '320px',
                   borderRadius: '50%',
                   border: '3px solid #C6A76F',
-                  background: '#F0E6D2',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 10,
+                  objectFit: 'cover',
                   boxShadow: '0 0 40px rgba(198,167,111,0.35), 0 16px 48px rgba(0,0,0,0.4)',
                 }}
-                aria-label="Nick Flores Sr. — photo coming soon"
-              >
-                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
-                  <circle cx="28" cy="20" r="11" fill="#1A3E61" opacity="0.5" />
-                  <ellipse cx="28" cy="44" rx="18" ry="10" fill="#1A3E61" opacity="0.35" />
-                </svg>
-                <span style={{ fontFamily: 'Nunito, sans-serif', color: '#1A3E61', fontWeight: 700, fontSize: '1rem', textAlign: 'center' }}>
-                  Nick Flores Sr.
-                </span>
-                <span style={{ fontFamily: 'Nunito, sans-serif', color: '#C6A76F', fontSize: '0.8rem', textAlign: 'center' }}>
-                  Photo Coming Soon
-                </span>
-              </div>
+              />
 
               {/* Below photo */}
               <div className="text-center flex flex-col items-center gap-1">
@@ -757,11 +740,6 @@ export default function Home() {
       <TestimonialsCarousel />
 
       {/* ══════════════════════════════════════════
-          SECTION 11: US MAP
-      ══════════════════════════════════════════ */}
-      <USMap />
-
-      {/* ══════════════════════════════════════════
           SECTION 12: ABOUT NICK PREVIEW
       ══════════════════════════════════════════ */}
       <section className="bg-[#F0E6D2] py-24">
@@ -895,56 +873,71 @@ export default function Home() {
       {/* ══════════════════════════════════════════
           SECTION 14: TODAY'S RATES
       ══════════════════════════════════════════ */}
-      {/* RATES: Embedded from Sonar — https://sunnyhillfinancial.pos.yoursonar.com/rates. If cross-origin error occurs, switch to fallback button linking to this URL */}
-      <section className="bg-white py-20">
+      <section className="bg-[#1A3E61] py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={scrollFadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-50px' }}
-            className="text-center mb-10"
+            className="flex flex-col items-center text-center gap-6"
+            style={{
+              background: 'rgba(15,28,46,0.5)',
+              borderRadius: 20,
+              padding: 'clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 5vw, 3rem)',
+              maxWidth: 560,
+              margin: '0 auto',
+              border: '1px solid rgba(198,167,111,0.2)',
+              boxShadow: '0 8px 40px rgba(0,0,0,0.3)',
+            }}
           >
-            <h2 className="font-garamond text-4xl sm:text-5xl text-[#1A3E61] tracking-[-0.02em] mb-3">
+            <h2
+              style={{
+                fontFamily: "'EB Garamond', serif",
+                color: '#FFFFFF',
+                fontSize: 'clamp(1.8rem, 4vw, 2.4rem)',
+                fontWeight: 600,
+                lineHeight: 1.2,
+                margin: 0,
+              }}
+            >
               Today's Live Mortgage Rates
             </h2>
-            <p className="font-nunito text-gray-500 text-lg">
-              Real-time rates updated daily. Powered by Sunnyhill Financial.
+            <p
+              style={{
+                fontFamily: 'Nunito, sans-serif',
+                color: 'rgba(240,230,210,0.8)',
+                fontSize: '1rem',
+                lineHeight: 1.7,
+                margin: 0,
+                maxWidth: 420,
+              }}
+            >
+              View real-time mortgage rates for purchase and refinance scenarios in your state.
+              Updated daily by Sunnyhill Financial.
             </p>
-          </motion.div>
-
-          <motion.div
-            variants={scrollFadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ delay: 0.15 }}
-          >
-            <iframe
-              src="https://sunnyhillfinancial.pos.yoursonar.com/rates"
-              width="100%"
-              height="700"
-              frameBorder="0"
-              title="Live Mortgage Rates — Nick Flores Sr."
-              style={{ borderRadius: 12, boxShadow: '0 4px 24px rgba(26,62,97,0.10)', display: 'block' }}
-            />
-            {/* Fallback: if the iframe above fails due to cross-origin restrictions, replace it with the card below */}
-            {/*
-            <div style={{ background: '#1A3E61', borderRadius: 16, padding: '3rem 2rem', textAlign: 'center', maxWidth: 520, margin: '0 auto' }}>
-              <h3 style={{ fontFamily: "'EB Garamond', serif", color: '#FFFFFF', fontSize: '1.8rem', marginBottom: '0.75rem' }}>View Today's Live Rates</h3>
-              <p style={{ fontFamily: 'Nunito, sans-serif', color: 'rgba(240,230,210,0.8)', fontSize: '1rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                See real-time mortgage rates for purchase and refinance scenarios in your state.
-              </p>
-              <a
-                href="https://sunnyhillfinancial.pos.yoursonar.com/rates"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ background: '#C6A76F', color: '#0F1C2E', fontFamily: 'Nunito, sans-serif', fontWeight: 800, fontSize: '0.95rem', padding: '14px 32px', borderRadius: 50, textDecoration: 'none', display: 'inline-block' }}
-              >
-                View Live Rates
-              </a>
-            </div>
-            */}
+            <a
+              href="https://sunnyhillfinancial.pos.yoursonar.com/rates"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: '#C6A76F',
+                color: '#0F1C2E',
+                fontFamily: 'Nunito, sans-serif',
+                fontWeight: 800,
+                fontSize: '1.05rem',
+                padding: '16px 40px',
+                borderRadius: 50,
+                textDecoration: 'none',
+                display: 'inline-block',
+                boxShadow: '0 0 24px rgba(198,167,111,0.4), 0 4px 16px rgba(0,0,0,0.3)',
+                transition: 'background 0.2s ease',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = '#d4b87a'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = '#C6A76F'; }}
+            >
+              View Today's Live Rates →
+            </a>
           </motion.div>
         </div>
       </section>
@@ -979,65 +972,6 @@ export default function Home() {
             <p className="font-nunito text-white/60 text-sm">
               NMLS #422150 | 702-497-6370 | nick@sunnyhillfinancial.com
             </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════
-          SECTION 16: WHY NICK
-      ══════════════════════════════════════════ */}
-      <section className="bg-white py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            variants={scrollFadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-50px' }}
-            className="text-center mb-14"
-          >
-            <h2 className="font-garamond text-4xl sm:text-5xl text-[#1A3E61] tracking-[-0.02em]">
-              Why Clients Choose Nick Flores
-            </h2>
-          </motion.div>
-
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-50px' }}
-            className="grid sm:grid-cols-3 gap-8"
-          >
-            {[
-              {
-                icon: '🏆',
-                title: '7 Licensed States',
-                body: "Whether you're buying in Nevada or refinancing in Texas, Nick is licensed and ready to help.",
-              },
-              {
-                icon: '⚡',
-                title: 'Fast Personal Response',
-                body: "This is Nick's direct line — not a call center. Expect a real response within the hour.",
-              },
-              {
-                icon: '📋',
-                title: 'Application to Close',
-                body: "Nick's team handles every step — processing, underwriting, and closing — so nothing falls through.",
-              },
-            ].map((card) => (
-              <motion.div
-                key={card.title}
-                variants={scrollFadeUp}
-                className="flex flex-col items-center text-center gap-4 p-8 rounded-2xl"
-                style={{
-                  border: '2px solid rgba(26,62,97,0.1)',
-                  boxShadow: '0 4px 24px rgba(26,62,97,0.07)',
-                }}
-              >
-                <span style={{ fontSize: '2.5rem' }}>{card.icon}</span>
-                <h3 className="font-nunito font-bold text-[#1A3E61] text-xl">{card.title}</h3>
-                <p className="font-nunito text-gray-600 text-sm leading-[1.7]">{card.body}</p>
-              </motion.div>
-            ))}
           </motion.div>
         </div>
       </section>

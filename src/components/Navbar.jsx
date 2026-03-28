@@ -66,11 +66,11 @@ export default function Navbar() {
     <motion.header
       className="fixed top-0 left-0 right-0 z-50 w-full"
       animate={{
-        backgroundColor: scrolled ? 'rgba(26, 62, 97, 0.92)' : 'rgba(0,0,0,0)',
-        borderBottomColor: scrolled ? 'rgba(198,167,111,0.4)' : 'rgba(198,167,111,0.0)',
+        backgroundColor: 'rgba(26, 62, 97, 0.96)',
+        borderBottomColor: 'rgba(198,167,111,0.3)',
         borderBottomWidth: '1px',
         borderBottomStyle: 'solid',
-        backdropFilter: scrolled ? 'blur(14px)' : 'blur(0px)',
+        backdropFilter: 'blur(14px)',
       }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
     >
