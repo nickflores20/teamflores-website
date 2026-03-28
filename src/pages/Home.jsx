@@ -1,7 +1,7 @@
 // FILE: src/pages/Home.jsx
-import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion, useInView, useAnimation, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 
 import ComparisonSection from '../components/ComparisonSection';
 import EquityChart from '../components/EquityChart';
@@ -12,29 +12,6 @@ import LoanTypeBadges from '../components/LoanTypeBadges';
 import TestimonialsCarousel from '../components/TestimonialsCarousel';
 import USMap from '../components/USMap';
 import LeadForm from '../components/LeadForm';
-
-// ─── Typewriter hook ──────────────────────────────────────────────────────────
-function useTypewriter(text, speed = 50) {
-  const [displayed, setDisplayed] = useState('');
-  const [done, setDone] = useState(false);
-  useEffect(() => {
-    setDisplayed('');
-    setDone(false);
-    let i = 0;
-    const tick = () => {
-      i += 1;
-      setDisplayed(text.slice(0, i));
-      if (i < text.length) {
-        setTimeout(tick, speed);
-      } else {
-        setDone(true);
-      }
-    };
-    const id = setTimeout(tick, speed);
-    return () => clearTimeout(id);
-  }, [text, speed]);
-  return { displayed, done };
-}
 
 // ─── CountUp component ────────────────────────────────────────────────────────
 function CountUp({ target, duration = 1500, suffix = '', delay = 0 }) {
@@ -95,53 +72,13 @@ function ShimmerStars() {
   );
 }
 
-// ─── Ripple button ────────────────────────────────────────────────────────────
-function RippleButton({ children, to, className, style }) {
-  const navigate = useNavigate();
-  const [ripples, setRipples] = useState([]);
-
-  const handleClick = useCallback((e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const id = Date.now();
-    setRipples((prev) => [...prev, { x, y, id }]);
-    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 700);
-    setTimeout(() => navigate(to), 100);
-  }, [navigate, to]);
-
-  return (
-    <button
-      onClick={handleClick}
-      className={`relative overflow-hidden ${className}`}
-      style={style}
-    >
-      {children}
-      {ripples.map((r) => (
-        <span
-          key={r.id}
-          className="absolute rounded-full pointer-events-none"
-          style={{
-            left: r.x - 10,
-            top: r.y - 10,
-            width: 20,
-            height: 20,
-            background: 'rgba(255,255,255,0.35)',
-            animation: 'ripple-expand 0.7s ease-out forwards',
-          }}
-        />
-      ))}
-    </button>
-  );
-}
-
 // ─── Floating Particles ───────────────────────────────────────────────────────
 
 // ─── Why Sunnyhill cards data ─────────────────────────────────────────────────
 const WHY_CARDS = [
   {
-    title: 'We Make It Simple',
-    body: 'Complex mortgage products explained in plain language. No confusion, no surprises.',
+    title: 'Nick Makes It Simple',
+    body: 'Complex mortgage products explained in plain language. No confusion, no surprises — Nick walks you through every step.',
     icon: (
       <svg className="w-10 h-10 text-[#C6A76F]" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -150,7 +87,7 @@ const WHY_CARDS = [
   },
   {
     title: '100% Transparency',
-    body: "You'll know exactly where you stand before moving forward. No hidden fees.",
+    body: "You'll know exactly where you stand before moving forward. Nick gives you the full picture — no hidden fees, no surprises.",
     icon: (
       <svg className="w-10 h-10 text-[#C6A76F]" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -160,7 +97,7 @@ const WHY_CARDS = [
   },
   {
     title: 'Speed',
-    body: 'We close loans faster than the industry average. Your timeline matters to us.',
+    body: "Nick closes loans faster than the industry average. Your timeline matters, and he treats it that way.",
     icon: (
       <svg className="w-10 h-10 text-[#C6A76F]" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -178,7 +115,7 @@ const WHY_CARDS = [
   },
   {
     title: 'You Get Options',
-    body: 'Side-by-side comparisons so you see exactly which product makes the most sense.',
+    body: "Nick gives you side-by-side comparisons so you can see exactly which product makes the most sense for your situation.",
     icon: (
       <svg className="w-10 h-10 text-[#C6A76F]" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
@@ -186,8 +123,8 @@ const WHY_CARDS = [
     ),
   },
   {
-    title: 'First Time Buyer Specialists',
-    body: "Guided support from first call to closing. We've helped hundreds of first-time buyers.",
+    title: 'First Time Buyer Specialist',
+    body: "Guided support from first call to closing. Nick has personally helped hundreds of first-time buyers get into their homes.",
     icon: (
       <svg className="w-10 h-10 text-[#C6A76F]" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -294,13 +231,8 @@ function HeroParallaxBg() {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function Home() {
-  const { displayed, done } = useTypewriter(
-    "Your Home Has More Value Than Your Bank Is Telling You",
-    50
-  );
-
   useEffect(() => {
-    document.title = 'Nicholas Flores | Mortgage Division Director Las Vegas | Team Flores';
+    document.title = 'Nick Flores Sr. | Mortgage Division Director | Sunnyhill Financial | NMLS #422150';
   }, []);
 
   // Particles
@@ -410,21 +342,22 @@ export default function Home() {
           {/* LEFT — 55% */}
           <div className="w-full lg:w-[55%] flex flex-col gap-6 text-center lg:text-left">
 
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="font-nunito font-bold text-[#C6A76F] text-lg"
+            >
+              Nick Flores Sr. — Division Director, Sunnyhill Financial
+            </motion.p>
+
             <motion.h1
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="font-garamond text-[36px] md:text-[48px] lg:text-[56px] text-white leading-[1.1] tracking-[-0.03em] min-h-[1.1em]"
-              aria-label="Your Home Has More Value Than Your Bank Is Telling You"
+              className="font-garamond text-[36px] md:text-[48px] lg:text-[52px] text-white leading-[1.15] tracking-[-0.03em]"
             >
-              {displayed}
-              {!done && (
-                <motion.span
-                  className="inline-block w-[3px] h-[0.85em] bg-[#C6A76F] ml-1 align-middle"
-                  animate={{ opacity: [1, 0] }}
-                  transition={{ duration: 0.6, repeat: Infinity, repeatType: 'reverse' }}
-                />
-              )}
+              Get the Right Mortgage.<br />From Someone Who Actually Answers.
             </motion.h1>
 
             <motion.p
@@ -433,18 +366,37 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
               className="font-nunito text-gray-300 text-lg leading-[1.7] max-w-xl mx-auto lg:mx-0"
             >
-              Nick Flores helps homeowners across 20+ states unlock equity their bank never told them
-              about — with some of the most competitive rates available.
+              I've helped homebuyers and homeowners across 7 states get competitive rates and close on time.
+              Whether you're purchasing your first home or refinancing an existing loan — I handle it personally,
+              from application to close.
             </motion.p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
+            {/* Credentials bar */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.25, ease: [0.22, 1, 0.36, 1] }}
-              className="font-garamond italic text-[#C6A76F] text-xl lg:text-2xl"
+              transition={{ duration: 0.5, delay: 1.25, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-wrap gap-x-4 gap-y-1 justify-center lg:justify-start"
             >
-              "You can't have a positive life with a negative mind."
-            </motion.p>
+              {[
+                '📋 NMLS #422150',
+                '📞 702-497-6370',
+                '✅ Licensed in NV, AZ, CA, FL, TX, WA, OR',
+              ].map(cred => (
+                <span
+                  key={cred}
+                  style={{
+                    fontFamily: 'Nunito, sans-serif',
+                    fontWeight: 600,
+                    fontSize: '0.8rem',
+                    color: 'rgba(240,230,210,0.85)',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {cred}
+                </span>
+              ))}
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 16 }}
@@ -452,86 +404,82 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
             >
-              {/* Primary CTA with ripple */}
-              <RippleButton
-                to="/apply"
-                className="font-nunito font-bold text-base text-[#0F1C2E] bg-[#C6A76F] hover:bg-[#d4b87a] active:scale-[0.98] rounded-full px-8 py-4 transition-transform duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A76F] cursor-pointer"
+              {/* Primary CTA */}
+              <a
+                href="https://sunnyhillfinancial.pos.yoursonar.com/?originator=nick@sunnyhillfinancial.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-nunito font-bold text-base text-[#0F1C2E] bg-[#C6A76F] hover:bg-[#d4b87a] active:scale-[0.98] rounded-full px-8 py-4 transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A76F]"
                 style={{
                   boxShadow: '0 0 28px rgba(198,167,111,0.45), 0 4px 20px rgba(0,0,0,0.4)',
                 }}
               >
-                See How Much You Qualify For
-              </RippleButton>
+                Get Pre-Approved Now
+              </a>
 
+              {/* CALENDLY: Currently configured but may need to be re-enabled by Nick Sr. if double-booking issue between personal and Sunnyhill calendars is resolved */}
               {/* Secondary CTA */}
-              <Link
-                to="/price-your-loan"
-                className="font-nunito font-bold text-base text-white border-2 border-[#C6A76F] hover:bg-[#C6A76F] hover:text-[#0F1C2E] rounded-full px-8 py-4 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A76F]"
+              <a
+                href="https://calendly.com/floresnick"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-nunito font-bold text-base text-[#C6A76F] border-2 border-[#C6A76F] hover:bg-[#C6A76F] hover:text-[#0F1C2E] rounded-full px-8 py-4 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A76F]"
               >
-                View Today's Rates
-              </Link>
-            </motion.div>
-
-            {/* Trust badges */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.65, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-wrap gap-2 justify-center lg:justify-start"
-            >
-              {[
-                '★★★★★ Zillow 5.0',
-                'NMLS #422150',
-                'Licensed 8+ States',
-                'Equal Housing Opportunity',
-              ].map(badge => (
-                <span
-                  key={badge}
-                  style={{
-                    background: 'rgba(198,167,111,0.08)',
-                    border: '1px solid rgba(198,167,111,0.25)',
-                    borderRadius: 100,
-                    padding: '4px 12px',
-                    fontFamily: 'Nunito, sans-serif',
-                    fontWeight: 700,
-                    fontSize: '0.72rem',
-                    color: '#C6A76F',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {badge}
-                </span>
-              ))}
+                Schedule a Call
+              </a>
             </motion.div>
           </div>
 
           {/* RIGHT — 45% */}
-          <div className="w-full lg:w-[45%] flex justify-center">
+          <div className="w-full lg:w-[45%] flex flex-col items-center gap-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.95, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col items-center gap-4"
             >
-              <div className="nick-headshot-wrapper relative">
-                <img
-                  src="/brand_assets/nick.jpg"
-                  alt="Nicholas Flores — Division Director, Sunnyhill Financial"
-                  className="rounded-full object-cover object-top"
-                  loading="eager"
-                  width={300}
-                  height={300}
-                  style={{
-                    width: 'clamp(180px, 30vw, 300px)',
-                    height: 'clamp(180px, 30vw, 300px)',
-                    boxShadow: `
-                      0 0 0 4px #C6A76F,
-                      0 0 20px rgba(198,167,111,0.5),
-                      0 0 50px rgba(198,167,111,0.3),
-                      0 0 90px rgba(198,167,111,0.15),
-                      0 16px 48px rgba(0,0,0,0.5)
-                    `,
-                  }}
-                />
+              {/* PHOTO: Replace this placeholder with Nick Sr.'s headshot. Recommended: professional headshot, 400x400px minimum, JPG or PNG */}
+              <div
+                style={{
+                  width: 'clamp(200px, 30vw, 320px)',
+                  height: 'clamp(200px, 30vw, 320px)',
+                  borderRadius: '50%',
+                  border: '3px solid #C6A76F',
+                  background: '#F0E6D2',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 10,
+                  boxShadow: '0 0 40px rgba(198,167,111,0.35), 0 16px 48px rgba(0,0,0,0.4)',
+                }}
+                aria-label="Nick Flores Sr. — photo coming soon"
+              >
+                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
+                  <circle cx="28" cy="20" r="11" fill="#1A3E61" opacity="0.5" />
+                  <ellipse cx="28" cy="44" rx="18" ry="10" fill="#1A3E61" opacity="0.35" />
+                </svg>
+                <span style={{ fontFamily: 'Nunito, sans-serif', color: '#1A3E61', fontWeight: 700, fontSize: '1rem', textAlign: 'center' }}>
+                  Nick Flores Sr.
+                </span>
+                <span style={{ fontFamily: 'Nunito, sans-serif', color: '#C6A76F', fontSize: '0.8rem', textAlign: 'center' }}>
+                  Photo Coming Soon
+                </span>
+              </div>
+
+              {/* Below photo */}
+              <div className="text-center flex flex-col items-center gap-1">
+                <p style={{ fontFamily: 'Nunito, sans-serif', color: 'rgba(240,230,210,0.85)', fontSize: '0.9rem', fontWeight: 600 }}>
+                  Division Director | Sunnyhill Financial
+                </p>
+                <div className="flex gap-0.5" aria-label="5 stars">
+                  {[0,1,2,3,4].map(i => (
+                    <span key={i} style={{ color: '#C6A76F', fontSize: '1.1rem' }}>★</span>
+                  ))}
+                </div>
+                <p style={{ fontFamily: 'Nunito, sans-serif', color: 'rgba(240,230,210,0.7)', fontSize: '0.78rem' }}>
+                  Serving NV • AZ • CA • FL • TX • WA • OR
+                </p>
               </div>
             </motion.div>
           </div>
@@ -559,6 +507,63 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════════════
+          SECTION 1B: LICENSED STATES
+      ══════════════════════════════════════════ */}
+      <section className="bg-[#F0E6D2] py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            variants={scrollFadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            className="text-center mb-10"
+          >
+            <h2 className="font-garamond text-4xl sm:text-5xl text-[#1A3E61] tracking-[-0.02em]">
+              Licensed To Serve You In 7 States
+            </h2>
+          </motion.div>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+          >
+            {[
+              { abbr: 'NV', name: 'Nevada', desc: 'Henderson, Las Vegas & statewide' },
+              { abbr: 'AZ', name: 'Arizona', desc: 'Phoenix, Scottsdale & statewide' },
+              { abbr: 'CA', name: 'California', desc: 'Los Angeles, San Diego & statewide' },
+              { abbr: 'FL', name: 'Florida', desc: 'Miami, Orlando & statewide' },
+              { abbr: 'TX', name: 'Texas', desc: 'Houston, Dallas & statewide' },
+              { abbr: 'WA', name: 'Washington', desc: 'Seattle & statewide' },
+              { abbr: 'OR', name: 'Oregon', desc: 'Portland & statewide' },
+            ].map((state) => (
+              <motion.div
+                key={state.abbr}
+                variants={scrollFadeUp}
+                className="bg-white rounded-2xl p-5 text-center"
+                style={{
+                  border: '1px solid rgba(26,62,97,0.15)',
+                  boxShadow: '0 2px 12px rgba(26,62,97,0.07)',
+                }}
+              >
+                <p className="font-garamond text-4xl font-bold text-[#C6A76F] leading-none mb-1">
+                  {state.abbr}
+                </p>
+                <p className="font-nunito font-bold text-[#1A3E61] text-base mb-1">
+                  {state.name}
+                </p>
+                <p className="font-nunito text-gray-500 text-xs leading-[1.5]">
+                  {state.desc}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
           SECTION 2: CREDIBILITY BAR
       ══════════════════════════════════════════ */}
       <section className="bg-[#1A3E61] py-12 border-y border-[#C6A76F]/20">
@@ -574,9 +579,9 @@ export default function Home() {
               className="text-center lg:border-r lg:border-[#C6A76F]/30 lg:pr-6"
             >
               <p className="font-garamond text-white text-[24px] leading-tight">
-                <CountUp target={20} suffix="+" duration={1500} delay={0} /> States
+                7 States
               </p>
-              <p className="font-nunito text-[#C6A76F] text-sm mt-1">Licensed Nationwide</p>
+              <p className="font-nunito text-[#C6A76F] text-sm mt-1">Licensed & Ready to Help</p>
             </motion.div>
 
             {/* Stat 2: NMLS */}
@@ -681,10 +686,10 @@ export default function Home() {
             className="text-center mb-14"
           >
             <h2 className="font-garamond text-4xl sm:text-5xl text-[#1A3E61] tracking-[-0.02em] mb-3">
-              Why Homeowners Choose Sunnyhill
+              Why Clients Choose Nick Flores
             </h2>
             <p className="font-nunito text-[#1A3E61]/70 text-lg">
-              We do things differently.
+              Nick does things differently.
             </p>
           </motion.div>
 
@@ -804,7 +809,7 @@ export default function Home() {
               className="flex flex-col gap-5 text-center lg:text-left"
             >
               <h2 className="font-garamond text-5xl text-[#0F1C2E] tracking-[-0.02em]">
-                Nicholas Flores
+                Nick Flores Sr.
               </h2>
 
               <p className="font-nunito text-[#C6A76F] font-semibold text-lg">
@@ -812,11 +817,9 @@ export default function Home() {
               </p>
 
               <p className="font-nunito text-[#1A3E61]/80 text-base leading-[1.7] max-w-xl mx-auto lg:mx-0">
-                Nicholas Flores is committed to providing his clients the highest level of service for
-                home loans along with some of the most competitive interest rates available in all of
-                the states he holds a license in. Nick's goal is to create lasting relationships with
-                each of his clients so that he may continue providing excellent service for many years
-                to come.
+                Nick Flores Sr. is committed to providing every client the highest level of personal service
+                along with some of the most competitive rates available across all 7 states he holds a license in.
+                Nick's goal is to create lasting relationships — handling every loan personally, from application to close.
               </p>
 
               <p className="font-garamond italic text-[#C6A76F] text-xl lg:text-2xl">
@@ -864,11 +867,16 @@ export default function Home() {
             viewport={{ once: true, margin: '-50px' }}
           >
             <h2 className="font-garamond text-4xl sm:text-5xl text-white tracking-[-0.02em] mb-4">
-              Find Out What You Qualify For
+              Get Your Free Rate Quote
             </h2>
-            <p className="font-nunito text-gray-300 text-lg leading-[1.7]">
-              Takes about 2 minutes. No commitment required.
+            <p className="font-nunito text-gray-300 text-lg leading-[1.7] mb-4">
+              Fill out the form below and Nick will personally review your scenario and reach out within the hour.
             </p>
+            <div className="flex flex-wrap gap-x-4 gap-y-1 justify-center">
+              {['🔒 Secure & Confidential', '⚡ Response Within 1 Hour', '✅ No Obligation'].map(t => (
+                <span key={t} style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 600, fontSize: '0.8rem', color: 'rgba(198,167,111,0.85)' }}>{t}</span>
+              ))}
+            </div>
           </motion.div>
         </div>
 
@@ -882,6 +890,156 @@ export default function Home() {
         >
           <LeadForm />
         </motion.div>
+      </section>
+
+      {/* ══════════════════════════════════════════
+          SECTION 14: TODAY'S RATES
+      ══════════════════════════════════════════ */}
+      {/* RATES: Embedded from Sonar — https://sunnyhillfinancial.pos.yoursonar.com/rates. If cross-origin error occurs, switch to fallback button linking to this URL */}
+      <section className="bg-white py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            variants={scrollFadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            className="text-center mb-10"
+          >
+            <h2 className="font-garamond text-4xl sm:text-5xl text-[#1A3E61] tracking-[-0.02em] mb-3">
+              Today's Live Mortgage Rates
+            </h2>
+            <p className="font-nunito text-gray-500 text-lg">
+              Real-time rates updated daily. Powered by Sunnyhill Financial.
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={scrollFadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ delay: 0.15 }}
+          >
+            <iframe
+              src="https://sunnyhillfinancial.pos.yoursonar.com/rates"
+              width="100%"
+              height="700"
+              frameBorder="0"
+              title="Live Mortgage Rates — Nick Flores Sr."
+              style={{ borderRadius: 12, boxShadow: '0 4px 24px rgba(26,62,97,0.10)', display: 'block' }}
+            />
+            {/* Fallback: if the iframe above fails due to cross-origin restrictions, replace it with the card below */}
+            {/*
+            <div style={{ background: '#1A3E61', borderRadius: 16, padding: '3rem 2rem', textAlign: 'center', maxWidth: 520, margin: '0 auto' }}>
+              <h3 style={{ fontFamily: "'EB Garamond', serif", color: '#FFFFFF', fontSize: '1.8rem', marginBottom: '0.75rem' }}>View Today's Live Rates</h3>
+              <p style={{ fontFamily: 'Nunito, sans-serif', color: 'rgba(240,230,210,0.8)', fontSize: '1rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
+                See real-time mortgage rates for purchase and refinance scenarios in your state.
+              </p>
+              <a
+                href="https://sunnyhillfinancial.pos.yoursonar.com/rates"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ background: '#C6A76F', color: '#0F1C2E', fontFamily: 'Nunito, sans-serif', fontWeight: 800, fontSize: '0.95rem', padding: '14px 32px', borderRadius: 50, textDecoration: 'none', display: 'inline-block' }}
+              >
+                View Live Rates
+              </a>
+            </div>
+            */}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
+          SECTION 15: PRE-APPROVAL CTA
+      ══════════════════════════════════════════ */}
+      <section className="bg-[#1A3E61] py-24">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            variants={scrollFadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            className="flex flex-col items-center gap-6"
+          >
+            <h2 className="font-garamond text-4xl sm:text-5xl text-white tracking-[-0.02em]">
+              Ready to Get Started?
+            </h2>
+            <p className="font-nunito text-[#F0E6D2] text-lg leading-[1.7] max-w-xl">
+              Start your pre-approval in minutes. Secure, simple, and no obligation. Nick reviews every application personally.
+            </p>
+            <a
+              href="https://sunnyhillfinancial.pos.yoursonar.com/?originator=nick@sunnyhillfinancial.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-nunito font-bold text-lg text-[#0F1C2E] bg-[#C6A76F] hover:bg-[#d4b87a] active:bg-[#b8965c] rounded-full px-10 py-4 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A76F]"
+              style={{ boxShadow: '0 0 28px rgba(198,167,111,0.45), 0 4px 20px rgba(0,0,0,0.3)' }}
+            >
+              Begin Pre-Approval →
+            </a>
+            <p className="font-nunito text-white/60 text-sm">
+              NMLS #422150 | 702-497-6370 | nick@sunnyhillfinancial.com
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
+          SECTION 16: WHY NICK
+      ══════════════════════════════════════════ */}
+      <section className="bg-white py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            variants={scrollFadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            className="text-center mb-14"
+          >
+            <h2 className="font-garamond text-4xl sm:text-5xl text-[#1A3E61] tracking-[-0.02em]">
+              Why Clients Choose Nick Flores
+            </h2>
+          </motion.div>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            className="grid sm:grid-cols-3 gap-8"
+          >
+            {[
+              {
+                icon: '🏆',
+                title: '7 Licensed States',
+                body: "Whether you're buying in Nevada or refinancing in Texas, Nick is licensed and ready to help.",
+              },
+              {
+                icon: '⚡',
+                title: 'Fast Personal Response',
+                body: "This is Nick's direct line — not a call center. Expect a real response within the hour.",
+              },
+              {
+                icon: '📋',
+                title: 'Application to Close',
+                body: "Nick's team handles every step — processing, underwriting, and closing — so nothing falls through.",
+              },
+            ].map((card) => (
+              <motion.div
+                key={card.title}
+                variants={scrollFadeUp}
+                className="flex flex-col items-center text-center gap-4 p-8 rounded-2xl"
+                style={{
+                  border: '2px solid rgba(26,62,97,0.1)',
+                  boxShadow: '0 4px 24px rgba(26,62,97,0.07)',
+                }}
+              >
+                <span style={{ fontSize: '2.5rem' }}>{card.icon}</span>
+                <h3 className="font-nunito font-bold text-[#1A3E61] text-xl">{card.title}</h3>
+                <p className="font-nunito text-gray-600 text-sm leading-[1.7]">{card.body}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
       </section>
 
     </div>

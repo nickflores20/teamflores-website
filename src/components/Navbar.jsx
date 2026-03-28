@@ -1,6 +1,6 @@
 // FILE: src/components/Navbar.jsx
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FormModalContext } from '../context/FormModalContext';
 
@@ -14,16 +14,6 @@ function useScrollPosition() {
   }, []);
   return scrolled;
 }
-
-const navLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'Loan Types', to: '/loan-types' },
-  { label: 'States We Lend', to: '/states' },
-  { label: 'Learning Center', to: '/learning-center' },
-  { label: 'About Nick', to: '/about' },
-  { label: 'Price Your Loan', to: '/price-your-loan' },
-  { label: 'Apply Now', to: '/apply' },
-];
 
 function RippleButton({ children, className, onClick, ...props }) {
   const btnRef = useRef(null);
@@ -61,16 +51,6 @@ export default function Navbar() {
   const scrolled = useScrollPosition();
   const [menuOpen, setMenuOpen] = useState(false);
   const { openModal } = useContext(FormModalContext);
-
-  const activeLinkClass = ({ isActive }) =>
-    isActive
-      ? 'text-[#C6A76F] relative gold-underline font-semibold'
-      : 'text-white/90 hover:text-[#C6A76F] transition-colors duration-200 relative gold-underline';
-
-  const mobileActiveLinkClass = ({ isActive }) =>
-    isActive
-      ? 'block w-full px-5 py-3 text-[#C6A76F] font-semibold border-l-2 border-[#C6A76F] bg-[#C6A76F]/10'
-      : 'block w-full px-5 py-3 text-white/90 hover:text-[#C6A76F] border-l-2 border-transparent hover:border-[#C6A76F]/50 transition-colors duration-200';
 
   const containerVariants = {
     open: { transition: { staggerChildren: 0.05 } },
@@ -132,7 +112,7 @@ export default function Navbar() {
                 letterSpacing: '0.07em',
                 textTransform: 'uppercase',
                 whiteSpace: 'nowrap',
-              }}>Division Director · Sunnyhill Financial</div>
+              }}>Powered by Sunnyhill Financial</div>
             </div>
           </div>
           {/* Mobile: icon-only */}
@@ -150,29 +130,42 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-1 xl:gap-2">
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              end={link.to === '/'}
-              className={({ isActive }) =>
-                `${activeLinkClass({ isActive })} px-2 xl:px-3 py-1 text-sm font-semibold font-nunito tracking-wide whitespace-nowrap`
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
+          <a
+            href="https://sunnyhillfinancial.pos.yoursonar.com/rates"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/90 hover:text-[#C6A76F] transition-colors duration-200 px-2 xl:px-3 py-1 text-sm font-semibold font-nunito tracking-wide whitespace-nowrap"
+          >
+            Today's Rates
+          </a>
+          <button
+            onClick={openModal}
+            className="text-white/90 hover:text-[#C6A76F] transition-colors duration-200 px-2 xl:px-3 py-1 text-sm font-semibold font-nunito tracking-wide whitespace-nowrap"
+          >
+            Get Pre-Approved
+          </button>
+          {/* CALENDLY: Currently configured but may need to be re-enabled by Nick Sr. if double-booking issue between personal and Sunnyhill calendars is resolved */}
+          <a
+            href="https://calendly.com/floresnick"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/90 hover:text-[#C6A76F] transition-colors duration-200 px-2 xl:px-3 py-1 text-sm font-semibold font-nunito tracking-wide whitespace-nowrap"
+          >
+            Schedule a Call
+          </a>
         </div>
 
         {/* CTA + Hamburger */}
         <div className="flex items-center gap-3">
-          <RippleButton
-            onClick={openModal}
+          <a
+            href="https://sunnyhillfinancial.pos.yoursonar.com/?originator=nick@sunnyhillfinancial.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="hidden lg:block bg-[#C6A76F] hover:bg-[#d4b87a] active:bg-[#b8965c] text-[#0F1C2E] font-bold font-nunito text-sm px-5 py-2 rounded-full whitespace-nowrap transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A76F]"
             style={{ boxShadow: '0 0 18px rgba(198,167,111,0.35)' }}
           >
-            Get Free Quote
-          </RippleButton>
+            Apply Now
+          </a>
 
           {/* Hamburger */}
           <button
@@ -219,26 +212,48 @@ export default function Navbar() {
               exit="closed"
               className="flex flex-col py-3"
             >
-              {navLinks.map((link) => (
-                <motion.div key={link.to} variants={itemVariants}>
-                  <NavLink
-                    to={link.to}
-                    end={link.to === '/'}
-                    className={mobileActiveLinkClass}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <span className="font-nunito font-semibold text-base">{link.label}</span>
-                  </NavLink>
-                </motion.div>
-              ))}
-              <motion.div variants={itemVariants} className="px-5 pt-3 pb-2">
-                <RippleButton
-                  onClick={() => { setMenuOpen(false); openModal(); }}
-                  className="w-full bg-[#C6A76F] hover:bg-[#d4b87a] active:bg-[#b8965c] text-[#0F1C2E] font-bold font-nunito text-base py-3 rounded-full transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A76F]"
-                  style={{ boxShadow: '0 0 22px rgba(198,167,111,0.4)' }}
+              <motion.div variants={itemVariants}>
+                <a
+                  href="https://sunnyhillfinancial.pos.yoursonar.com/rates"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full px-5 py-3 text-white/90 hover:text-[#C6A76F] border-l-2 border-transparent hover:border-[#C6A76F]/50 transition-colors duration-200"
+                  onClick={() => setMenuOpen(false)}
                 >
-                  Get Free Quote
-                </RippleButton>
+                  <span className="font-nunito font-semibold text-base">Today's Rates</span>
+                </a>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <button
+                  onClick={() => { setMenuOpen(false); openModal(); }}
+                  className="block w-full px-5 py-3 text-left text-white/90 hover:text-[#C6A76F] border-l-2 border-transparent hover:border-[#C6A76F]/50 transition-colors duration-200"
+                >
+                  <span className="font-nunito font-semibold text-base">Get Pre-Approved</span>
+                </button>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                {/* CALENDLY: Currently configured but may need to be re-enabled by Nick Sr. if double-booking issue between personal and Sunnyhill calendars is resolved */}
+                <a
+                  href="https://calendly.com/floresnick"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full px-5 py-3 text-white/90 hover:text-[#C6A76F] border-l-2 border-transparent hover:border-[#C6A76F]/50 transition-colors duration-200"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span className="font-nunito font-semibold text-base">Schedule a Call</span>
+                </a>
+              </motion.div>
+              <motion.div variants={itemVariants} className="px-5 pt-3 pb-2">
+                <a
+                  href="https://sunnyhillfinancial.pos.yoursonar.com/?originator=nick@sunnyhillfinancial.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full text-center bg-[#C6A76F] hover:bg-[#d4b87a] active:bg-[#b8965c] text-[#0F1C2E] font-bold font-nunito text-base py-3 rounded-full transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A76F]"
+                  style={{ boxShadow: '0 0 22px rgba(198,167,111,0.4)' }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Apply Now
+                </a>
               </motion.div>
             </motion.div>
           </motion.div>

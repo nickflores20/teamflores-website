@@ -53,7 +53,7 @@ export default function ContactSection() {
           color: 'rgba(240,230,210,0.65)',
           marginBottom: '2rem',
         }}>
-          Reach Nick directly:
+          Call or text Nick directly:
         </p>
 
         {/* Contact row */}
