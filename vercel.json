@@ -1,3 +1,11 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/states", "destination": "/nevada/las-vegas", "permanent": true },
+    { "source": "/learning-center", "destination": "/loan-programs/first-time-buyer", "permanent": true },
+    { "source": "/loan-types", "destination": "/", "permanent": true },
+    { "source": "/price-your-loan", "destination": "/mortgage-calculator", "permanent": true },
+    { "source": "/apply", "destination": "/contact", "permanent": true }
+  ]
 }

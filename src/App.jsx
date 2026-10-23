@@ -1,276 +1,69 @@
-// FILE: src/App.jsx
-import React, { lazy, Suspense, useEffect, useState, useCallback } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import ContactSection from './components/ContactSection';
-import CookieNotice from './components/CookieNotice';
-import BackToTop from './components/BackToTop';
-import LeadForm from './components/LeadForm';
-import { FormModalContext } from './context/FormModalContext';
+import DraftBanner from './components/DraftBanner';
+import Home from './pages/Home';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Legal from './pages/Legal';
+import CityPage from './pages/CityPage';
+import ProgramPage from './pages/ProgramPage';
+import CalculatorPage from './pages/CalculatorPage';
+import NotFound from './pages/NotFound';
+import { ROUTES, REDIRECTS, findRoute } from './config/routes';
+import { buildSchema, canonicalFor, robotsContent } from './lib/seo';
 
-const Home = lazy(() => import('./pages/Home'));
-const About = lazy(() => import('./pages/About'));
-const LoanTypes = lazy(() => import('./pages/LoanTypes'));
-const States = lazy(() => import('./pages/States'));
-const LearningCenter = lazy(() => import('./pages/LearningCenter'));
-const PriceYourLoan = lazy(() => import('./pages/PriceYourLoan'));
-const Apply = lazy(() => import('./pages/Apply'));
-const NotFound = lazy(() => import('./pages/NotFound'));
-
-function ScrollToTop() {
-  const { pathname, hash } = useLocation();
+// Keeps <head> correct on client-side navigation. The prerender script writes the
+// same tags into the static HTML for crawlers.
+function RouteMeta() {
+  const { pathname } = useLocation();
   useEffect(() => {
-    // Always force top on route change, even if URL has a hash
+    const route = findRoute(pathname);
+    document.title = route.title;
+    const setMeta = (selector, create, value) => {
+      let el = document.head.querySelector(selector);
+      if (!el) { el = create(); document.head.appendChild(el); }
+      return el;
+    };
+    setMeta('meta[name="description"]', () => Object.assign(document.createElement('meta'), { name: 'description' })).content = route.description;
+    setMeta('meta[name="robots"]', () => Object.assign(document.createElement('meta'), { name: 'robots' })).content = robotsContent(route);
+    setMeta('link[rel="canonical"]', () => Object.assign(document.createElement('link'), { rel: 'canonical' })).href = canonicalFor(route.path);
+    const ld = setMeta('script#ld-json', () => Object.assign(document.createElement('script'), { type: 'application/ld+json', id: 'ld-json' }));
+    ld.textContent = JSON.stringify(buildSchema(route));
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [pathname, hash]);
+  }, [pathname]);
   return null;
 }
 
-const pageVariants = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } },
-  exit: { opacity: 0, y: -8, transition: { duration: 0.2, ease: 'easeIn' } },
+const elementFor = (r) => {
+  switch (r.kind) {
+    case 'home': return <Home />;
+    case 'city': return <CityPage slug={r.slug} />;
+    case 'program': return <ProgramPage slug={r.slug} />;
+    case 'calculator': return <CalculatorPage />;
+    case 'about': return <About />;
+    case 'contact': return <Contact />;
+    case 'legal': return <Legal />;
+    default: return <NotFound />;
+  }
 };
 
-function PageWrapper({ children }) {
-  return (
-    <motion.div
-      variants={pageVariants}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-const LoadingFallback = () => (
-  <div style={{
-    background: '#0F1C2E',
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }}>
-    <div style={{
-      width: 48,
-      height: 48,
-      border: '3px solid rgba(198,167,111,0.2)',
-      borderTopColor: '#C6A76F',
-      borderRadius: '50%',
-      animation: 'spin 0.8s linear infinite',
-    }} />
-  </div>
-);
-
 export default function App() {
-  const location = useLocation();
-  const [modalOpen, setModalOpen] = useState(false);
-
-  // Force top of page on every mount — catches any autoFocus or browser scroll restoration
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, []);
-
-  const openModal = useCallback(() => {
-    setModalOpen(true);
-    document.body.style.overflow = 'hidden';
-  }, []);
-
-  const closeModal = useCallback(() => {
-    setModalOpen(false);
-    document.body.style.overflow = '';
-  }, []);
-
-  // Clean up body overflow on unmount
-  useEffect(() => {
-    return () => { document.body.style.overflow = ''; };
-  }, []);
-
   return (
-    <FormModalContext.Provider value={{ openModal, closeModal }}>
-      <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0F1C2E; }
-        ::-webkit-scrollbar-thumb { background: #C6A76F; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #d4b87a; }
-
-        .sidebar-cta-btn {
-          writing-mode: vertical-rl;
-          text-orientation: mixed;
-          transform: rotate(180deg);
-          letter-spacing: 0.08em;
-          transition: background 0.2s, box-shadow 0.2s;
-        }
-        .sidebar-cta-btn:hover {
-          background: #d4b87a !important;
-          box-shadow: -4px 0 24px rgba(198,167,111,0.5) !important;
-        }
-        .sidebar-cta-btn:active {
-          background: #b8965c !important;
-        }
-        .mobile-cta-btn {
-          transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
-        }
-        .mobile-cta-btn:hover {
-          background: #d4b87a !important;
-        }
-        .mobile-cta-btn:active {
-          transform: scale(0.97) !important;
-        }
-      `}</style>
-      <ScrollToTop />
+    <>
+      <a href="#main" className="skip-link">Skip to content</a>
+      <DraftBanner />
+      <RouteMeta />
       <Navbar />
-      <main>
-        <Suspense fallback={<LoadingFallback />}>
-          <AnimatePresence mode="wait" initial={false}>
-            <Routes location={location} key={location.pathname}>
-              <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-              <Route path="/loan-types" element={<PageWrapper><LoanTypes /></PageWrapper>} />
-              <Route path="/states" element={<PageWrapper><States /></PageWrapper>} />
-              <Route path="/learning-center" element={<PageWrapper><LearningCenter /></PageWrapper>} />
-              <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
-              <Route path="/price-your-loan" element={<PageWrapper><PriceYourLoan /></PageWrapper>} />
-              <Route path="/apply" element={<PageWrapper><Apply /></PageWrapper>} />
-              <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
-            </Routes>
-          </AnimatePresence>
-        </Suspense>
+      <main id="main">
+        <Routes>
+          {ROUTES.map((r) => <Route key={r.path} path={r.path} element={elementFor(r)} />)}
+          {REDIRECTS.map((r) => <Route key={r.from} path={r.from} element={<Navigate to={r.to} replace />} />)}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </main>
-      <ContactSection />
       <Footer />
-      <BackToTop />
-      <CookieNotice />
-
-      {/* ── Mobile floating CTA (bottom, visible on lg:hidden) ── */}
-      {!modalOpen && (
-        <motion.div
-          initial={{ y: 80, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            position: 'fixed',
-            bottom: 24,
-            left: 16,
-            right: 72,
-            zIndex: 40,
-            display: 'flex',
-          }}
-          className="lg:hidden"
-        >
-          <button
-            onClick={openModal}
-            className="mobile-cta-btn"
-            style={{
-              width: '100%',
-              background: '#C6A76F',
-              border: 'none',
-              borderRadius: 50,
-              padding: '15px 24px',
-              fontFamily: 'Nunito, sans-serif',
-              fontWeight: 800,
-              fontSize: 15,
-              color: '#0F1C2E',
-              cursor: 'pointer',
-              letterSpacing: '0.03em',
-              boxShadow: '0 4px 20px rgba(198,167,111,0.45), 0 2px 8px rgba(0,0,0,0.3)',
-            }}
-          >
-            Get My Free Quote
-          </button>
-        </motion.div>
-      )}
-
-      {/* Desktop sidebar wrapper (proper lg: display) */}
-      {!modalOpen && (
-        <div className="hidden lg:block">
-          <motion.button
-            initial={{ x: 80, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 1.4, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            onClick={openModal}
-            className="sidebar-cta-btn"
-            style={{
-              position: 'fixed',
-              right: 0,
-              top: '50%',
-              transform: 'translateY(-50%) rotate(180deg)',
-              zIndex: 40,
-              background: '#C6A76F',
-              border: 'none',
-              borderRadius: '8px 0 0 8px',
-              padding: '18px 12px',
-              fontFamily: 'Nunito, sans-serif',
-              fontWeight: 800,
-              fontSize: 13,
-              color: '#0F1C2E',
-              cursor: 'pointer',
-              boxShadow: '-4px 0 18px rgba(198,167,111,0.35)',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            Get Free Quote
-          </motion.button>
-        </div>
-      )}
-
-      {/* ── Form Modal ── */}
-      <AnimatePresence>
-        {modalOpen && (
-          <motion.div
-            key="form-modal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 9990,
-              overflowY: 'auto',
-              background: '#0F1C2E',
-            }}
-          >
-            {/* Close (X) button */}
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.15, duration: 0.25 }}
-              onClick={closeModal}
-              aria-label="Close form"
-              style={{
-                position: 'fixed',
-                top: 16,
-                right: 16,
-                zIndex: 9999,
-                background: 'rgba(198,167,111,0.15)',
-                border: '1.5px solid rgba(198,167,111,0.4)',
-                borderRadius: '50%',
-                width: 44,
-                height: 44,
-                color: '#C6A76F',
-                fontSize: 22,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'Nunito, sans-serif',
-                lineHeight: 1,
-                transition: 'background 0.2s',
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(198,167,111,0.28)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(198,167,111,0.15)'}
-            >
-              ×
-            </motion.button>
-            <LeadForm />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </FormModalContext.Provider>
+    </>
   );
 }

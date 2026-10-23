@@ -112,7 +112,7 @@ export default function MortgageCalculator() {
   const [purchasePrice, setPurchasePrice] = useState(450000);
   const [downPayment, setDownPayment] = useState(90000);
   const [termYears, setTermYears] = useState(30);
-  const [interestRate, setInterestRate] = useState(6.875);
+  const [interestRate, setInterestRate] = useState(6);
   const [propertyTax, setPropertyTax] = useState(4800);
   const [pmiRate, setPmiRate] = useState(0.5);
   const [propertyInsurance, setPropertyInsurance] = useState(1200);
@@ -268,10 +268,10 @@ export default function MortgageCalculator() {
 
           {/* Headline */}
           <h2 style={{ fontFamily: 'EB Garamond, serif', fontSize: 'clamp(28px,4vw,48px)', color: '#1A3E61', textAlign: 'center', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 8 }}>
-            Calculate Your Monthly Payment
+            Estimate a Monthly Payment
           </h2>
           <p style={{ textAlign: 'center', color: '#1A3E61', opacity: 0.7, fontFamily: 'Nunito, sans-serif', marginBottom: 48, fontSize: 16 }}>
-            Get an accurate estimate of your total monthly mortgage cost.
+            Educational estimate only. Enter your own assumptions. Not a rate quote.
           </p>
 
           {/* Toggle Tabs */}
@@ -354,7 +354,7 @@ export default function MortgageCalculator() {
 
             {/* Interest Rate */}
             <div>
-              <label style={{ display: 'block', marginBottom: 6, fontSize: 13, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Interest Rate</label>
+              <label style={{ display: 'block', marginBottom: 6, fontSize: 13, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Interest Rate (example assumption)</label>
               <div style={prefixWrapper}>
                 <input
                   type="number"
@@ -653,7 +653,7 @@ export default function MortgageCalculator() {
 
           {/* Disclaimer */}
           <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: 12, color: '#1A3E61', opacity: 0.55, textAlign: 'center', marginTop: 32, lineHeight: 1.7, maxWidth: 700, margin: '32px auto 0' }}>
-            *This calculator provides estimates for informational purposes only. Actual loan terms, rates, and payments will vary based on creditworthiness, property type, lender guidelines, and market conditions. Contact a licensed mortgage professional for personalized advice. Sunny Hill Financial, NMLS #1708856.
+            *This calculator is an educational estimate only. It is not a rate quote, an offer, or a commitment to lend. Results use the assumptions you enter, including an example interest rate that is not a current or available rate. Actual loan terms, rates, and payments depend on the loan program, your finances, the property, and underwriting approval. Contact a licensed mortgage professional for personalized information.
           </p>
         </div>
       </section>
