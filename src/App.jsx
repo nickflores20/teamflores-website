@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import DraftBanner from './components/DraftBanner';
 import MobileBar from './components/MobileBar';
+import { TalkBand } from './components/Section';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -67,6 +68,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
+      <TalkBand />
       <Footer />
       <MobileBar />
     </>

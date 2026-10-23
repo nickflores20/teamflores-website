@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { OFFICER, COMPANY } from '../config/site';
 import { PROGRAMS } from '../content/programs';
 import { CITIES } from '../content/cities';
-import { Hero, Section, LeadBand, ShieldIcon } from '../components/Section';
+import { Hero, Section, LeadBand, ShieldIcon, TrustStrip, ProgramCard } from '../components/Section';
 
 const STEPS = [
   { n: '1', t: 'Talk it through', d: 'Share your goals and timeline. Nick explains the programs that may fit your situation.' },
@@ -19,12 +19,15 @@ export default function Home() {
         h1="Nevada Mortgage Loan Officer"
         lead={`${OFFICER.name}, ${OFFICER.title} at ${COMPANY.name}, helps home buyers and homeowners across Nevada understand their loan options and take the next step with confidence.`}
         page="home"
+        photo
       >
         <p className="mt-3 flex items-start gap-2 text-[15px]" style={{ color: '#E3EAF2' }}>
           <span className="mt-[3px] flex-shrink-0"><ShieldIcon /></span>
           <span>NMLS #{OFFICER.nmls}. Pre-approval is not a commitment to lend and is subject to underwriting approval.</span>
         </p>
       </Hero>
+
+      <TrustStrip />
 
       <Section tone="sand">
         <h2 style={{ color: '#1A3E61' }}>Loan programs for Nevada buyers and homeowners</h2>
@@ -34,11 +37,7 @@ export default function Home() {
         <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {PROGRAMS.map((p) => (
             <li key={p.slug}>
-              <Link to={`/loan-programs/${p.slug}`} className="card-link card h-full">
-                <span className="font-garamond text-[1.35rem] block" style={{ color: '#1A3E61' }}>{p.name}</span>
-                <span className="text-[15px] block mt-2">{p.lead.split('. ')[0]}.</span>
-                <span className="text-[15px] font-extrabold block mt-3" style={{ color: '#8a6c2f' }}>Learn more →</span>
-              </Link>
+              <ProgramCard slug={p.slug} name={p.name} note={`${p.lead.split('. ')[0]}.`} />
             </li>
           ))}
         </ul>
