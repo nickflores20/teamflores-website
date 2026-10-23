@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { getProgram, PROGRAMS } from '../content/programs';
 import { CITIES } from '../content/cities';
 import {
-  Hero, SandSection, FaqList, GuidelinesCard, RelatedLinks, LeadBand, Container,
+  Hero, Section, FaqList, GuidelinesCard, RelatedLinks, LeadBand,
 } from '../components/Section';
 import NotFound from './NotFound';
 
@@ -16,20 +16,26 @@ export default function ProgramPage({ slug }) {
 
   return (
     <>
-      <Hero eyebrow="Loan Programs" h1={p.h1} lead={p.lead} page={`program-${p.slug}`} />
+      <Hero
+        eyebrow="Loan Programs"
+        h1={p.h1}
+        lead={p.lead}
+        page={`program-${p.slug}`}
+        crumbs={[{ label: 'Home', to: '/' }, { label: 'Loan Programs' }, { label: p.name }]}
+      />
 
-      <SandSection>
-        <div className="grid gap-10 lg:grid-cols-3 items-start">
-          <div className="lg:col-span-2 grid gap-8">
+      <Section tone="white">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,720px)_minmax(0,1fr)] lg:gap-16 items-start">
+          <div className="grid gap-8">
             {p.sections.map((s) => (
               <div key={s.heading}>
-                <h2 className="text-[clamp(1.7rem,3vw,2.2rem)]" style={{ color: '#1A3E61' }}>{s.heading}</h2>
+                <h2 style={{ color: '#1A3E61' }}>{s.heading}</h2>
                 <div className="mt-3 grid gap-4">
                   {s.body.map((para, i) => <p key={i}>{para}</p>)}
                 </div>
               </div>
             ))}
-            <p className="text-[15px]">
+            <p className="text-base">
               Serving buyers and homeowners in{' '}
               {CITIES.map((c, i) => (
                 <span key={c.slug}>
@@ -41,27 +47,23 @@ export default function ProgramPage({ slug }) {
           </div>
           <GuidelinesCard items={p.guidelines} />
         </div>
-      </SandSection>
+      </Section>
 
-      <section className="surface-deep">
-        <Container className="py-14 sm:py-20">
-          <h2 className="text-white text-[clamp(1.7rem,3vw,2.3rem)] mb-6">Common questions about {p.name}</h2>
-          <FaqList items={p.faq} dark />
-        </Container>
-      </section>
+      <Section tone="sand">
+        <h2 className="mb-6" style={{ color: '#1A3E61' }}>Common questions about {p.name}</h2>
+        <FaqList items={p.faq} />
+      </Section>
 
       <LeadBand page={`program-${p.slug}`} heading={`Talk with Nick about ${p.short === 'Refinance' ? 'refinancing' : `${p.short} options`}`} />
 
-      <section className="surface-deep">
-        <Container className="py-14 sm:py-20">
-          <RelatedLinks heading="Related loan programs" links={related} />
-          <p className="mt-8 text-sm" style={{ color: '#B9C6D4' }}>
-            Want to see how the numbers could look? Try the{' '}
-            <Link to="/mortgage-calculator" className="link-inline">educational mortgage calculator</Link>. It is an
-            estimate only and not a rate quote.
-          </p>
-        </Container>
-      </section>
+      <Section tone="white">
+        <RelatedLinks heading="Related loan programs" links={related} />
+        <p className="mt-8 text-base max-w-[720px]">
+          Want to see how the numbers could look? Try the{' '}
+          <Link to="/mortgage-calculator" className="link-inline link-inline-dark font-bold">educational mortgage calculator</Link>. It is an
+          estimate only and not a rate quote.
+        </p>
+      </Section>
     </>
   );
 }

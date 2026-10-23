@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom';
 import {
   OFFICER, COMPANY, LICENSED_STATES, LICENSED_STATES_VERIFIED, FOOTER_DISCLOSURE, EHO_STATEMENT,
 } from '../config/site';
-import { Hero, SandSection } from '../components/Section';
+import { Hero, Section } from '../components/Section';
 import Verify from '../components/Verify';
 
-const H = ({ children }) => <h2 className="text-[clamp(1.5rem,2.5vw,2rem)] mt-6" style={{ color: '#1A3E61' }}>{children}</h2>;
+const H = ({ children }) => <h2 className="mt-6" style={{ color: '#1A3E61' }}>{children}</h2>;
 
 export default function Legal() {
   return (
@@ -16,9 +16,9 @@ export default function Legal() {
         lead="How this website handles your information, and important notices about licensing and loan products."
         page="legal"
       />
-      <SandSection>
+      <Section tone="white">
         <div className="max-w-3xl grid gap-4">
-          <p className="text-sm">
+          <p className="text-[15px]">
             <Verify>this page is a draft and needs review by SunnyHill Financial compliance and legal before launch</Verify>
           </p>
 
@@ -75,7 +75,7 @@ export default function Legal() {
           <H>Equal Housing</H>
           <p>{EHO_STATEMENT}.</p>
         </div>
-      </SandSection>
+      </Section>
     </>
   );
 }

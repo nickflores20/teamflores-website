@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { getCity, CITIES } from '../content/cities';
 import { getProgram } from '../content/programs';
 import {
-  Hero, SandSection, FaqList, RelatedLinks, LeadBand, Container,
+  Hero, Section, FaqList, RelatedLinks, LeadBand,
 } from '../components/Section';
 import NotFound from './NotFound';
 
@@ -17,14 +17,20 @@ export default function CityPage({ slug }) {
 
   return (
     <>
-      <Hero eyebrow={`${c.name}, Nevada · ${c.county}`} h1={c.h1} lead={c.lead} page={`city-${c.slug}`} />
+      <Hero
+        eyebrow={`${c.name}, Nevada · ${c.county}`}
+        h1={c.h1}
+        lead={c.lead}
+        page={`city-${c.slug}`}
+        crumbs={[{ label: 'Home', to: '/' }, { label: 'Nevada' }, { label: `${c.name}, NV` }]}
+      />
 
-      <SandSection>
-        <div className="grid gap-10 lg:grid-cols-3 items-start">
-          <div className="lg:col-span-2 grid gap-8">
+      <Section tone="white">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,720px)_minmax(0,1fr)] lg:gap-16 items-start">
+          <div className="grid gap-8">
             {c.sections.map((s) => (
               <div key={s.heading}>
-                <h2 className="text-[clamp(1.7rem,3vw,2.2rem)]" style={{ color: '#1A3E61' }}>{s.heading}</h2>
+                <h2 style={{ color: '#1A3E61' }}>{s.heading}</h2>
                 <div className="mt-3 grid gap-4">
                   {s.body.map((para, i) => <p key={i}>{para}</p>)}
                 </div>
@@ -33,31 +39,28 @@ export default function CityPage({ slug }) {
           </div>
           <aside className="card" aria-label={`${c.name} areas`}>
             <h2 className="font-garamond text-[1.6rem]" style={{ color: '#1A3E61' }}>Areas we often hear about</h2>
-            <p className="text-[14px] mt-1 mb-4" style={{ color: '#355577' }}>
+            <p className="text-[15px] mt-2 mb-4" style={{ color: '#355577' }}>
               These are general area names, not a complete list or an endorsement of any neighborhood.
             </p>
             <ul className="grid gap-2">
               {c.neighborhoods.map((n) => (
-                <li key={n} className="flex gap-3"><span aria-hidden="true" style={{ color: '#C6A76F', fontWeight: 800 }}>•</span>{n}</li>
+                <li key={n} className="flex gap-3"><span aria-hidden="true" style={{ color: '#8a6c2f', fontWeight: 800 }}>•</span>{n}</li>
               ))}
             </ul>
           </aside>
         </div>
-      </SandSection>
+      </Section>
 
-      <section className="surface-deep">
-        <Container className="py-14 sm:py-20">
-          <RelatedLinks heading={`Loan programs to explore in ${c.name}`} links={programs} />
-        </Container>
-      </section>
+      <Section tone="sand">
+        <RelatedLinks heading={`Loan programs to explore in ${c.name}`} links={programs} />
+      </Section>
 
       <LeadBand page={`city-${c.slug}`} heading={`Talk with Nick about a ${c.name} home loan`} />
 
-      <section className="surface-sand">
-        <Container className="py-14 sm:py-20">
-          <h2 className="text-[clamp(1.7rem,3vw,2.3rem)] mb-6" style={{ color: '#1A3E61' }}>{c.name} home loan questions</h2>
+      <Section tone="white">
+          <h2 className="mb-6" style={{ color: '#1A3E61' }}>{c.name} home loan questions</h2>
           <FaqList items={c.faq} />
-          <p className="mt-8 text-[15px]">
+          <p className="mt-8 text-base max-w-[720px]">
             Also serving{' '}
             {nearby.map((n, i) => (
               <span key={n.slug}>
@@ -66,8 +69,7 @@ export default function CityPage({ slug }) {
               </span>
             ))}
           </p>
-        </Container>
-      </section>
+      </Section>
     </>
   );
 }

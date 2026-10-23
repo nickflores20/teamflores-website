@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import DraftBanner from './components/DraftBanner';
+import MobileBar from './components/MobileBar';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -11,6 +12,8 @@ import CityPage from './pages/CityPage';
 import ProgramPage from './pages/ProgramPage';
 import CalculatorPage from './pages/CalculatorPage';
 import NotFound from './pages/NotFound';
+import ComingSoon from './pages/ComingSoon';
+import { COMING_SOON_ROUTE } from './config/routes';
 import { ROUTES, REDIRECTS, findRoute } from './config/routes';
 import { buildSchema, canonicalFor, robotsContent } from './lib/seo';
 
@@ -60,10 +63,12 @@ export default function App() {
         <Routes>
           {ROUTES.map((r) => <Route key={r.path} path={r.path} element={elementFor(r)} />)}
           {REDIRECTS.map((r) => <Route key={r.from} path={r.from} element={<Navigate to={r.to} replace />} />)}
+          <Route path={COMING_SOON_ROUTE.path} element={<ComingSoon />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
+      <MobileBar />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Hero, SandSection, Container } from '../components/Section';
+import { Hero, Container } from '../components/Section';
 import CtaButtons from '../components/CtaButtons';
 import { PROGRAMS } from '../content/programs';
 
@@ -23,20 +23,20 @@ export default function CalculatorPage() {
         page="calculator"
       />
 
-      <section className="surface-sand">
+      <section className="section-sand">
         <ClientOnly fallback={<div style={{ minHeight: 480 }} className="px-4 py-16 text-center">Loading calculator...</div>}>
           <MortgageCalculator />
         </ClientOnly>
       </section>
 
-      <section className="surface-base">
+      <section className="section-navy">
         <Container className="py-14">
-          <h2 className="text-white text-[clamp(1.7rem,3vw,2.3rem)]">Want numbers based on your situation?</h2>
-          <p className="mt-3 max-w-2xl" style={{ color: '#D5DEE8' }}>
+          <h2 className="text-white">Want numbers based on your situation?</h2>
+          <p className="mt-3 max-w-2xl" style={{ color: '#E3EAF2' }}>
             The calculator uses assumptions you enter yourself. Actual terms depend on your loan program, finances, and property, and are subject to underwriting approval.
           </p>
           <CtaButtons page="calculator" className="mt-6" />
-          <p className="mt-8 text-sm" style={{ color: '#B9C6D4' }}>
+          <p className="mt-8 text-base" style={{ color: '#E3EAF2' }}>
             Learn about:{' '}
             {PROGRAMS.map((p, i) => (
               <span key={p.slug}>

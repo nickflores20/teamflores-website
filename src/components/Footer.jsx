@@ -13,12 +13,12 @@ const EqualHousingIcon = () => (
   </svg>
 );
 
-const heading = { color: 'rgba(198,167,111,0.9)' };
+const heading = { color: '#E6CF9D' };
 
 export default function Footer() {
   return (
-    <footer className="surface-base relative" style={{ borderTop: '1px solid rgba(198,167,111,0.3)' }}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <footer className="section-navy relative" style={{ borderTop: '1px solid rgba(198,167,111,0.3)' }}>
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid gap-10 md:grid-cols-4">
           <div>
             <p className="font-garamond text-[1.7rem]" style={{ color: '#C6A76F', lineHeight: 1.1 }}>{OFFICER.name}</p>
@@ -33,8 +33,8 @@ export default function Footer() {
           </div>
 
           <nav aria-label="Loan programs">
-            <p className="text-[11px] uppercase tracking-[0.14em] mb-3" style={heading}>Loan Programs</p>
-            <ul className="space-y-1.5">
+            <p className="text-[14px] uppercase tracking-[0.1em] mb-3" style={heading}>Loan Programs</p>
+            <ul className="space-y-0">
               {PROGRAMS.map((p) => (
                 <li key={p.slug}><Link className="foot-link" to={`/loan-programs/${p.slug}`}>{p.name}</Link></li>
               ))}
@@ -42,8 +42,8 @@ export default function Footer() {
           </nav>
 
           <nav aria-label="Nevada locations">
-            <p className="text-[11px] uppercase tracking-[0.14em] mb-3" style={heading}>Nevada Locations</p>
-            <ul className="space-y-1.5">
+            <p className="text-[14px] uppercase tracking-[0.1em] mb-3" style={heading}>Nevada Locations</p>
+            <ul className="space-y-0">
               {CITIES.map((c) => (
                 <li key={c.slug}><Link className="foot-link" to={`/nevada/${c.slug}`}>{c.name}, NV</Link></li>
               ))}
@@ -51,8 +51,8 @@ export default function Footer() {
           </nav>
 
           <nav aria-label="Resources">
-            <p className="text-[11px] uppercase tracking-[0.14em] mb-3" style={heading}>Resources</p>
-            <ul className="space-y-1.5">
+            <p className="text-[14px] uppercase tracking-[0.1em] mb-3" style={heading}>Resources</p>
+            <ul className="space-y-0">
               <li><Link className="foot-link" to="/about">About Nick</Link></li>
               <li><Link className="foot-link" to="/contact">Contact</Link></li>
               <li><Link className="foot-link" to="/mortgage-calculator">Mortgage Calculator</Link></li>
@@ -71,7 +71,7 @@ export default function Footer() {
             {EHO_STATEMENT}
           </p>
           <p className="text-sm font-bold text-white">{FOOTER_DISCLOSURE}</p>
-          <p className="text-xs" style={{ color: 'rgba(240,230,210,0.75)' }}>
+          <p className="text-sm" style={{ color: 'rgba(240,230,210,0.9)' }}>
             Information on this site is general and educational. It is not legal, tax, or financial advice, and it is not an
             offer or commitment to lend. Loan programs, availability, and guidelines are subject to change. Consumer
             information:{' '}
@@ -79,7 +79,7 @@ export default function Footer() {
               NMLS Consumer Access
             </a>.
           </p>
-          <p className="text-xs" style={{ color: 'rgba(240,230,210,0.6)' }}>
+          <p className="text-sm" style={{ color: 'rgba(240,230,210,0.8)' }}>
             © 2026 {OFFICER.name} | {COMPANY.name}.
           </p>
         </div>

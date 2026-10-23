@@ -9,7 +9,7 @@ const dist = path.join(root, 'dist');
 const serverEntry = path.join(root, 'dist-server', 'entry-server.js');
 
 const {
-  render, ROUTES, NOT_FOUND_ROUTE, buildHeadTags, ALLOW_INDEXING, SITE_URL, PLACEHOLDER_SITE_URL,
+  render, ROUTES, NOT_FOUND_ROUTE, COMING_SOON_ROUTE, buildHeadTags, ALLOW_INDEXING, SITE_URL, PLACEHOLDER_SITE_URL,
 } = await import(pathToFileURL(serverEntry).href);
 
 const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
@@ -40,6 +40,7 @@ for (const route of ROUTES) {
   build(route, route.path, out);
 }
 build(NOT_FOUND_ROUTE, '/__not-found__', path.join(dist, '404.html'));
+build(COMING_SOON_ROUTE, COMING_SOON_ROUTE.path, path.join(dist, COMING_SOON_ROUTE.path, 'index.html'));
 
 // Launch guard: never go indexable with placeholder domain or unresolved placeholders.
 if (ALLOW_INDEXING && SITE_URL === PLACEHOLDER_SITE_URL) problems.push('VITE_ALLOW_INDEXING=true but VITE_SITE_URL is still the placeholder.');

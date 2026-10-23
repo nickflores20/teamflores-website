@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { OFFICER, COMPANY } from '../config/site';
 import { PROGRAMS } from '../content/programs';
 import { CITIES } from '../content/cities';
-import { Hero, SandSection, LeadBand, Container } from '../components/Section';
+import { Hero, Section, LeadBand, ShieldIcon } from '../components/Section';
 
 const STEPS = [
   { n: '1', t: 'Talk it through', d: 'Share your goals and timeline. Nick explains the programs that may fit your situation.' },
@@ -20,13 +20,14 @@ export default function Home() {
         lead={`${OFFICER.name}, ${OFFICER.title} at ${COMPANY.name}, helps home buyers and homeowners across Nevada understand their loan options and take the next step with confidence.`}
         page="home"
       >
-        <p className="mt-6 text-sm" style={{ color: '#B9C6D4' }}>
-          NMLS #{OFFICER.nmls}. Pre-approval is not a commitment to lend and is subject to underwriting approval.
+        <p className="mt-3 flex items-start gap-2 text-[15px]" style={{ color: '#E3EAF2' }}>
+          <span className="mt-[3px] flex-shrink-0"><ShieldIcon /></span>
+          <span>NMLS #{OFFICER.nmls}. Pre-approval is not a commitment to lend and is subject to underwriting approval.</span>
         </p>
       </Hero>
 
-      <SandSection>
-        <h2 className="text-[clamp(1.9rem,3.5vw,2.8rem)]" style={{ color: '#1A3E61' }}>Loan programs for Nevada buyers and homeowners</h2>
+      <Section tone="sand">
+        <h2 style={{ color: '#1A3E61' }}>Loan programs for Nevada buyers and homeowners</h2>
         <p className="mt-3 max-w-2xl">
           Every borrower is different. Start with the program that sounds closest to your situation, or talk with Nick and compare.
         </p>
@@ -35,65 +36,60 @@ export default function Home() {
             <li key={p.slug}>
               <Link to={`/loan-programs/${p.slug}`} className="card-link card h-full">
                 <span className="font-garamond text-[1.35rem] block" style={{ color: '#1A3E61' }}>{p.name}</span>
-                <span className="text-sm block mt-2">{p.lead.split('. ')[0]}.</span>
-                <span className="text-sm font-extrabold block mt-3" style={{ color: '#8a6c2f' }}>Learn more →</span>
+                <span className="text-[15px] block mt-2">{p.lead.split('. ')[0]}.</span>
+                <span className="text-[15px] font-extrabold block mt-3" style={{ color: '#8a6c2f' }}>Learn more →</span>
               </Link>
             </li>
           ))}
         </ul>
-      </SandSection>
+      </Section>
 
-      <section className="surface-deep">
-        <Container className="py-14 sm:py-20">
-          <h2 className="text-white text-[clamp(1.9rem,3.5vw,2.8rem)]">Serving four Nevada markets</h2>
-          <p className="mt-3 max-w-2xl" style={{ color: '#D5DEE8' }}>
-            Local neighborhoods, property types, and loan considerations differ from city to city.
-          </p>
-          <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {CITIES.map((c) => (
-              <li key={c.slug}>
-                <Link to={`/nevada/${c.slug}`} className="card-link card-dark h-full">
-                  <span className="font-garamond text-[1.5rem] text-white block">{c.name}, NV</span>
-                  <span className="text-sm block mt-1" style={{ color: '#C7D3DF' }}>{c.county}</span>
-                  <span className="text-sm block mt-2" style={{ color: '#C7D3DF' }}>{c.neighborhoods.slice(0, 3).join(', ')}</span>
-                  <span className="text-sm font-bold block mt-3" style={{ color: '#C6A76F' }}>Explore {c.name} →</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </section>
+      <Section tone="white">
+        <h2 style={{ color: '#1A3E61' }}>Serving four Nevada markets</h2>
+        <p className="mt-3 max-w-2xl">
+          Local neighborhoods, property types, and loan considerations differ from city to city.
+        </p>
+        <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {CITIES.map((c) => (
+            <li key={c.slug}>
+              <Link to={`/nevada/${c.slug}`} className="card-link card h-full">
+                <span className="font-garamond text-[1.5rem] block" style={{ color: '#1A3E61' }}>{c.name}, NV</span>
+                <span className="text-[15px] block mt-1">{c.county}</span>
+                <span className="text-[15px] block mt-2">{c.neighborhoods.slice(0, 3).join(', ')}</span>
+                <span className="text-[15px] font-extrabold block mt-3" style={{ color: '#8a6c2f' }}>Explore {c.name} →</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Section>
 
-      <section className="surface-base">
-        <Container className="py-14 sm:py-20">
-          <h2 className="text-white text-[clamp(1.9rem,3.5vw,2.8rem)]">What to expect</h2>
-          <ol className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {STEPS.map((s) => (
-              <li key={s.n} className="card-dark">
-                <span className="font-garamond text-[2.2rem]" style={{ color: '#C6A76F', lineHeight: 1 }}>{s.n}</span>
-                <h3 className="text-white text-[1.3rem] mt-2">{s.t}</h3>
-                <p className="text-sm mt-2" style={{ color: '#D5DEE8' }}>{s.d}</p>
-              </li>
-            ))}
-          </ol>
-        </Container>
-      </section>
+      <Section tone="sand">
+        <h2 style={{ color: '#1A3E61' }}>What to expect</h2>
+        <ol className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {STEPS.map((s) => (
+            <li key={s.n} className="card">
+              <span className="font-garamond text-[2.2rem]" style={{ color: '#8a6c2f', lineHeight: 1 }}>{s.n}</span>
+              <h3 className="text-[1.35rem] mt-2" style={{ color: '#1A3E61' }}>{s.t}</h3>
+              <p className="text-[15px] mt-2">{s.d}</p>
+            </li>
+          ))}
+        </ol>
+      </Section>
 
-      <SandSection>
+      <Section tone="white">
         <div className="grid gap-10 md:grid-cols-3 items-center">
           <div className="flex justify-center md:justify-start">
             <img
               src={OFFICER.photo}
               alt={`${OFFICER.name}, ${OFFICER.title} at ${COMPANY.name}`}
-              width="336"
-              height="424"
-             
-              className="rounded-2xl"
-              style={{ width: 'min(280px, 100%)', boxShadow: '0 2px 6px rgba(26,62,97,0.15), 0 24px 50px -18px rgba(26,62,97,0.45)' }}
+              width="280"
+              height="280"
+              className="rounded-full object-cover"
+              style={{ width: 'min(280px, 100%)', aspectRatio: '1 / 1', objectPosition: 'center 18%', border: '2px solid #C6A76F', padding: 4, background: '#fff', boxShadow: '0 12px 28px -14px rgba(26,62,97,0.35)' }}
             />
           </div>
           <div className="md:col-span-2">
-            <h2 className="text-[clamp(1.9rem,3.5vw,2.8rem)]" style={{ color: '#1A3E61' }}>Meet Nick Flores Sr.</h2>
+            <h2 style={{ color: '#1A3E61' }}>Meet Nick Flores Sr.</h2>
             <p className="mt-4">
               {OFFICER.name} is a {OFFICER.title} at {COMPANY.name} (NMLS #{OFFICER.nmls}). He works with home buyers,
               homeowners, and investors in Las Vegas, Henderson, Reno, and Sparks.
@@ -106,7 +102,7 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </SandSection>
+      </Section>
 
       <LeadBand page="home" heading="Start the conversation" />
     </>

@@ -18,6 +18,7 @@ export default function LeadForm({ page = 'home', heading = 'Talk with Nick', id
   const [status, setStatus] = useState('idle'); // idle | sending | done | error
   const [message, setMessage] = useState('');
   const [errors, setErrors] = useState({});
+  const [demo, setDemo] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -57,6 +58,7 @@ export default function LeadForm({ page = 'home', heading = 'Talk with Nick', id
       });
       const json = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(json.error || 'Something went wrong.');
+      setDemo(Boolean(json.demo));
       setStatus('done');
       form.reset();
     } catch (err) {
@@ -67,7 +69,7 @@ export default function LeadForm({ page = 'home', heading = 'Talk with Nick', id
     }
   };
 
-  const err = (k) => (errors[k] ? <p id={`${id}-${k}-err`} role="alert" className="text-[13px] mt-1" style={{ color: '#9b2c2c' }}>{errors[k]}</p> : null);
+  const err = (k) => (errors[k] ? <p id={`${id}-${k}-err`} role="alert" className="text-[14px] mt-1" style={{ color: '#9b2c2c' }}>{errors[k]}</p> : null);
   const inv = (k) => ({ 'aria-invalid': errors[k] ? 'true' : undefined, 'aria-describedby': errors[k] ? `${id}-${k}-err` : undefined });
 
   return (
@@ -75,20 +77,26 @@ export default function LeadForm({ page = 'home', heading = 'Talk with Nick', id
       id={id}
       aria-labelledby={`${id}-title`}
       className="card"
-      style={{ padding: 'clamp(22px, 4vw, 34px)' }}
+      style={{ padding: 'clamp(20px, 4vw, 32px)' }}
     >
       <h2 id={`${id}-title`} className="font-garamond text-[1.9rem]" style={{ color: '#1A3E61' }}>{heading}</h2>
-      <p className="text-[15px] mt-1 mb-5" style={{ color: '#355577' }}>
+      <p className="text-[15px] mt-2 mb-5" style={{ color: '#355577' }}>
         Send a short message and Nick will follow up. Please do not include your Social Security number, credit card
         numbers, or other sensitive details. This is not a loan application.
       </p>
 
       {status === 'done' ? (
         <div role="status" className="rounded-xl p-5" style={{ background: '#F0E6D2', color: '#0F1C2E' }}>
-          <p className="font-extrabold">Thanks, your message was sent.</p>
-          <p className="text-[15px] mt-1">
-            {OFFICER.name} will follow up. This message is not a loan application or a commitment to lend.
-          </p>
+          {demo ? (
+            <p className="font-extrabold">Demo mode. Nothing was sent.</p>
+          ) : (
+            <>
+              <p className="font-extrabold">Thanks, your message was sent.</p>
+              <p className="text-[15px] mt-1">
+                {OFFICER.name} will follow up. This message is not a loan application or a commitment to lend.
+              </p>
+            </>
+          )}
         </div>
       ) : (
         <form onSubmit={onSubmit} noValidate className="grid gap-4">
@@ -135,8 +143,8 @@ export default function LeadForm({ page = 'home', heading = 'Talk with Nick', id
             {err('note')}
           </div>
           <div>
-            <label className="flex gap-3 items-start text-[13px] leading-relaxed cursor-pointer" style={{ color: '#26405c' }}>
-              <input type="checkbox" name="consent" className="mt-1 w-5 h-5 flex-shrink-0" style={{ accentColor: '#1A3E61' }} {...inv('consent')} />
+            <label className="flex gap-3 items-start text-[14px] leading-relaxed cursor-pointer" style={{ color: '#26405c' }}>
+              <input type="checkbox" name="consent" className="mt-1 w-6 h-6 flex-shrink-0" style={{ accentColor: '#1A3E61' }} {...inv('consent')} />
               <span>{CONSENT_TEXT}</span>
             </label>
             {err('consent')}

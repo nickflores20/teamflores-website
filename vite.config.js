@@ -9,7 +9,7 @@ function leadApi(env) {
   const attach = (server) => {
     server.middlewares.use('/api/lead', async (req, res) => {
       // Make .env values visible to the handler locally (never printed).
-      for (const k of ['FUB_API_KEY', 'FUB_SYSTEM', 'FUB_SYSTEM_KEY', 'FUB_SOURCE', 'ALLOWED_ORIGIN']) {
+      for (const k of ['FUB_API_KEY', 'FUB_SYSTEM', 'FUB_SYSTEM_KEY', 'FUB_SOURCE', 'ALLOWED_ORIGIN', 'DEMO_MODE']) {
         if (env[k] && !process.env[k]) process.env[k] = env[k];
       }
       const { default: handler } = await import(/* @vite-ignore */ `${pathToFileURL(path.resolve('api/lead.js')).href}?t=${Date.now()}`);

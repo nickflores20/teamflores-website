@@ -7,6 +7,10 @@
 //   FUB_SYSTEM_KEY   optional. X-System-Key header, if FUB issued one.
 //   FUB_SOURCE       optional. Lead source label (default "Website - Nick Flores Sr.").
 //   ALLOWED_ORIGIN   optional. If set, requests with a different Origin are rejected.
+//   DEMO_MODE        set to "1" for demos: input is still validated (SSN-like text is still
+//                    rejected) but nothing is sent to Follow Up Boss and success is returned.
+//                    Without DEMO_MODE and without FUB_API_KEY the endpoint returns 503, so
+//                    leads are never silently dropped.
 
 const GOALS = ['Buy a home', 'Refinance my home', 'Buy an investment property', 'Not sure yet'];
 const SSN_LIKE = /\b\d{3}[- ]?\d{2}[- ]?\d{4}\b/;
@@ -97,6 +101,8 @@ export default async function handler(req, res) {
 
   const { value, error } = validate(input);
   if (error) return send(res, 400, { error });
+
+  if (process.env.DEMO_MODE === '1') return send(res, 200, { ok: true, demo: true });
 
   const apiKey = process.env.FUB_API_KEY;
   if (!apiKey) {

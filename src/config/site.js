@@ -49,9 +49,10 @@ export const SITE_URL = (env.VITE_SITE_URL || PLACEHOLDER_SITE_URL).replace(/\/$
 // ── Third-party links (placeholders, [[VERIFY]]) ────────────────────────────
 // Sonar URLs are unknown. Override with env vars at build time.
 export const SONAR_URLS = {
-  checkPricing: env.VITE_SONAR_CHECK_PRICING_URL || 'https://sonar-placeholder.example/check-pricing', // [[VERIFY]]
-  startApplication: env.VITE_SONAR_START_APPLICATION_URL || 'https://sonar-placeholder.example/start-application', // [[VERIFY]]
-  getPreApproved: env.VITE_SONAR_PRE_APPROVAL_URL || 'https://sonar-placeholder.example/get-pre-approved', // [[VERIFY]]
+  // null = not provided yet. Buttons then go to the internal /link-coming-soon page.
+  checkPricing: env.VITE_SONAR_CHECK_PRICING_URL || null, // [[VERIFY]]
+  startApplication: env.VITE_SONAR_START_APPLICATION_URL || null, // [[VERIFY]]
+  getPreApproved: env.VITE_SONAR_PRE_APPROVAL_URL || null, // [[VERIFY]]
 };
 
 // Scheduling and review links are hidden until confirmed (see isVerified()).

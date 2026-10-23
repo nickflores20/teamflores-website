@@ -44,7 +44,7 @@ const CustomTooltip = ({ active, payload, label }) => {
       borderRadius: 8,
       padding: '12px 16px',
       fontFamily: 'Nunito, sans-serif',
-      fontSize: 13,
+      fontSize: 14,
       color: '#fff',
       minWidth: 200,
     }}>
@@ -259,7 +259,7 @@ export default function MortgageCalculator() {
         .amort-expand { overflow: hidden; }
         .recharts-responsive-container { max-width: 100%; }
         @media (max-width: 640px) {
-          .recharts-cartesian-axis-tick text { font-size: 9px !important; }
+          .recharts-cartesian-axis-tick text { font-size: 12px !important; }
         }
       `}</style>
 
@@ -304,7 +304,7 @@ export default function MortgageCalculator() {
 
             {/* Purchase Price */}
             <div>
-              <label style={{ display: 'block', marginBottom: 6, fontSize: 13, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              <label style={{ display: 'block', marginBottom: 6, fontSize: 14, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 {loanType === 'refinance' ? 'Home Value' : 'Purchase Price'}
               </label>
               <div style={prefixWrapper}>
@@ -321,9 +321,9 @@ export default function MortgageCalculator() {
 
             {/* Down Payment */}
             <div>
-              <label style={{ display: 'block', marginBottom: 6, fontSize: 13, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              <label style={{ display: 'block', marginBottom: 6, fontSize: 14, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 {loanType === 'refinance' ? 'Current Balance' : 'Down Payment'}
-                <span style={{ marginLeft: 8, fontWeight: 400, color: '#C6A76F', fontSize: 13, textTransform: 'none' }}>({downPct}%)</span>
+                <span style={{ marginLeft: 8, fontWeight: 400, color: '#C6A76F', fontSize: 14, textTransform: 'none' }}>({downPct}%)</span>
               </label>
               <div style={prefixWrapper}>
                 <span style={prefix}>$</span>
@@ -339,7 +339,7 @@ export default function MortgageCalculator() {
 
             {/* Loan Term */}
             <div>
-              <label style={{ display: 'block', marginBottom: 6, fontSize: 13, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Loan Term</label>
+              <label style={{ display: 'block', marginBottom: 6, fontSize: 14, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Loan Term</label>
               <select
                 className="calc-input"
                 value={termYears}
@@ -354,7 +354,7 @@ export default function MortgageCalculator() {
 
             {/* Interest Rate */}
             <div>
-              <label style={{ display: 'block', marginBottom: 6, fontSize: 13, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Interest Rate (example assumption)</label>
+              <label style={{ display: 'block', marginBottom: 6, fontSize: 14, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Interest Rate (example assumption)</label>
               <div style={prefixWrapper}>
                 <input
                   type="number"
@@ -370,7 +370,7 @@ export default function MortgageCalculator() {
 
             {/* Property Tax */}
             <div>
-              <label style={{ display: 'block', marginBottom: 6, fontSize: 13, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Property Tax / yr</label>
+              <label style={{ display: 'block', marginBottom: 6, fontSize: 14, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Property Tax / yr</label>
               <div style={prefixWrapper}>
                 <span style={prefix}>$</span>
                 <input
@@ -385,7 +385,7 @@ export default function MortgageCalculator() {
 
             {/* PMI */}
             <div>
-              <label style={{ display: 'block', marginBottom: 6, fontSize: 13, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>PMI Rate</label>
+              <label style={{ display: 'block', marginBottom: 6, fontSize: 14, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>PMI Rate</label>
               <div style={prefixWrapper}>
                 <input
                   type="number"
@@ -401,7 +401,7 @@ export default function MortgageCalculator() {
 
             {/* Property Insurance */}
             <div>
-              <label style={{ display: 'block', marginBottom: 6, fontSize: 13, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Property Insurance / yr</label>
+              <label style={{ display: 'block', marginBottom: 6, fontSize: 14, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Property Insurance / yr</label>
               <div style={prefixWrapper}>
                 <span style={prefix}>$</span>
                 <input
@@ -416,7 +416,7 @@ export default function MortgageCalculator() {
 
             {/* Start Date */}
             <div>
-              <label style={{ display: 'block', marginBottom: 6, fontSize: 13, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Start Date</label>
+              <label style={{ display: 'block', marginBottom: 6, fontSize: 14, fontWeight: 700, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Start Date</label>
               <div style={{ display: 'flex', gap: 8 }}>
                 <select
                   className="calc-input"
@@ -479,7 +479,7 @@ export default function MortgageCalculator() {
                   marginBottom: 32,
                   boxShadow: '0 20px 60px rgba(15,28,46,0.4), 0 4px 12px rgba(198,167,111,0.12)',
                 }}>
-                  <p style={{ fontFamily: 'Nunito, sans-serif', color: '#C6A76F', fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 8, fontWeight: 700 }}>
+                  <p style={{ fontFamily: 'Nunito, sans-serif', color: '#C6A76F', fontSize: 14, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 8, fontWeight: 700 }}>
                     Estimated Monthly Payment
                   </p>
                   <p style={{ fontFamily: 'EB Garamond, serif', fontSize: 'clamp(48px,7vw,80px)', color: '#C6A76F', fontWeight: 600, lineHeight: 1, margin: '0 0 8px' }}>
@@ -519,7 +519,7 @@ export default function MortgageCalculator() {
                         boxShadow: '0 4px 16px rgba(26,62,97,0.07)',
                       }}
                     >
-                      <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: 12, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontWeight: 700, opacity: 0.75 }}>{stat.label}</p>
+                      <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: 14, color: '#1A3E61', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontWeight: 700, opacity: 0.75 }}>{stat.label}</p>
                       <p style={{ fontFamily: 'EB Garamond, serif', fontSize: 28, color: '#1A3E61', fontWeight: 600, lineHeight: 1 }}>{stat.value}</p>
                     </motion.div>
                   ))}
@@ -533,11 +533,11 @@ export default function MortgageCalculator() {
                   <ResponsiveContainer width="100%" height={400}>
                     <ComposedChart data={chartData} margin={{ top: 8, right: 8, left: -10, bottom: 8 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
-                      <XAxis dataKey="name" tick={{ fill: '#F0E6D2', fontFamily: 'Nunito, sans-serif', fontSize: 12 }} axisLine={{ stroke: 'rgba(255,255,255,0.2)' }} tickLine={false} />
-                      <YAxis yAxisId="left" tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} tick={{ fill: '#F0E6D2', fontFamily: 'Nunito, sans-serif', fontSize: 12 }} axisLine={false} tickLine={false} />
-                      <YAxis yAxisId="right" orientation="right" tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} tick={{ fill: '#C6A76F', fontFamily: 'Nunito, sans-serif', fontSize: 12 }} axisLine={false} tickLine={false} />
+                      <XAxis dataKey="name" tick={{ fill: '#F0E6D2', fontFamily: 'Nunito, sans-serif', fontSize: 14 }} axisLine={{ stroke: 'rgba(255,255,255,0.2)' }} tickLine={false} />
+                      <YAxis yAxisId="left" tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} tick={{ fill: '#F0E6D2', fontFamily: 'Nunito, sans-serif', fontSize: 14 }} axisLine={false} tickLine={false} />
+                      <YAxis yAxisId="right" orientation="right" tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} tick={{ fill: '#C6A76F', fontFamily: 'Nunito, sans-serif', fontSize: 14 }} axisLine={false} tickLine={false} />
                       <Tooltip content={<CustomTooltip />} />
-                      <Legend wrapperStyle={{ fontFamily: 'Nunito, sans-serif', color: '#F0E6D2', fontSize: 13, paddingTop: 16 }} />
+                      <Legend wrapperStyle={{ fontFamily: 'Nunito, sans-serif', color: '#F0E6D2', fontSize: 14, paddingTop: 16 }} />
                       <Bar yAxisId="left" dataKey="Principal" stackId="a" fill="#C6A76F" radius={[0, 0, 0, 0]} />
                       <Bar yAxisId="left" dataKey="Interest" stackId="a" fill="#1A3E61" stroke="#2A5A8A" strokeWidth={1} />
                       <Bar yAxisId="left" dataKey="Tax+Ins+PMI" stackId="a" fill="#C8B99A" radius={[4, 4, 0, 0]} />
@@ -562,7 +562,7 @@ export default function MortgageCalculator() {
                             color: tableView === v ? '#0F1C2E' : '#1A3E61',
                             fontFamily: 'Nunito, sans-serif',
                             fontWeight: 700,
-                            fontSize: 13,
+                            fontSize: 14,
                             cursor: 'pointer',
                             borderRadius: v === 'yearly' ? '7px 0 0 7px' : '0 7px 7px 0',
                             transition: 'background 0.2s, color 0.2s',
@@ -579,7 +579,7 @@ export default function MortgageCalculator() {
                       <thead>
                         <tr style={{ background: '#1A3E61' }}>
                           {[tableView === 'yearly' ? 'Year' : 'Month', 'Principal', 'Interest', 'Tax+Ins+PMI', 'Total Paid', 'Balance'].map((h) => (
-                            <th key={h} style={{ padding: '12px 16px', textAlign: 'right', color: '#C6A76F', fontWeight: 700, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>
+                            <th key={h} style={{ padding: '12px 16px', textAlign: 'right', color: '#C6A76F', fontWeight: 700, fontSize: 14, textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>
                               {h}
                             </th>
                           ))}
@@ -652,7 +652,7 @@ export default function MortgageCalculator() {
           </AnimatePresence>
 
           {/* Disclaimer */}
-          <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: 12, color: '#1A3E61', opacity: 0.55, textAlign: 'center', marginTop: 32, lineHeight: 1.7, maxWidth: 700, margin: '32px auto 0' }}>
+          <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: 14, color: '#1A3E61', opacity: 0.55, textAlign: 'center', marginTop: 32, lineHeight: 1.7, maxWidth: 700, margin: '32px auto 0' }}>
             *This calculator is an educational estimate only. It is not a rate quote, an offer, or a commitment to lend. Results use the assumptions you enter, including an example interest rate that is not a current or available rate. Actual loan terms, rates, and payments depend on the loan program, your finances, the property, and underwriting approval. Contact a licensed mortgage professional for personalized information.
           </p>
         </div>

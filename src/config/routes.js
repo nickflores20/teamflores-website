@@ -65,6 +65,15 @@ export const NOT_FOUND_ROUTE = {
   noindexAlways: true,
 };
 
+// Internal placeholder for Sonar buttons until real URLs exist. Never indexed, not in the sitemap.
+export const COMING_SOON_ROUTE = {
+  path: '/link-coming-soon',
+  kind: 'coming-soon',
+  title: withBrand('Link Coming Soon'),
+  description: 'This secure link is not available yet. Call Nick Flores Sr. directly to get started.',
+  noindexAlways: true,
+};
+
 // Old routes from the previous site. Redirected (301 on Vercel, <Navigate> in the SPA).
 export const REDIRECTS = [
   { from: '/states', to: '/nevada/las-vegas' },
@@ -76,5 +85,6 @@ export const REDIRECTS = [
 
 export const findRoute = (pathname) => {
   const clean = pathname.length > 1 ? pathname.replace(/\/$/, '') : pathname;
+  if (clean === COMING_SOON_ROUTE.path) return COMING_SOON_ROUTE;
   return ROUTES.find((r) => r.path === clean) || NOT_FOUND_ROUTE;
 };

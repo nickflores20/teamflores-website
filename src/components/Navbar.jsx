@@ -10,7 +10,7 @@ function Dropdown({ label, items }) {
     <div className="relative group">
       <button type="button" className="nav-link flex items-center gap-1" aria-haspopup="true">
         {label}
-        <span aria-hidden="true" className="text-[10px]">▾</span>
+        <span aria-hidden="true" className="text-[14px]">▾</span>
       </button>
       <div className="absolute left-0 top-full pt-2 min-w-[250px] hidden group-hover:block group-focus-within:block">
         <ul
@@ -23,7 +23,7 @@ function Dropdown({ label, items }) {
         >
           {items.map((it) => (
             <li key={it.to}>
-              <Link to={it.to} className="nav-link block w-full px-4 py-2" style={{ fontWeight: 600 }}>
+              <Link to={it.to} className="nav-link flex w-full px-4" style={{ fontWeight: 600 }}>
                 {it.label}
               </Link>
             </li>
@@ -50,13 +50,13 @@ export default function Navbar() {
       }}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 lg:h-20" aria-label="Main">
-        <Link to="/" className="flex items-center gap-3 flex-shrink-0" aria-label={`${BRAND_NAME} home`} onClick={close}>
+        <Link to="/" className="flex items-center gap-3 flex-shrink-0 min-h-[48px]" aria-label={`${BRAND_NAME} home`} onClick={close}>
           <img src="/brand_assets/logo-icon-transparent.png" alt="" width="52" height="42" style={{ height: 42, width: 'auto' }} />
           <span className="leading-tight">
             <span className="block font-garamond text-white text-[1.15rem] sm:text-[1.3rem]" style={{ fontWeight: 600 }}>
               SunnyHill Financial
             </span>
-            <span className="block text-[10px] sm:text-[11px] tracking-[0.12em] uppercase" style={{ color: 'rgba(198,167,111,0.85)' }}>
+            <span className="block text-[14px] tracking-[0.06em] uppercase" style={{ color: '#E6CF9D' }}>
               Nick Flores Sr.
             </span>
           </span>
@@ -70,14 +70,13 @@ export default function Navbar() {
           <Link to="/contact" className="nav-link">Contact</Link>
         </div>
 
-        <div className="flex items-center gap-3">
-          <a href={OFFICER.phoneHref} className="hidden xl:inline nav-link">{OFFICER.phoneDisplay}</a>
+        <div className="flex items-center gap-2">
+          <a href={OFFICER.phoneHref} className="hidden xl:inline-flex nav-link">{OFFICER.phoneDisplay}</a>
           <a
             href={ctaUrl('getPreApproved', 'nav')}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-gold hidden lg:inline-flex"
-            style={{ padding: '10px 20px', fontSize: 14 }}
           >
             Get Pre-Approved
           </a>
@@ -103,17 +102,17 @@ export default function Navbar() {
           className="lg:hidden max-h-[80vh] overflow-y-auto px-5 pb-6 pt-2"
           style={{ background: 'rgba(15,28,46,0.98)', borderTop: '1px solid rgba(198,167,111,0.25)' }}
         >
-          <p className="text-[11px] uppercase tracking-[0.14em] mt-3 mb-1" style={{ color: 'rgba(198,167,111,0.85)' }}>Loan Programs</p>
-          <ul>{programs.map((it) => <li key={it.to}><Link to={it.to} onClick={close} className="nav-link w-full py-2">{it.label}</Link></li>)}</ul>
-          <p className="text-[11px] uppercase tracking-[0.14em] mt-4 mb-1" style={{ color: 'rgba(198,167,111,0.85)' }}>Locations</p>
-          <ul>{cities.map((it) => <li key={it.to}><Link to={it.to} onClick={close} className="nav-link w-full py-2">{it.label}</Link></li>)}</ul>
+          <p className="text-[14px] uppercase tracking-[0.1em] mt-3 mb-1" style={{ color: '#E6CF9D' }}>Loan Programs</p>
+          <ul>{programs.map((it) => <li key={it.to}><Link to={it.to} onClick={close} className="nav-link w-full">{it.label}</Link></li>)}</ul>
+          <p className="text-[14px] uppercase tracking-[0.1em] mt-4 mb-1" style={{ color: '#E6CF9D' }}>Locations</p>
+          <ul>{cities.map((it) => <li key={it.to}><Link to={it.to} onClick={close} className="nav-link w-full">{it.label}</Link></li>)}</ul>
           <div className="mt-4 flex flex-col">
-            <Link to="/mortgage-calculator" onClick={close} className="nav-link py-2">Calculator</Link>
-            <Link to="/about" onClick={close} className="nav-link py-2">About</Link>
-            <Link to="/contact" onClick={close} className="nav-link py-2">Contact</Link>
-            <a href={OFFICER.phoneHref} className="nav-link py-2">Call {OFFICER.phoneDisplay}</a>
+            <Link to="/mortgage-calculator" onClick={close} className="nav-link">Calculator</Link>
+            <Link to="/about" onClick={close} className="nav-link">About</Link>
+            <Link to="/contact" onClick={close} className="nav-link">Contact</Link>
+            <a href={OFFICER.phoneHref} className="nav-link">Call {OFFICER.phoneDisplay}</a>
           </div>
-          <a href={ctaUrl('getPreApproved', 'nav-mobile')} target="_blank" rel="noopener noreferrer" className="btn btn-gold w-full mt-3">
+          <a href={ctaUrl('getPreApproved', 'nav-mobile')} target="_blank" rel="noopener noreferrer" className="btn btn-gold w-full mt-4">
             Get Pre-Approved
           </a>
         </div>
